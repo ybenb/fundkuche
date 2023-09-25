@@ -1,0 +1,36 @@
+abbr[title] {
+  text-decoration: none;
+}
+
+[class="btn"] {
+  @extend .btn-primary;
+}
+
+.form-check-inline {
+  .form-check-label {
+    /* stylelint-disable selector-class-pattern */
+    &.collection_check_boxes,
+    &.collection_radio_buttons {
+      margin-right: 0.2656rem;
+    }
+    /* stylelint-enable selector-class-pattern */
+  }
+}
+
+legend ~ div.form-check:first-of-type {
+  clear: left;
+}
+
+.form-select {
+  &.date,
+  &.datetime,
+  &.time {
+    &:first-of-type {
+      margin-left: 0 !important;
+    }
+
+    &:last-of-type {
+      margin-right: 0 !important;
+    }
+  }
+}

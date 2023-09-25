@@ -1,0 +1,13 @@
+inherit_gem:
+  renuocop: config/base.yml
+
+require:
+  - rubocop-capybara
+  - rubocop-factory_bot
+
+# most likely you would like to copy and adjust the `AllCops` part (e.g. to exclude vendor-files)
+# AllCops:
+#   NewCops: enable
+#   Exclude:
+#     - 'vendor/**/*'
+#     ... and add all the exclusions from the `config/base.yml`

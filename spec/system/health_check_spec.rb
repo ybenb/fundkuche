@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe 'Health check' do
+  it 'checks if the app is ok and connected to a database' do
+    visit '/health_check'
+    expect(page).to have_content('1+2=3')
+  end
+end

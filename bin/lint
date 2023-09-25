@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+error_occurred=false
+fail_fast=false
+
+run_command() {
+  local label=$1
+  local cmd=$2
+
+  # Print label and run linting command
+  echo -e "\033[0;34m=== ${label} ===\033[0m"
+  $cmd
+
+  # Check if command succeeded. If not, set error_occurred to true
+  if [ $? -ne 0 ]; then
+    error_occurred=true
+    # if `--fail-fast` flag is present, exit immediately on first error
+    if $fail_fast; then
+      exit_due_to_error
+    fi
+  fi
+}
+
+exit_due_to_error() {
+  echo -e "\033[0;31mThere are linting errors that need to be fixed. Try to auto correct them using --fix.\033[0m"
+  exit 1
+}
+
+# Check for `--fix` flag. If present, run autocorrect commands
+if [[ $* == *--fix* ]]; then
+  run_command "Autocorrecting Rubocop" "bundle exec rubocop -A -c .rubocop.yml"
+  run_command "Autocorrecting erb-lint" "bundle exec erblint --config .erb-lint.yml --lint-all --autocorrect"
+  run_command "Autocorrecting ESlint" "yarn run eslint --fix app/javascript"
+  run_command "Autocorrecting Stylelint" "yarn run stylelint --fix app/assets/**/*.scss"
+else
+  if [[ $* == *--fail-fast* ]]; then
+    fail_fast=true
+  fi
+  run_command "Running Rubocop" "bundle exec rubocop -D -c .rubocop.yml"
+  run_command "Running erb-lint" "bundle exec erblint --config .erb-lint.yml --lint-all"
+  run_command "Running ESlint" "yarn run eslint app/javascript"
+  run_command "Running Stylelint" "yarn run stylelint app/assets/**/*.scss"
+  run_command "Running Brakeman (security checks)" "bundle exec brakeman -q -z --no-summary --no-pager"
+fi
+
+# Exit with error if any of the commands failed, but only after running all of them
+if $error_occurred; then
+  exit_due_to_error
+fi
