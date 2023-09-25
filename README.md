@@ -7,7 +7,7 @@ the ingredients you have left in your fridge. Elevate your culinary journey with
 
 | Branch | Domain                                | Deployment | CI Status                                                                                                                                                                            |
 |--------|---------------------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| main   | https://kitchen-sync-main.renuoapp.ch | release    | [![Build Status](https://renuo.semaphoreci.com/badges/kitchen-sync/branches/main.svg?key=9366d2b6-803c-473d-8c35-dbdd40b60d5c)](https://renuo.semaphoreci.com/projects/kitchen-sync) |
+| main   | https://kitchen-sync-main.renuoapp.ch | auto       | [![Build Status](https://renuo.semaphoreci.com/badges/kitchen-sync/branches/main.svg?key=9366d2b6-803c-473d-8c35-dbdd40b60d5c)](https://renuo.semaphoreci.com/projects/kitchen-sync) |
 
 ## Getting Started
 
