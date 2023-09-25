@@ -22,7 +22,6 @@ RSpec.configure do |config|
   config.include ActiveJob::TestHelper
   config.include ActiveSupport::Testing::TimeHelpers
   config.include FactoryBot::Syntax::Methods
-  config.include Capybara::RSpecMatchers, type: :component
   config.include JavaScriptErrorReporter, type: :system, js: true
 
   config.fixture_path = Rails.root.join('spec/fixtures')

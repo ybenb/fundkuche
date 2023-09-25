@@ -20,6 +20,7 @@ gem 'redis', '~> 4.0'
 gem 'listen'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'bootsnap', require: false
+gem 'view_component'
 gem 'simple_form'
 gem 'ruby-openai'
 
