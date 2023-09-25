@@ -22,7 +22,7 @@ run_command() {
 }
 
 exit_due_to_error() {
-  echo -e "\033[0;31mThere are linting errors that need to be fixed. Try to auto correct them using --fix.\033[0m"
+  echo -e "\033[0;31mThere are linting errors that need to be fixed. Try to auto correct them using bin/lint --fix.\033[0m"
   exit 1
 }
 
