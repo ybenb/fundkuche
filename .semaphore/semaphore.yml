@@ -50,7 +50,7 @@ blocks:
           - bundle config set path 'vendor/bundle'
           - bundle install --jobs $(nproc)
           - nvm install
-          - bin/yarn install --cache-folder ~/.cache/yarn
+          - yarn install --cache-folder ~/.cache/yarn
       jobs:
         - name: linting
           commands:
