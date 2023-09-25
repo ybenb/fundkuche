@@ -1,44 +1,72 @@
-# KitchenSync 🥦 🍅 🍔
+# KitchenSync 🥦 🥕 🍽️
 
-This is a Learning-Week 2023 AI-MVP (Team 2) project. Discover gourmet recipe suggestions tailored to the leftovers in your fridge. Elevate your culinary experience with the power of AI!
+**KitchenSync** is a project from Learning-Week 2023 AI-MVP (Team 2). It offers gourmet recipe suggestions tailored to
+the ingredients you have left in your fridge. Elevate your culinary journey with the power of AI!
 
 ## Environments
 
-| Branch | Domain                                | Deployment | CI                                                                                                                                                                                   |
-|--------|---------------------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| main   | https://kitchen-sync-main.renuoapp.ch | release    | [![Build Status](https://renuo.semaphoreci.com/badges/kitchen-sync/branches/main.svg?key=9366d2b6-803c-473d-8c35-dbdd40b60d5c)](https://renuo.semaphoreci.com/projects/kitchen-sync) |
+| Branch | Domain                                                    | Deployment | CI Status                                                                                                                                                                            |
+|--------|-----------------------------------------------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| main   | [KitchenSync Main](https://kitchen-sync-main.renuoapp.ch) | release    | [![Build Status](https://renuo.semaphoreci.com/badges/kitchen-sync/branches/main.svg?key=9366d2b6-803c-473d-8c35-dbdd40b60d5c)](https://renuo.semaphoreci.com/projects/kitchen-sync) |
 
-## Setup
+## Getting Started
 
-```sh
-git clone git@github.com:renuo/kitchen-sync.git
-cd kitchen-sync
-bin/setup
-```
+### Setup
 
-### Configuration
+1. Clone the repository:
+    ```sh
+    git clone git@github.com:renuo/kitchen-sync.git
+    cd kitchen-sync
+    ```
 
-Configure the following:
+2. Run the setup script:
+    ```sh
+    bin/setup
+    ```
 
-* .env
+3. Copy the Rails master key from the 1Password vault into `config/master.key`.
 
-### Run
+4. Configure the environment variables in `.env`
+
+### Running the Application
+
+To start the application for local development, run:
 
 ```sh
 bin/dev
 ```
+
 ### Dependencies
 
-* Ruby 3.2.2
-* PostgreSQL 13+
-* Redis 7
+Ensure you have the following dependencies installed:
 
-### Tests / Checks
+* Ruby 3.2.2
+* Node.js 18.16.0
+* PostgreSQL
+* Redis
+
+### Running Tests
+
+Execute the tests with:
 
 ```sh
 bin/check
 ```
 
+### Linting
+
+To check for linting issues, run:
+
+```sh
+bin/lint
+```
+
+If you encounter any linting errors, many of them can be automatically corrected by using the `--fix` option:
+
+```sh
+bin/lint --fix
+```
+
 ## Copyright
 
-Copyright 2023 [Renuo AG](https://www.renuo.ch/).
+Copyright © 2023 [Renuo AG](https://www.renuo.ch/).
