@@ -88,7 +88,6 @@ blocks:
           - nvm install
           - yarn install --cache-folder ~/.cache/yarn
           - yarn run build & yarn run build:css
-          - cp .env.sample .env
           - sem-service start postgres 14
           - bundle exec rails db:create db:schema:load
       jobs:
