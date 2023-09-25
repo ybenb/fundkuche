@@ -1,4 +1,4 @@
-# Project Title
+# KitchenSync
 
 Short project description
 
