@@ -1,4 +1,4 @@
-# KitchenSync 🍴
+# KitchenSync 🥦 🍅 🍔
 
 This is a Learning-Week 2023 AI-MVP (Team 2) project. Discover gourmet recipe suggestions tailored to the leftovers in your fridge. Elevate your culinary experience with the power of AI!
 
