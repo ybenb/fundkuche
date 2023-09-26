@@ -7,6 +7,7 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
+    <%= hotwire_livereload_tags if Rails.env.development? %>
   </head>
   <body class="min-vh-100">
     <main class="container py-5">

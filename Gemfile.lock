@@ -139,6 +139,9 @@ GEM
     ffi (1.16.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    hotwire-livereload (1.2.3)
+      listen (>= 3.0.0)
+      rails (>= 6.0.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -389,6 +392,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   faker
+  hotwire-livereload
   jbuilder
   jsbundling-rails
   listen
