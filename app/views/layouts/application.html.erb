@@ -8,8 +8,8 @@
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
   </head>
-  <body>
-    <main class="min-vh-100">
+  <body class="min-vh-100">
+    <main class="container py-5">
       <%= yield %>
     </main>
   </body>
