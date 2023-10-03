@@ -2,9 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from "html5-qrcode";
 
 export default class extends Controller {
+  static targets = ["scanner", "audio"]
   connect() {
     this.html5QrcodeScanner = new Html5QrcodeScanner(
-      this.element.id,
+      this.scannerTarget.id,
       {
         fps: 10, rememberLastUsedCamera: true,
         aspectRatio: 1.7777778,
@@ -26,6 +27,7 @@ export default class extends Controller {
     console.log(`Code matched = ${decodedText}`, decodedResult);
     if (this.lastScannedCode !== decodedText) {
       this.lastScannedCode = decodedText;
+      this.audioTarget.play();
 
       this.addAlert(decodedText);
       this.html5QrcodeScanner.stop();
