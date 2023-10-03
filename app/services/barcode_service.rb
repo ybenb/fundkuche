@@ -4,6 +4,7 @@ require 'net/http'
 require 'uri'
 
 class BarcodeService
+  # rubocop:disable Metrics/AbcSize
   def self.fetch_product(barcode_number)
     url = URI.parse("https://go-upc.com/api/v1/code/#{barcode_number}")
 
@@ -21,4 +22,5 @@ class BarcodeService
     json = JSON.parse(response.body, symbolize_names: true)
     Product.new(name: json[:product][:name])
   end
+  # rubocop:enable Metrics/AbcSize
 end

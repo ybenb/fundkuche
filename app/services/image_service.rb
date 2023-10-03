@@ -35,6 +35,7 @@ class ImageService
     response.downcase.include?('yes')
   end
 
+  # rubocop:disable Metrics/AbcSize
   def send_request(image_path)
     uri = URI.parse(ULTRALYTICS_URL)
     request = Net::HTTP::Post.new(uri)
@@ -53,6 +54,7 @@ class ImageService
     http.use_ssl = true
     http.request(request)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def resize_image(image_path)
     image = MiniMagick::Image.open(image_path)
