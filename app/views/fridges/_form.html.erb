@@ -1,4 +1,5 @@
-<%= simple_form_for(@fridge, data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
+<%= simple_form_for(@fridge,
+                    data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <table>
@@ -12,11 +13,11 @@
     <tbody data-nested-form-target="target">
       <template data-nested-form-target="template">
         <%= f.simple_fields_for :ingredients, Ingredient.new, child_index: 'NEW_RECORD' do |ingredient_fields| %>
-          <%= render "ingredient_form", f: ingredient_fields %>
+          <%= render 'ingredient_form', f: ingredient_fields %>
         <% end %>
       </template>
     <%= f.simple_fields_for :ingredients do |ingredient_fields| %>
-      <%= render "ingredient_form", f: ingredient_fields %>
+      <%= render 'ingredient_form', f: ingredient_fields %>
     <% end %>
     </tbody>
   </table>
@@ -28,6 +29,6 @@
   <%= f.input :recipe %>
 
   <div class="form-actions">
-    <%= f.submit 'Save Fridge', class: "btn btn-primary" %>
+    <%= f.submit 'Save Fridge', class: 'btn btn-primary' %>
   </div>
 <% end %>
