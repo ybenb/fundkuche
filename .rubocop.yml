@@ -8,6 +8,9 @@ require:
 Rails/I18nLocaleTexts:
   Enabled: false
 
+RSpec/ExampleLength:
+  Enabled: false
+
 # most likely you would like to copy and adjust the `AllCops` part (e.g. to exclude vendor-files)
 # AllCops:
 #   NewCops: enable

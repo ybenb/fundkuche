@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://go-upc.com/api/v1/code/9781801813785
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <GOUPC_API_KEY>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.22.1
+      Date:
+      - Tue, 03 Oct 2023 10:05:04 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Content-Length:
+      - '828'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - JSESSIONID=node01d2upsdsv5efu92pb7xlto6z11108.node0; Path=/
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Access-Control-Allow-Origin:
+      - "*"
+    body:
+      encoding: UTF-8
+      string: '{"code":"9781801813785","codeType":"ISBN","product":{"name":"Layered
+        Design For Ruby On Rails Applications","description":"Ruby on Rails is an
+        open-source framework for building web applications from scratch and develop
+        a full-featured product. Transition from the traditional Rails model-view-controller
+        trio to an abstraction model and let your application codebase evolve with
+        synchronized components boosting flexibility and maintainability Purchase
+        of the print or Kindle book includes a free PDF eBook through the link provided
+        within Key.","region":"Outside of North America","imageUrl":"https://go-upc.s3.amazonaws.com/images/79114185.jpeg","brand":null,"specs":[["Affiliates
+        Ad ID","1285455"],["Campaign ID","9383"]],"category":"Books","categoryPath":["Media","Books"],"upc":null,"ean":9781801813785},"inferred":false}
+
+        '
+  recorded_at: Tue, 03 Oct 2023 10:05:03 GMT
+recorded_with: VCR 6.2.0

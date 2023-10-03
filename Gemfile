@@ -34,6 +34,8 @@ group :development, :test do
   gem 'erb_lint', require: false
   gem 'rspec-rails', '~> 6'
   gem 'renuocop', require: false
+  gem 'webmock'
+  gem 'vcr'
 end
 
 group :development do
