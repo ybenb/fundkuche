@@ -20,7 +20,8 @@ class OpenaiService
       messages: [
         {
           role: 'system',
-          content: 'You are a recipe generator that uses metric measurement units. Provide a simple recipe in plain text with only a dish name, prep time, and bullet-pointed steps using the given ingredients.' },
+          content: 'You are a recipe generator that uses metric measurement units. Provide a simple recipe in plain text with only a dish name, prep time, and bullet-pointed steps using the given ingredients.' # rubocop:disable Layout/LineLength
+        },
         {
           role: 'user',
           content: ingredients.join(', ')
