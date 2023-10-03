@@ -1,3 +1,10 @@
+<%= turbo_frame_tag 'image-scanner' do %>
+  <%= form_for 'fridge', url: scan_fridge_path do |f| %>
+    <%= f.file_field :image, multiple: true %>
+    <%= f.submit 'Scan' %>
+  <% end %>
+<% end %>
+
 <%= simple_form_for(@fridge,
                     data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
   <%= f.error_notification %>
@@ -14,6 +21,10 @@
   </p>
   
   <hr>
+
+  <div id="ingredients">
+    Before post
+  </div>
   <h3>Ingredients🥦</h3>
 
   <table>
