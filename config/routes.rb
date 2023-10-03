@@ -2,10 +2,10 @@
 
 Rails.application.routes.draw do
   resources :fridges do
-    member do
-      post :generate_recipe
-    end
+    post :generate_recipe, on: :member
   end
+
+  get 'barcodes/resolve', to: 'barcodes#resolve'
 
   get 'health_check', to: 'health_check#index'
   root 'fridges#new'

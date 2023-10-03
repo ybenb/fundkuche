@@ -8,10 +8,9 @@ export default class extends Controller {
 
   connect() {
     this.html5QrcodeScanner = new Html5QrcodeScanner(
-      this.element.id,
+      this.scannerTarget.id,
       {
         qrbox: { width: 500, height: 500 },
-        // this.scannerTarget.id,
         fps: 10,
         rememberLastUsedCamera: true,
         aspectRatio:
@@ -42,6 +41,7 @@ export default class extends Controller {
       this.audioTarget.play();
 
       this.addAlert(decodedText);
+      this.resolveBarcode(decodedText);
       this.html5QrcodeScanner.stop();
       setTimeout(() => {
         this.html5QrcodeScanner.start();
@@ -67,6 +67,27 @@ export default class extends Controller {
   onScanFailure(error) {
     // handle scan failure, usually better to ignore and keep scanning.
     // for example:
-    console.warn(`Code scan error = ${error}`);
+    // console.warn(`Code scan error = ${error}`);
+  }
+
+  resolveBarcode(decodedText) {
+    const params = new URLSearchParams({
+      barcode_number: decodedText,
+    });
+
+    fetch(`/barcodes/resolve?${params}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': this.csrfToken,
+      },
+    }).then((res) => res.json()).then((data) => {
+      console.log(data)
+    });
+  }
+
+  get csrfToken() {
+    return document.querySelector('meta[name="csrf-token"]').content;
   }
 }

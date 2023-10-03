@@ -2,10 +2,10 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { Application } from '@hotwired/stimulus'
-import BarcodeScannerController from "./barcode_scanner_controller"
-import NestedForm from 'stimulus-rails-nested-form'
+import { application } from "./application"
 
-const application = Application.start()
-application.register('nested-form', NestedForm)
+import BarcodeScannerController from "./barcode_scanner_controller"
 application.register("barcode-scanner", BarcodeScannerController)
+
+import IngredientsController from "./ingredients_controller"
+application.register("ingredients", IngredientsController)

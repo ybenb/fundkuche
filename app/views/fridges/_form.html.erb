@@ -4,18 +4,15 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div data-controller="barcode-scanner">
-    <div id="barcode-scanner" width="600px" data-barcode-scanner-target="scanner">
-
-    </div>
-
+    <div id="barcode-scanner" class="rounded" width="600px" data-barcode-scanner-target="scanner"></div>
     <audio src="<%= asset_path('beep.wav') %>" preload data-barcode-scanner-target="audio"></audio>
   </div>
+
   <p class="text-black-50 bg-info-subtle p-3 rounded">
     <i class="bi bi-info-circle-fill"></i>
     scan a product's qr code or type it in to get tailor-made recipe suggestions instantly
   </p>
-  <div id="barcode-scanner" class="rounded" width="600px" data-controller="barcode-scanner"></div>
-
+  
   <hr>
   <h3>Ingredients🥦</h3>
 
