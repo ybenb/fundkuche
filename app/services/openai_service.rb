@@ -8,14 +8,25 @@ class OpenaiService
   end
 
   def call(ingredients:)
-    response = client.chat(parameters: {
-                             model: 'gpt-4',
-                             messages: [
-                               { role: 'user', content: "I have the following ingredients: #{ingredients.join(', ')}. Can you suggest a recipe using them?" }
-                             ],
-                             temperature: 0.7
-                           })
-
+    response = client.chat(parameters: chat_parameters(ingredients))
     response.dig('choices', 0, 'message', 'content')
+  end
+
+  private
+
+  def chat_parameters(ingredients)
+    {
+      model: 'gpt-4',
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a recipe generator that uses metric measurement units. Provide a simple recipe in plain text with only a dish name, prep time, and bullet-pointed steps using the given ingredients.' },
+        {
+          role: 'user',
+          content: ingredients.join(', ')
+        }
+      ],
+      temperature: 0.9
+    }
   end
 end
