@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FridgesController < ApplicationController
-  before_action :set_fridge, only: %i[show edit update destroy]
+  before_action :set_fridge, only: %i[show edit update destroy generate_recipe]
 
   def index
     @fridges = Fridge.all
@@ -37,6 +37,11 @@ class FridgesController < ApplicationController
     @fridge.destroy
 
     redirect_to fridges_url, notice: 'Fridge was successfully destroyed.'
+  end
+
+  def generate_recipe
+    RecipeSuggestionService.new(fridge: @fridge).call # would be better to use a background job here :)
+    head :no_content
   end
 
   private

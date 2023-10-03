@@ -1,5 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
+<%= turbo_stream_from(@fridge, :stream) %>
+
+<%= button_to generate_recipe_fridge_path(@fridge.id), class: 'btn btn-primary' do %>
+  <i class='bi bi-arrow-clockwise me-1'></i>
+  <span>Generate Recipe</span>
+<% end %>
+
 <%= render @fridge %>
 
 <div>

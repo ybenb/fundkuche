@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ImageService
-  ULTRALYTICS_URL = 'https://api.ultralytics.com/v1/predict/R6nMlK6kQjSsQ76MPqQM'.freeze
+  ULTRALYTICS_URL = 'https://api.ultralytics.com/v1/predict/R6nMlK6kQjSsQ76MPqQM'
 
   def call(image_path:)
     response = send_request(image_path)
