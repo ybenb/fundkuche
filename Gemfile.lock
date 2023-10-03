@@ -340,6 +340,8 @@ GEM
       rubocop-performance (~> 1.19.0)
     stimulus-rails (1.2.2)
       railties (>= 6.0.0)
+    store_model (2.1.1)
+      activerecord (>= 5.2)
     stringio (3.0.8)
     super_diff (0.10.0)
       attr_extras (>= 6.2.4)
@@ -407,6 +409,7 @@ DEPENDENCIES
   simplecov
   simplecov-console
   stimulus-rails
+  store_model
   super_diff
   turbo-rails
   tzinfo-data

@@ -10,7 +10,7 @@ class FridgesController < ApplicationController
   def show; end
 
   def new
-    @fridge = Fridge.new
+    @fridge = Fridge.new(ingredients: [Ingredient.new, Ingredient.new, Ingredient.new])
   end
 
   def edit; end
@@ -46,6 +46,6 @@ class FridgesController < ApplicationController
   end
 
   def fridge_params
-    params.require(:fridge).permit(:ingredients, :recipe)
+    params.require(:fridge).permit(:recipe, ingredients_attributes: %i[name quantity _destroy])
   end
 end

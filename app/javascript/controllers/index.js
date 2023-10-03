@@ -3,3 +3,6 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+
+import FridgeFormController from "./fridge_form_controller"
+application.register("fridge-form", FridgeFormController)

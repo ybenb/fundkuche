@@ -1,9 +1,18 @@
 <div id="<%= dom_id fridge %>">
   <p>
     <strong>Ingredients:</strong>
-    <%= fridge.ingredients %>
-  </p>
-
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+      </tr>
+      <% fridge.ingredients.each do |ingredient| %>
+        <tr>
+          <td><%= ingredient.name %></td>
+          <td><%= ingredient.quantity %></td>
+        </tr>
+      <% end %>
+    </table>
   <p>
     <strong>Recipe:</strong>
     <%= fridge.recipe %>

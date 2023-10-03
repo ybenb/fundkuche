@@ -22,6 +22,7 @@ gem 'bootsnap', require: false
 gem 'view_component'
 gem 'simple_form'
 gem 'ruby-openai'
+gem 'store_model'
 
 group :development, :test do
   gem 'better_errors'

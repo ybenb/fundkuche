@@ -3,12 +3,24 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs">
-    <%= f.input :ingredients %>
-    <%= f.input :recipe %>
-  </div>
+    <%= f.simple_fields_for :ingredients, Ingredient.new do |ingredient_fields| %>
+      <div class="row">
+        <div class="col-1 d-flex align-items-center justify-content-center">
+          <%= ingredient_fields.check_box :_destroy %>
+        </div>
+        <div class="col-6">
+          <%= ingredient_fields.input :name %>
+        </div>
+        <div class="col-5">
+          <%= ingredient_fields.input :quantity %>
+        </div>
+      </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
-<% end %>
+      <%= f.input :recipe %>
+    <% end %>
+
+    <div class="form-actions">
+      <%= f.button :submit %>
+    </div>
+  <% end %>
+</div>
