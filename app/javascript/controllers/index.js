@@ -3,7 +3,9 @@
 // ./bin/rails generate stimulus controllerName
 
 import { Application } from '@hotwired/stimulus'
+import BarcodeScannerController from "./barcode_scanner_controller"
 import NestedForm from 'stimulus-rails-nested-form'
 
 const application = Application.start()
 application.register('nested-form', NestedForm)
+application.register("barcode-scanner", BarcodeScannerController)
