@@ -4,5 +4,5 @@ class Ingredient
   include StoreModel::Model
 
   attribute :name, :string
-  attribute :quantity, :decimal
+  attribute :quantity, :string
 end
