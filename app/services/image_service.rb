@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ImageService
-  ULTRALYTICS_URL = 'https://api.ultralytics.com/v1/predict/FDDaOhKyRTZdZdG8tW0I'
+  ULTRALYTICS_URL = 'https://api.ultralytics.com/v1/predict/wW0GqcJuVhVIrAV9vpxQ'
 
   def initialize
     @client = OpenAI::Client.new
