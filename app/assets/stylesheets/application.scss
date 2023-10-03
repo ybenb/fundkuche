@@ -2,3 +2,29 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 @import 'vendors/simple_form';
+
+.main-image {
+  max-height: 20rem;
+  overflow: hidden;
+
+  &__image {
+    filter: brightness(0.8);
+    clip-path: url("#wave");
+  }
+}
+
+.logo {
+  position: absolute;
+  left: 1.2rem;
+  top: 1.7rem;
+  z-index: 999;
+  width: 6rem;
+}
+
+.z-999 {
+  z-index: 999;
+}
+
+.recipe-text {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+}

@@ -10,7 +10,7 @@ class FridgesController < ApplicationController
   def show; end
 
   def new
-    @fridge = Fridge.new(ingredients: [Ingredient.new, Ingredient.new, Ingredient.new])
+    @fridge = Fridge.new(ingredients: [])
   end
 
   def edit; end
@@ -26,7 +26,11 @@ class FridgesController < ApplicationController
   end
 
   def update
+    old_ingredients = @fridge.ingredients
     if @fridge.update(fridge_params)
+      if old_ingredients == @fridge.ingredients
+        @fridge.update(recipe: nil)
+      end
       redirect_to fridge_url(@fridge), notice: 'Fridge was successfully updated.'
     else
       render :edit, status: :unprocessable_entity

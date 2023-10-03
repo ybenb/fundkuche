@@ -23,12 +23,13 @@ class ImageService
   def ingredient?(ingredient)
     response = @client.chat(
       parameters: {
-        model: "gpt-3.5-turbo",
+        model: 'gpt-3.5-turbo',
         messages: [
-          { role: "user", content: "Is #{ingredient} edible or usable while cooking? only yes or no" }
+          { role: 'user', content: "Is #{ingredient} edible or usable while cooking? only yes or no" }
         ],
-        temperature: 0.7,
-      })
+        temperature: 0.7
+      }
+    )
 
     response = response.dig('choices', 0, 'message', 'content')
     response.downcase.include?('yes')

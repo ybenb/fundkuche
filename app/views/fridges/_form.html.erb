@@ -6,38 +6,33 @@
   <div data-controller="barcode-scanner">
     <div id="barcode-scanner" width="600px" data-barcode-scanner-target="scanner">
 
-
     </div>
 
     <audio src="<%= asset_path('beep.wav') %>" preload data-barcode-scanner-target="audio"></audio>
   </div>
+  <p class="text-black-50 bg-info-subtle p-3 rounded">
+    <i class="bi bi-info-circle-fill"></i>
+    scan a product's qr code or type it in to get tailor-made recipe suggestions instantly
+  </p>
+  <div id="barcode-scanner" class="rounded" width="600px" data-controller="barcode-scanner"></div>
+
+  <hr>
+  <h3>Ingredients🥦</h3>
 
   <table>
-    <thead>
-    <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Quantity</th>
-    </tr>
-    </thead>
-    <tbody data-nested-form-target="target">
-      <template data-nested-form-target="template">
-        <%= f.simple_fields_for :ingredients, Ingredient.new, child_index: 'NEW_RECORD' do |ingredient_fields| %>
-          <%= render 'ingredient_form', f: ingredient_fields %>
-        <% end %>
-      </template>
+    <tbody data-nested-form-target="target" class="ingredient__wrapper">
+
     <%= f.simple_fields_for :ingredients do |ingredient_fields| %>
       <%= render 'ingredient_form', f: ingredient_fields %>
     <% end %>
+    <template data-nested-form-target="template">
+      <%= f.simple_fields_for :ingredients, Ingredient.new, child_index: 'NEW_RECORD' do |ingredient_fields| %>
+        <%= render 'ingredient_form', f: ingredient_fields %>
+      <% end %>
+    </template>
+    <button type="button" class="btn btn-danger mb-3" data-action="nested-form#add">Add Ingredient</button>
     </tbody>
   </table>
-
-  <button type="button" class="btn btn-primary" data-action="nested-form#add" data-nested-form-target="button">Add
-    Ingredient
-  </button>
-
-  <%= f.input :recipe %>
-
   <div class="form-actions">
     <%= f.submit 'Save Fridge', class: 'btn btn-primary' %>
   </div>

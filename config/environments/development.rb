@@ -71,5 +71,5 @@ Rails.application.configure do
 
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.hosts << "rodi.ngrok.app"
+  config.hosts << 'rodi.ngrok.app'
 end

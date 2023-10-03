@@ -1,25 +1,35 @@
-import { Controller } from "@hotwired/stimulus"
-import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from "html5-qrcode";
+import { Controller } from '@hotwired/stimulus';
+import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 
 export default class extends Controller {
-  static targets = ["scanner", "audio"]
+  static targets = ['scanner', 'audio'];
+
   connect() {
     this.html5QrcodeScanner = new Html5QrcodeScanner(
-      this.scannerTarget.id,
+      this.element.id,
       {
-        fps: 10, rememberLastUsedCamera: true,
-        aspectRatio: 1.7777778,
-        showTorchButtonIfSupported: true,
-        formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13]
+        qrbox: { width: 500, height: 500 },
+        // this.scannerTarget.id,
+        fps: 10,
+        rememberLastUsedCamera: true,
+        aspectRatio:
+                    1.7777778,
+        showTorchButtonIfSupported:
+                    true,
+        formatsToSupport:
+                    [Html5QrcodeSupportedFormats.EAN_13],
       },
-      /* verbose= */ false);
+      /* verbose= */
+      false,
+    );
     this.html5QrcodeScanner.render(
       (decodedText, decodedResult) => {
-        this.onScanSuccess(decodedText, decodedResult)
+        this.onScanSuccess(decodedText, decodedResult);
       },
       (error) => {
-        this.onScanFailure(error)
-      });
+        this.onScanFailure(error);
+      },
+    );
     // this.onScanSuccess = this.onScanSuccess.bind(this);
   }
 
@@ -36,7 +46,6 @@ export default class extends Controller {
         console.log('scanner re-enabled');
       }, 3000);
     }
-
   }
 
   addAlert(decodedText) {

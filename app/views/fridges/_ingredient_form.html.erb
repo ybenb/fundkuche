@@ -1,10 +1,10 @@
-<tr class="nested-form-wrapper">
-  <td>
+<tr class="nested-form-wrapper row ingredient">
+  <td class="col-1">
     <button type="button" class="col btn mb-3" data-action="nested-form#remove">
       <i class="bi bi-trash-fill fs-5"></i>
     </button>
   </td>
-  <td><%= f.input :name, label: false %></td>
-  <td><%= f.input :quantity, label: false %></td>
+  <td class="col"><%= f.input :name, label: false, placeholder: 'Name' %></td>
+  <td class="col-3"><%= f.input :quantity, label: false, placeholder: 'Quantity' %></td>
   <%= f.hidden_field :_destroy %>
 </tr>

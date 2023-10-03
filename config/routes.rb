@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   end
 
   get 'health_check', to: 'health_check#index'
-  root 'pages#index'
+  root 'fridges#new'
 end

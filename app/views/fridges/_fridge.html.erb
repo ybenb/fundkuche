@@ -1,18 +1,22 @@
 <div id="<%= dom_id fridge %>">
-  <strong>Ingredients:</strong>
+  <hr>
+  <h3>Ingredients 🥦</h3>
   <table class="table">
-    <tr>
-      <th>Name</th>
-      <th>Quantity</th>
+    <tr class="row">
+      <th class="col">Name</th>
+      <th class="col">Quantity</th>
     </tr>
     <% fridge.ingredients.each do |ingredient| %>
-      <tr>
-        <td><%= ingredient.name %></td>
-        <td><%= ingredient.quantity %></td>
+      <tr class="row">
+        <td class="col"><%= ingredient.name %></td>
+        <td class="col"><%= ingredient.quantity %></td>
       </tr>
     <% end %>
   </table>
 
-  <strong>Recipe:</strong>
-  <%= simple_format(fridge.recipe) %>
+  <hr>
+  <h3 class="mb-3 fw-bold">Recipe 👨‍🍳</h3>
+  <div class="recipe-text">
+    <%= simple_format(fridge.recipe) %>
+  </div>
 </div>
