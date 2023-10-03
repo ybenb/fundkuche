@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class ImageService
-  ULTRALYTICS_URL = 'https://api.ultralytics.com/v1/predict/R6nMlK6kQjSsQ76MPqQM'
+  ULTRALYTICS_URL = 'https://api.ultralytics.com/v1/predict/FDDaOhKyRTZdZdG8tW0I'
+
+  def initialize
+    @client = OpenAI::Client.new
+  end
 
   def call(image_path:)
     response = send_request(image_path)
@@ -9,11 +13,26 @@ class ImageService
 
     ingredients = response['data'].pluck('name')
 
-    ingredients.each_with_object(Hash.new(0)) { |word, counts| counts[word] += 1 }
-      .map { |k, v| { name: k, quantity: v } }
+    ingredients = ingredients.each_with_object(Hash.new(0)) { |word, counts| counts[word] += 1 }
+    ingredients = ingredients.select { |k, _v| ingredient?(k) }
+    ingredients.map { |k, v| { name: k, quantity: v } }
   end
 
   private
+
+  def ingredient?(ingredient)
+    response = @client.chat(
+      parameters: {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "user", content: "Is #{ingredient} edible? only yes or no" }
+        ],
+        temperature: 0.7,
+      })
+
+    response = response.dig('choices', 0, 'message', 'content')
+    response.downcase.include?('yes')
+  end
 
   def send_request(image_path)
     uri = URI.parse(ULTRALYTICS_URL)
