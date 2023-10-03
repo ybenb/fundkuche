@@ -12,7 +12,8 @@
     "nodemon": "^3.0.1",
     "postcss": "^8.4.30",
     "postcss-cli": "^10.1.0",
-    "sass": "^1.68.0"
+    "sass": "^1.68.0",
+    "stimulus-rails-nested-form": "^4.1.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0 || ^8.2.0",
