@@ -1,27 +1,54 @@
 import { Controller } from "@hotwired/stimulus"
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from "html5-qrcode";
 
 export default class extends Controller {
   connect() {
-    console.log("Hello, Stimulus!", this.element);
-
     this.html5QrcodeScanner = new Html5QrcodeScanner(
       this.element.id,
-      {fps: 10, qrbox: {width: 150, height: 150},rememberLastUsedCamera: true,
+      {
+        fps: 10, rememberLastUsedCamera: true,
         aspectRatio: 1.7777778,
-        showTorchButtonIfSupported: true},
+        showTorchButtonIfSupported: true,
+        formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13]
+      },
       /* verbose= */ false);
-    this.html5QrcodeScanner.render(this.onScanSuccess, this.onScanFailure);
+    this.html5QrcodeScanner.render(
+      (decodedText, decodedResult) => {
+        this.onScanSuccess(decodedText, decodedResult)
+      },
+      (error) => {
+        this.onScanFailure(error)
+      });
+    // this.onScanSuccess = this.onScanSuccess.bind(this);
   }
 
   onScanSuccess(decodedText, decodedResult) {
-    // handle the scanned code as you like, for example:
-    console.log(`I found a code: ${decodedText}. Fetching the product name...`, decodedResult);
-    this.html5QrcodeScanner.stop();
-    setTimeout(() => {
-      this.html5QrcodeScanner.start();
-      console.log('scanner re-enabled');
-    }, 3000);
+    console.log(`Code matched = ${decodedText}`, decodedResult);
+    if (this.lastScannedCode !== decodedText) {
+      this.lastScannedCode = decodedText;
+
+      this.addAlert(decodedText);
+      this.html5QrcodeScanner.stop();
+      setTimeout(() => {
+        this.html5QrcodeScanner.start();
+        console.log('scanner re-enabled');
+      }, 3000);
+    }
+
+  }
+
+  addAlert(decodedText) {
+    const alert = document.createElement('div');
+    alert.classList.add('alert', 'alert-success', 'alert-dismissible', 'fade', 'show');
+    alert.setAttribute('role', 'alert');
+    alert.innerHTML = `<strong>Success!</strong> Scanned code: ${decodedText}. Scan the next product...`;
+    const closeButton = document.createElement('button');
+    closeButton.classList.add('btn-close');
+    closeButton.setAttribute('type', 'button');
+    closeButton.setAttribute('data-bs-dismiss', 'alert');
+    closeButton.setAttribute('aria-label', 'Close');
+    alert.appendChild(closeButton);
+    document.querySelector('main').prepend(alert);
   }
 
   onScanFailure(error) {

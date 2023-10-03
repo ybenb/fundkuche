@@ -70,4 +70,6 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  config.hosts << "rodi.ngrok.app"
 end
