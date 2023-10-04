@@ -5,48 +5,38 @@ import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 
 export default class extends Controller {
   static targets = ['scanner', 'audio'];
+  static outlets = ['ingredients'];
 
   connect() {
     this.html5QrcodeScanner = new Html5QrcodeScanner(
       this.scannerTarget.id,
       {
         qrbox: { width: 500, height: 500 },
-        fps: 10,
+        fps: 5,
         rememberLastUsedCamera: true,
-        aspectRatio:
-                    1.7777778,
-        showTorchButtonIfSupported:
-                    true,
-        formatsToSupport:
-                    [Html5QrcodeSupportedFormats.EAN_13],
+        aspectRatio: 1.7777778,
+        showTorchButtonIfSupported: true,
+        formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13],
       },
       /* verbose= */
       false,
     );
+
     this.html5QrcodeScanner.render(
       (decodedText, decodedResult) => {
         this.onScanSuccess(decodedText, decodedResult);
       },
-      (error) => {
-        this.onScanFailure(error);
-      },
+      (_) => {},
     );
-    // this.onScanSuccess = this.onScanSuccess.bind(this);
   }
 
   onScanSuccess(decodedText, decodedResult) {
-    console.log(`Code matched = ${decodedText}`, decodedResult);
     if (this.lastScannedCode !== decodedText) {
       this.lastScannedCode = decodedText;
       this.audioTarget.play();
 
       this.addAlert(decodedText);
       this.resolveBarcode(decodedText);
-      this.html5QrcodeScanner.stop();
-      setTimeout(() => {
-        this.html5QrcodeScanner.start();
-        console.log('scanner re-enabled');
-      }, 3000);
     }
   }
 
@@ -64,12 +54,6 @@ export default class extends Controller {
     document.querySelector('main').prepend(alert);
   }
 
-  onScanFailure(error) {
-    // handle scan failure, usually better to ignore and keep scanning.
-    // for example:
-    // console.warn(`Code scan error = ${error}`);
-  }
-
   resolveBarcode(decodedText) {
     const params = new URLSearchParams({
       barcode_number: decodedText,
@@ -83,7 +67,8 @@ export default class extends Controller {
         'X-CSRF-Token': this.csrfToken,
       },
     }).then((res) => res.json()).then((data) => {
-      console.log(data)
+      this.ingredientsOutlet.add(new Event(""))
+      this.ingredientsOutlet.nameInputTargets[this.ingredientsOutlet.nameInputTargets.length - 1].value = data.product_name;
     });
   }
 
