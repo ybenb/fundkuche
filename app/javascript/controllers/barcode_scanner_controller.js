@@ -4,6 +4,7 @@ import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 
 export default class extends Controller {
   static targets = ['scanner', 'audio'];
+
   static outlets = ['ingredients'];
 
   html5QrcodeScanner = null;
