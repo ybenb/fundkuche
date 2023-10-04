@@ -1,3 +1,8 @@
+<p class="text-black-50 bg-info-subtle p-3 rounded">
+  <i class="bi bi-info-circle-fill"></i>
+  scan a product's barcode or type it in to get tailor-made recipe suggestions instantly.
+  You can also scan all the ingredients in your fridge to get recipe suggestions based on what you already have.
+</p>
 <div data-controller="image-detection" data-image-detection-ingredients-outlet="[data-controller=ingredients]" class="mb-4">
   <input type="file" data-image-detection-target="input" data-action="change->image-detection#upload">
 </div>
@@ -6,20 +11,13 @@
                     data: { controller: 'ingredients', ingredients_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
   <div data-controller="barcode-scanner" data-barcode-scanner-ingredients-outlet="[data-controller=ingredients]">
     <div id="barcode-scanner" class="rounded" width="600px" data-barcode-scanner-target="scanner"></div>
     <audio src="<%= asset_path('beep.wav') %>" preload data-barcode-scanner-target="audio"></audio>
-    <button type="button" class="btn btn-secondary" data-action="barcode-scanner#startScanner">Start Barcode Scanner</button>
+    <button type="button" class="btn btn-secondary" data-action="barcode-scanner#startScanner">Start Barcode Scanner
+    </button>
   </div>
-
-  <p class="text-black-50 bg-info-subtle p-3 rounded">
-    <i class="bi bi-info-circle-fill"></i>
-    scan a product's qr code or type it in to get tailor-made recipe suggestions instantly
-  </p>
-
   <hr>
-
   <h3>Ingredients🥦</h3>
   <table>
     <%= f.simple_fields_for :ingredients do |ingredient_fields| %>
