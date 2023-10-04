@@ -4,7 +4,9 @@
       <i class="bi bi-trash-fill fs-5"></i>
     </button>
   </td>
-  <td class="col"><%= f.input :name, label: false, placeholder: 'Name', input_html: { data: { ingredients_target: 'nameInput' } } %></td>
-  <td class="col-3"><%= f.input :quantity, label: false, placeholder: 'Quantity', input_html: { data: { ingredients_target: 'quantityInput' } } %></td>
+  <td class="col"><%= f.input :name, label: false, placeholder: 'Name',
+                                     input_html: { data: { ingredients_target: 'nameInput' } } %></td>
+  <td class="col-3"><%= f.input :quantity, label: false, placeholder: 'Quantity',
+                                           input_html: { data: { ingredients_target: 'quantityInput' } } %></td>
   <%= f.hidden_field :_destroy %>
 </tr>

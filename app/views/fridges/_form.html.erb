@@ -4,17 +4,16 @@
 <% end %>
 
 <%= f.file_field :image, multiple: true %>
-
-
 <%= file_field %>
-
-<%= simple_form_for(@fridge, data: { controller: 'ingredients', ingredients_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
+<%= simple_form_for(@fridge, data: { controller: 'ingredients',
+                                     ingredients_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div data-controller="barcode-scanner" data-barcode-scanner-ingredients-outlet="[data-controller=ingredients]">
     <div id="barcode-scanner" class="rounded" width="600px" data-barcode-scanner-target="scanner"></div>
     <audio src="<%= asset_path('beep.wav') %>" preload data-barcode-scanner-target="audio"></audio>
+    <button type="button" class="btn btn-secondary" data-action="barcode-scanner#startScanner">Start Barcode Scanner</button>
   </div>
 
   <p class="text-black-50 bg-info-subtle p-3 rounded">
