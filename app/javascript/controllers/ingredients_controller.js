@@ -16,6 +16,6 @@ export default class extends NestedForm {
   }
 
   getUniqueId() {
-    return `${new Date().getTime()}-${this.uniqueId++}`;
+    return `${new Date().getTime()}${this.uniqueId++}`;
   }
 }
