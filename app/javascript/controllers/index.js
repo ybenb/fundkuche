@@ -7,5 +7,8 @@ import { application } from "./application"
 import BarcodeScannerController from "./barcode_scanner_controller"
 application.register("barcode-scanner", BarcodeScannerController)
 
+import ImageDetectionController from "./image_detection_controller"
+application.register("image-detection", ImageDetectionController)
+
 import IngredientsController from "./ingredients_controller"
 application.register("ingredients", IngredientsController)

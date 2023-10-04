@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     post :generate_recipe, on: :member
   end
 
-  post 'scan_fridge', to: 'scanner#create', as: :scan_fridge
+  post 'scanner/upload_image', to: 'scanner#create'
   get 'barcodes/resolve', to: 'barcodes#resolve'
 
   get 'health_check', to: 'health_check#index'

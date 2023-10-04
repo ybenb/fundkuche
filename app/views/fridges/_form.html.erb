@@ -1,12 +1,9 @@
-<%= form_for 'fridge', url: scan_fridge_path, html: { data: { controller: 'fridge-scanner' } } do |f| %>
+<div data-controller="image-detection" data-image-detection-ingredients-outlet="[data-controller=ingredients]" class="mb-4">
+  <input type="file" data-image-detection-target="input" data-action="change->image-detection#upload">
+</div>
 
-  <%= f.submit 'Upload' %>
-<% end %>
-
-<%= f.file_field :image, multiple: true %>
-<%= file_field %>
-<%= simple_form_for(@fridge, data: { controller: 'ingredients',
-                                     ingredients_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
+<%= simple_form_for(@fridge,
+                    data: { controller: 'ingredients', ingredients_wrapper_selector_value: '.nested-form-wrapper' }) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 

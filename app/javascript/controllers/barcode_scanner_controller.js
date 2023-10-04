@@ -4,6 +4,7 @@ import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 
 export default class extends Controller {
   static targets = ['scanner', 'audio'];
+  static outlets = ['ingredients'];
 
   html5QrcodeScanner = null;
 
@@ -89,7 +90,8 @@ export default class extends Controller {
         'X-CSRF-Token': this.csrfToken,
       },
     }).then((res) => res.json()).then((data) => {
-      console.log(data);
+      this.ingredientsOutlet.add(new Event(''));
+      this.ingredientsOutlet.nameInputTargets[this.ingredientsOutlet.nameInputTargets.length - 1].value = data.product_name;
     });
   }
 
