@@ -2,7 +2,7 @@
   <%= fridge.ingredients_text %>
 </p>
 <p>
-  <%= fridge.recipe %>
+  <%= simple_format fridge.recipe %>
 </p>
 <%= link_to 'Show fridge', fridge, class: 'btn btn-secondary' %>
 <hr>
