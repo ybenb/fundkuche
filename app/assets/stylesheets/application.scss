@@ -3,6 +3,10 @@
 @import 'bootstrap-icons/font/bootstrap-icons';
 @import 'vendors/simple_form';
 
+body {
+  background-color: #e4e4e4;
+}
+
 .main-image {
   max-height: 20rem;
   overflow: hidden;
