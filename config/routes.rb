@@ -9,5 +9,6 @@ Rails.application.routes.draw do
   get 'barcodes/resolve', to: 'barcodes#resolve'
 
   get 'health_check', to: 'health_check#index'
+  get '/up', to: proc { [200, {}, ['ok']] }
   root 'fridges#new'
 end
