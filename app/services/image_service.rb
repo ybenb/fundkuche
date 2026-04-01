@@ -40,7 +40,7 @@ class ImageService
     uri = URI.parse(ULTRALYTICS_URL)
     request = Net::HTTP::Post.new(uri)
     request.content_type = 'multipart/form-data'
-    request['x-api-key'] = Rails.application.credentials.ultralytics.api_key!
+    request['x-api-key'] = ENV['ULTRALYTICS_API_KEY'] || Rails.application.credentials.ultralytics&.api_key
 
     params = [
       %w[size 640],

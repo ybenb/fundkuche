@@ -14,7 +14,7 @@ class BarcodeResolverService
     request = Net::HTTP::Get.new(uri.request_uri)
     request['Content-Type'] = 'application/json'
     request['Accept'] = 'application/json'
-    request['Authorization'] = "Bearer #{Rails.application.credentials.goupc.api_key!}"
+    request['Authorization'] = "Bearer #{ENV['GOUPC_API_KEY'] || Rails.application.credentials.goupc&.api_key}"
 
     response = perform_request(http_request: request)
     handle_response(response:)
