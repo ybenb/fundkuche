@@ -1,65 +1,133 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
-    <title>Fundküche – Dein Kühlschrank. Dein Rezept.</title>
+    <title>fooby – Rezepte, Kochen, Ernährung</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amatica+SC:wght@400;700&family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
     <%= hotwire_livereload_tags if Rails.env.development? %>
   </head>
   <body>
-    <nav class="fooby-nav">
-      <div class="fooby-nav__inner">
-        <div class="fooby-nav__logo">
-          <%= link_to root_path, class: 'fooby-logo-text' do %>fooby<% end %>
+
+    <%# ── Top bar ── %>
+    <div class="fooby-topbar">
+      <div class="fooby-topbar__inner">
+        <a href="#" class="fooby-topbar__link">little FOOBY</a>
+        <% if user_signed_in? %>
+          <a href="#" class="fooby-topbar__link fooby-topbar__link--active">
+            <i class="bi bi-person-fill"></i> myFOOBY
+          </a>
+          <%= link_to destroy_user_session_path,
+                data: { turbo_method: :delete },
+                class: 'fooby-topbar__link',
+                title: 'Abmelden' do %>
+            <i class="bi bi-box-arrow-right"></i> Abmelden
+          <% end %>
+        <% else %>
+          <%= link_to new_user_session_path, class: 'fooby-topbar__link' do %>
+            <i class="bi bi-person"></i> myFOOBY
+          <% end %>
+        <% end %>
+        <div class="fooby-topbar__lang">
+          <span>DE</span> · FR · IT · EN
+        </div>
+        <%= link_to fundkueche_path, class: 'fooby-topbar__fundkueche' do %>
+          <i class="bi bi-snow2"></i> Fundküche öffnen
+        <% end %>
+      </div>
+    </div>
+
+    <%# ── Main Nav ── %>
+    <header class="navigation-header">
+      <div class="navigation-header__inner">
+        <div class="navigation-header__logo">
+          <%= link_to root_path do %>
+            <%= image_tag 'fooby-logo.svg', alt: 'fooby', height: '32' %>
+          <% end %>
         </div>
 
-        <ul class="fooby-nav__menu">
-          <li><a href="#">Rezepte</a></li>
-          <li><a href="#">Kochschule</a></li>
-          <li><a href="#">FOOBYVERSUM</a></li>
-          <li><a href="#">Leseecke</a></li>
-        </ul>
+        <nav class="navigation-desktop">
+          <ul class="navigation-desktop__l1-list">
+            <li class="navigation-desktop__l1-list-item">
+              <a href="#" class="navigation-desktop__l1-link">
+                <span class="navigation-desktop__link-inner">Rezepte</span>
+                <span class="navigation-desktop__dropdown-icon-wrapper">
+                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+                </span>
+              </a>
+              <ul class="navigation-desktop__l2-list">
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Rezeptkategorien</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Swipe &amp; Cook</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Menü-Konfigurator</a></li>
+              </ul>
+            </li>
+            <li class="navigation-desktop__l1-list-item">
+              <a href="#" class="navigation-desktop__l1-link">
+                <span class="navigation-desktop__link-inner">Kochschule</span>
+                <span class="navigation-desktop__dropdown-icon-wrapper">
+                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+                </span>
+              </a>
+              <ul class="navigation-desktop__l2-list">
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">How-tos</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Kochwissen</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Foodlexikon</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Saisonkalender</a></li>
+              </ul>
+            </li>
+            <li class="navigation-desktop__l1-list-item">
+              <a href="#" class="navigation-desktop__l1-link">
+                <span class="navigation-desktop__link-inner">FOOBYVERSUM</span>
+                <span class="navigation-desktop__dropdown-icon-wrapper">
+                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+                </span>
+              </a>
+              <ul class="navigation-desktop__l2-list">
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Storys</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Events</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Community</a></li>
+                <li class="navigation-desktop__l2-list-item"><a href="#" class="navigation-desktop__l2-link">Partner</a></li>
+              </ul>
+            </li>
+            <li class="navigation-desktop__l1-list-item">
+              <a href="#" class="navigation-desktop__l1-link">
+                <span class="navigation-desktop__link-inner">Leseecke</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
 
-        <div class="fooby-nav__search">
-          <div class="fooby-nav__search-form d-none d-lg-block">
+        <div class="navigation-search">
+          <div class="navigation-search__input-wrap">
             <input type="text" placeholder="Was möchtest du kochen?">
-            <i class="bi bi-search search-icon"></i>
+            <i class="bi bi-search"></i>
           </div>
 
-          <%= link_to fundkueche_path, class: 'fooby-nav__fundkueche-btn' do %>
+          <%= link_to fundkueche_path, class: 'navigation-search__fundkueche-btn' do %>
             <i class="bi bi-snow2"></i>
-            <span class="d-none d-md-inline">Fundküche öffnen</span>
-            <span class="d-md-none">Fundküche</span>
+            <span class="d-none d-lg-inline">Fundküche öffnen</span>
+            <span class="d-lg-none">Fundküche</span>
           <% end %>
 
           <% if user_signed_in? %>
-            <div class="fooby-nav__user">
-              <div class="fooby-nav__myfooby-btn fooby-nav__myfooby-btn--active">
-                <i class="bi bi-person-fill"></i>
-                <span class="d-none d-md-inline">ZHAW</span>
-              </div>
-              <%= link_to destroy_user_session_path,
-                    data: { turbo_method: :delete },
-                    class: 'fooby-nav__signout',
-                    title: 'Abmelden' do %>
-                <i class="bi bi-box-arrow-right"></i>
-              <% end %>
+            <div class="navigation-search__myfooby navigation-search__myfooby--signed-in">
+              <i class="bi bi-person-fill"></i>
+              <span class="d-none d-md-inline">ZHAW</span>
             </div>
           <% else %>
-            <%= link_to new_user_session_path, class: 'fooby-nav__myfooby-btn' do %>
+            <%= link_to new_user_session_path, class: 'navigation-search__myfooby' do %>
               <i class="bi bi-person"></i>
               <span class="d-none d-md-inline">Anmelden</span>
             <% end %>
           <% end %>
         </div>
       </div>
-    </nav>
+    </header>
 
     <% flash.each do |type, message| %>
       <div class="fooby-flash">
@@ -71,5 +139,6 @@
     <% end %>
 
     <%= yield %>
+
   </body>
 </html>

@@ -1,29 +1,41 @@
 <div class="fooby-login-wrap">
   <div class="fooby-login-card">
     <div class="fooby-login-card__logo">
-      <span>fooby</span>
+      <%= image_tag 'fooby-logo.svg', alt: 'fooby', height: '36' %>
     </div>
-    <h1 class="fooby-login-card__title">Willkommen zurück</h1>
-    <p class="fooby-login-card__sub">Melde dich mit deinem myFOOBY-Konto an.</p>
+    <h1 class="fooby-login-card__title">Willkommen bei myFOOBY</h1>
+    <p class="fooby-login-card__sub">Melde dich mit deinem FOOBY-Konto an.</p>
 
     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <%= f.input :email,
-                  label: 'E-Mail',
+                  label: 'E-Mail-Adresse',
                   required: false,
                   autofocus: true,
-                  input_html: { autocomplete: 'email', class: 'form-control', placeholder: 'deine@email.ch' } %>
+                  input_html: {
+                    autocomplete: 'email',
+                    class: 'form-control',
+                    placeholder: 'deine@email.ch',
+                    style: 'border-radius:0;font-family:Open Sans,sans-serif;font-size:14px'
+                  } %>
       <%= f.input :password,
                   label: 'Passwort',
                   required: false,
-                  input_html: { autocomplete: 'current-password', class: 'form-control', placeholder: '••••••••' } %>
+                  input_html: {
+                    autocomplete: 'current-password',
+                    class: 'form-control',
+                    placeholder: '••••••••',
+                    style: 'border-radius:0;font-family:Open Sans,sans-serif;font-size:14px'
+                  } %>
 
       <div class="d-grid mt-3">
-        <%= f.button :submit, 'Anmelden', class: 'btn btn-primary w-100 fw-bold' %>
+        <%= f.button :submit, 'Anmelden', class: 'btn btn-primary w-100' %>
       </div>
     <% end %>
 
-    <div class="mt-3 text-center" style="font-size:0.8rem;color:var(--fooby-text-muted)">
-      Demo-Login: <strong>zhaw@fundkueche.ch</strong> / <strong>ZHAW</strong>
+    <hr style="border-color:#f0f0f0;margin:20px 0">
+    <div class="text-center" style="font-size:12px;color:#999;font-family:'Open Sans',sans-serif">
+      Demo-Login: <strong style="color:#444">zhaw@fundkueche.ch</strong> /
+      <strong style="color:#444">ZHAW</strong>
     </div>
   </div>
 </div>

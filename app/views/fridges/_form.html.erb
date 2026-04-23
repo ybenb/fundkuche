@@ -1,27 +1,27 @@
-<%# Fundküche scan & ingredient form %>
+<%# Fundküche scan & ingredient form – Fooby style %>
 
-<div class="fk-scan-card__section">
-  <i class="bi bi-camera-fill" style="color:var(--fooby-orange)"></i>Foto hochladen
+<div class="fk-section-label">
+  <i class="bi bi-camera-fill"></i> Foto hochladen
 </div>
 
 <div class="mb-4" data-controller="image-detection"
      data-image-detection-ingredients-outlet="[data-controller=ingredients]">
   <div class="d-flex gap-2 mb-2">
-    <label class="btn-fooby flex-fill text-center" style="cursor:pointer;justify-content:center">
-      <i class="bi bi-camera me-1"></i>Kamera
+    <label class="btn-fooby flex-fill justify-content-center" style="cursor:pointer">
+      <i class="bi bi-camera me-1"></i> Kamera
       <input type="file" accept="image/*" capture="environment" class="d-none"
              data-image-detection-target="input"
              data-action="change->image-detection#upload">
     </label>
-    <label class="btn btn-outline-secondary flex-fill text-center" style="cursor:pointer">
-      <i class="bi bi-upload me-1"></i>Galerie
+    <label class="btn-fooby-outline flex-fill justify-content-center" style="cursor:pointer">
+      <i class="bi bi-upload me-1"></i> Galerie
       <input type="file" accept="image/*" class="d-none"
              data-image-detection-target="input"
              data-action="change->image-detection#upload">
     </label>
   </div>
-  <p style="font-size:0.8rem;color:var(--fooby-text-muted)">
-    <i class="bi bi-magic me-1"></i>KI erkennt Zutaten automatisch aus dem Foto.
+  <p style="font-size:12px;color:var(--fooby-muted)">
+    <i class="bi bi-stars me-1"></i>KI erkennt Zutaten automatisch aus dem Foto.
   </p>
 </div>
 
@@ -30,21 +30,21 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="fk-scan-card__section">
-    <i class="bi bi-upc-scan" style="color:var(--fooby-orange)"></i>Barcode scannen
+  <div class="fk-section-label">
+    <i class="bi bi-upc-scan"></i> Barcode scannen
   </div>
 
   <div data-controller="barcode-scanner"
        data-barcode-scanner-ingredients-outlet="[data-controller=ingredients]" class="mb-4">
-    <div id="barcode-scanner" class="rounded w-100 mb-2" data-barcode-scanner-target="scanner"></div>
+    <div id="barcode-scanner" class="w-100 mb-2" data-barcode-scanner-target="scanner"></div>
     <audio src="<%= asset_path('beep.wav') %>" preload data-barcode-scanner-target="audio"></audio>
-    <button type="button" class="btn btn-outline-secondary w-100" data-action="barcode-scanner#startScanner">
-      <i class="bi bi-upc-scan me-1"></i>Barcode-Scanner starten
+    <button type="button" class="btn-fooby-outline w-100" data-action="barcode-scanner#startScanner">
+      <i class="bi bi-upc-scan me-1"></i> Barcode-Scanner starten
     </button>
   </div>
 
-  <div class="fk-scan-card__section">
-    <i class="bi bi-basket2-fill" style="color:var(--fooby-orange)"></i>Zutaten
+  <div class="fk-section-label">
+    <i class="bi bi-basket2-fill"></i> Zutaten
   </div>
 
   <div class="mb-3">
@@ -60,11 +60,11 @@
     </div>
   </div>
 
-  <button type="button" class="btn btn-outline-secondary w-100 mb-4" data-action="ingredients#add">
-    <i class="bi bi-plus-circle me-1"></i>Zutat hinzufügen
+  <button type="button" class="btn-fooby-outline w-100 mb-4" data-action="ingredients#add">
+    <i class="bi bi-plus-circle me-1"></i> Zutat hinzufügen
   </button>
 
   <div class="d-grid">
-    <%= f.submit 'Kühlschrank speichern', class: 'btn btn-primary' %>
+    <%= f.submit 'Kühlschrank speichern', class: 'btn btn-primary w-100' %>
   </div>
 <% end %>

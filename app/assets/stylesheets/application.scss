@@ -1,150 +1,301 @@
-// ─── Fooby-inspired design system ─────────────────────────────────────────────
-// Bootstrap variable overrides (must come BEFORE bootstrap import)
-$primary:               #F4612B;
-$secondary:             #6B6B6B;
-$danger:                #E53E3E;
-$success:               #38A169;
-$border-radius:         0.5rem;
-$border-radius-sm:      0.375rem;
-$border-radius-lg:      0.75rem;
-$btn-border-radius:     0.375rem;
-$btn-border-radius-sm:  0.375rem;
-$btn-border-radius-lg:  0.5rem;
-$input-border-radius:   0.375rem;
-$font-family-sans-serif: 'Source Sans 3', 'Source Sans Pro', system-ui, -apple-system, sans-serif;
-$headings-font-weight:  700;
-$headings-color:        #1A1A1A;
-$body-color:            #1A1A1A;
-$link-color:            #F4612B;
-$link-hover-color:      darken(#F4612B, 10%);
+// ─── Fooby 1:1 Design System ──────────────────────────────────────────────────
+// Bootstrap overrides (before import)
+$primary:              #7faa47;
+$secondary:            #999999;
+$danger:               #d80000;
+$success:              #7faa47;
+$border-radius:        0;
+$border-radius-sm:     0;
+$border-radius-lg:     0;
+$btn-border-radius:    0;
+$btn-border-radius-sm: 0;
+$btn-border-radius-lg: 0;
+$input-border-radius:  0;
+$font-family-sans-serif: 'Open Sans', sans-serif;
+$headings-font-weight: 400;
+$body-color:           #444444;
+$link-color:           #7faa47;
+$link-hover-color:     #64863a;
 
-// ─── Vendor styles ────────────────────────────────────────────────────────────
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 @import 'vendors/simple_form';
 
 // ─── CSS Variables ────────────────────────────────────────────────────────────
 :root {
-  --fooby-orange:       #F4612B;
-  --fooby-orange-dark:  #D94E1F;
-  --fooby-bg:           #FFFFFF;
-  --fooby-bg-light:     #F7F5F2;
-  --fooby-text:         #1A1A1A;
-  --fooby-text-muted:   #666666;
-  --fooby-border:       #E8E4DF;
-  --fooby-nav-height:   64px;
+  --fooby-green:        #7faa47;
+  --fooby-green-dark:   #64863a;
+  --fooby-green-light:  #eaf3da;
+  --fooby-gold:         #faa61a;
+  --fooby-text:         #444444;
+  --fooby-heading:      #222222;
+  --fooby-bg:           #ffffff;
+  --fooby-bg-light:     #f7f7f7;
+  --fooby-border:       #e0e0e0;
+  --fooby-border-light: #f0f0f0;
+  --fooby-muted:        #999999;
+  --fooby-nav-height:   60px;
+  --fooby-nav-top-height: 36px;
 }
 
 // ─── Base ─────────────────────────────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
-  background-color: var(--fooby-bg);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--fooby-text);
-  font-size: 16px;
-  line-height: 1.5;
+  background: var(--fooby-bg);
+  margin: 0;
 }
 
-// ─── Fooby Navigation ─────────────────────────────────────────────────────────
-.fooby-nav {
-  background: #fff;
+h1, h2, h3, h4 {
+  font-family: 'Amatica SC', 'Open Sans', sans-serif;
+  color: var(--fooby-heading);
+  font-weight: 700;
+}
+
+a { color: var(--fooby-green); text-decoration: none; }
+a:hover { color: var(--fooby-green-dark); }
+
+// ─── Top bar (Sprache + little FOOBY + myFOOBY) ───────────────────────────────
+.fooby-topbar {
+  background: var(--fooby-bg-light);
+  border-bottom: 1px solid var(--fooby-border-light);
+  height: var(--fooby-nav-top-height);
+  display: flex;
+  align-items: center;
+
+  &__inner {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 12px;
+    height: var(--fooby-nav-top-height);
+    font-size: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: var(--fooby-text);
+    text-decoration: none;
+    border-left: 1px solid var(--fooby-border-light);
+    transition: color 0.15s;
+
+    &:first-child { border-left: none; }
+    &:hover { color: var(--fooby-green); }
+
+    i { font-size: 13px; }
+
+    &--active {
+      color: var(--fooby-green);
+    }
+  }
+
+  &__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 0 12px;
+    font-size: 11px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--fooby-muted);
+    border-left: 1px solid var(--fooby-border-light);
+    letter-spacing: 0.05em;
+
+    span { color: var(--fooby-green); }
+  }
+
+  &__fundkueche {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 14px;
+    height: var(--fooby-nav-top-height);
+    background: var(--fooby-green);
+    color: white !important;
+    font-size: 11px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    margin-left: 8px;
+    transition: background 0.15s;
+
+    &:hover { background: var(--fooby-green-dark); color: white !important; }
+
+    i { font-size: 13px; }
+  }
+}
+
+// ─── Main Navigation ──────────────────────────────────────────────────────────
+.navigation-header {
+  background: white;
   border-bottom: 1px solid var(--fooby-border);
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: var(--fooby-nav-height);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
 
   &__inner {
-    max-width: 1200px;
+    max-width: 1260px;
     margin: 0 auto;
-    padding: 0 1.5rem;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  &__logo {
-    height: 28px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-
-    .fooby-logo-text {
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: var(--fooby-orange);
-      letter-spacing: -0.02em;
-      text-decoration: none;
-    }
-  }
-
-  &__menu {
+    padding: 0 20px;
+    height: var(--fooby-nav-height);
     display: flex;
     align-items: center;
     gap: 0;
-    flex: 1;
+  }
+
+  &__logo {
+    flex-shrink: 0;
+    margin-right: 30px;
+    display: flex;
+    align-items: center;
+
+    img { height: 32px; width: auto; display: block; }
+  }
+}
+
+.navigation-desktop {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: var(--fooby-nav-height);
+
+  @media (max-width: 991px) { display: none; }
+
+  &__l1-list {
+    display: flex;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
+    height: 100%;
+  }
+
+  &__l1-list-item {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    &:hover .navigation-desktop__l2-list { display: block; }
+  }
+
+  &__l1-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 16px;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--fooby-heading);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 3px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+
+    &:hover {
+      color: var(--fooby-green);
+      border-bottom-color: var(--fooby-green);
+    }
+  }
+
+  &__dropdown-icon-wrapper {
+    display: flex;
+    align-items: center;
+
+    svg { width: 10px; height: 6px; fill: currentColor; transition: transform 0.15s; }
+  }
+
+  &__l2-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 220px;
+    background: white;
+    border: 1px solid var(--fooby-border);
+    border-top: 3px solid var(--fooby-green);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+    z-index: 100;
+  }
+
+  &__l2-list-item { }
+
+  &__l2-link {
+    display: block;
+    padding: 9px 20px;
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+    color: var(--fooby-text);
+    text-decoration: none;
+    transition: background 0.1s, color 0.1s;
+
+    &:hover {
+      background: var(--fooby-bg-light);
+      color: var(--fooby-green);
+    }
+  }
+}
+
+.navigation-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+
+  &__input-wrap {
+    position: relative;
 
     @media (max-width: 768px) { display: none; }
 
-    > li > a {
-      display: flex;
-      align-items: center;
-      padding: 0 1rem;
-      height: var(--fooby-nav-height);
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--fooby-text);
-      text-decoration: none;
-      border-bottom: 3px solid transparent;
-      transition: color 0.15s, border-color 0.15s;
-
-      &:hover, &.active {
-        color: var(--fooby-orange);
-        border-bottom-color: var(--fooby-orange);
-      }
-    }
-  }
-
-  &__search {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-shrink: 0;
-  }
-
-  &__search-form {
-    position: relative;
-
     input {
-      width: 220px;
-      height: 38px;
-      padding: 0 2.5rem 0 1rem;
+      height: 34px;
+      width: 200px;
+      padding: 0 34px 0 12px;
       border: 1px solid var(--fooby-border);
-      border-radius: 50rem;
-      font-size: 0.875rem;
       background: var(--fooby-bg-light);
-      color: var(--fooby-text);
+      font-size: 13px;
+      font-family: 'Open Sans', sans-serif;
       outline: none;
+      color: var(--fooby-text);
       transition: border-color 0.15s, width 0.2s;
 
       &:focus {
-        border-color: var(--fooby-orange);
-        width: 280px;
-        background: #fff;
+        border-color: var(--fooby-green);
+        width: 260px;
+        background: white;
       }
-
-      &::placeholder { color: #999; }
+      &::placeholder { color: var(--fooby-muted); }
     }
 
-    .search-icon {
+    i {
       position: absolute;
-      right: 0.75rem;
+      right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      color: #999;
-      font-size: 0.9rem;
+      color: var(--fooby-muted);
+      font-size: 14px;
       pointer-events: none;
     }
   }
@@ -152,247 +303,157 @@ body {
   &__fundkueche-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.875rem;
-    background: var(--fooby-orange);
+    gap: 6px;
+    padding: 0 16px;
+    height: 34px;
+    background: var(--fooby-green);
     color: white !important;
-    border-radius: 50rem;
-    font-size: 0.8rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     text-decoration: none !important;
+    transition: background 0.15s;
     white-space: nowrap;
-    transition: background 0.15s, transform 0.1s;
-    border: none;
 
-    &:hover {
-      background: var(--fooby-orange-dark);
-      transform: translateY(-1px);
-      color: white !important;
-    }
-
-    i { font-size: 0.95rem; }
+    &:hover { background: var(--fooby-green-dark); }
+    i { font-size: 14px; }
   }
 
-  &__user {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  &__myfooby-btn {
+  &__myfooby {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.4rem 0.875rem;
+    gap: 6px;
+    padding: 0 14px;
+    height: 34px;
     border: 1.5px solid var(--fooby-border);
-    border-radius: 50rem;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--fooby-text);
-    text-decoration: none;
     background: white;
-    cursor: pointer;
+    color: var(--fooby-text);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
     transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
 
     &:hover {
-      border-color: var(--fooby-orange);
-      color: var(--fooby-orange);
+      border-color: var(--fooby-green);
+      color: var(--fooby-green);
     }
 
-    &--active {
-      background: var(--fooby-bg-light);
-      border-color: var(--fooby-border);
-      color: var(--fooby-text);
+    &--signed-in {
+      background: var(--fooby-green-light);
+      border-color: var(--fooby-green);
+      color: var(--fooby-green-dark);
     }
 
-    i { font-size: 1rem; }
+    i { font-size: 15px; }
   }
 
   &__signout {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    color: var(--fooby-text-muted);
+    width: 34px;
+    height: 34px;
+    color: var(--fooby-muted);
     text-decoration: none;
-    border-radius: 50%;
-    transition: color 0.15s, background 0.15s;
+    transition: color 0.15s;
 
-    &:hover {
-      color: var(--fooby-orange);
-      background: var(--fooby-bg-light);
-    }
-
-    i { font-size: 1rem; }
+    &:hover { color: var(--fooby-green); }
+    i { font-size: 15px; }
   }
 }
 
-// ─── Category pills ───────────────────────────────────────────────────────────
-.fooby-categories {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding-bottom: 0.75rem;
-  margin-bottom: 2rem;
-  scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
-
-  &__item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.45rem 1rem;
-    border: 1.5px solid var(--fooby-border);
-    border-radius: 50rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--fooby-text);
-    text-decoration: none;
-    white-space: nowrap;
-    background: white;
-    transition: border-color 0.15s, color 0.15s;
-
-    &:hover {
-      border-color: var(--fooby-orange);
-      color: var(--fooby-orange);
-    }
-
-    i { font-size: 0.9rem; }
-  }
-}
-
-// ─── Fundküche promo banner ────────────────────────────────────────────────────
-.fooby-fundkueche-banner {
-  background: linear-gradient(135deg, #FFF8F5, #FEF0E8);
-  border: 1px solid #F8D5C4;
-  border-radius: 0.75rem;
-  padding: 1.75rem 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 3rem;
-
-  &__icon {
-    font-size: 2.5rem;
-    color: var(--fooby-orange);
-    flex-shrink: 0;
-  }
-
-  &__body { flex: 1; min-width: 200px; }
-
-  &__title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin-bottom: 0.25rem;
-  }
-
-  &__sub {
-    font-size: 0.9rem;
-    color: var(--fooby-text-muted);
-    line-height: 1.5;
-  }
-}
-
-// ─── Skeleton loader ──────────────────────────────────────────────────────────
-.fooby-skeleton-line {
-  height: 14px;
-  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
-  background-size: 200% 100%;
-  border-radius: 4px;
-  animation: skeleton-shimmer 1.5s infinite;
-}
-
-@keyframes skeleton-shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-// ─── Hero / Search section (Fooby homepage) ───────────────────────────────────
-.fooby-hero {
+// ─── Hero / Search section ────────────────────────────────────────────────────
+.fooby-search-hero {
   background: var(--fooby-bg-light);
-  padding: 3rem 1.5rem;
+  border-bottom: 1px solid var(--fooby-border-light);
+  padding: 48px 20px 40px;
   text-align: center;
 
-  &__eyebrow {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--fooby-orange);
-    margin-bottom: 0.5rem;
-  }
-
   &__title {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--fooby-text);
-    margin-bottom: 0.5rem;
-    line-height: 1.2;
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--fooby-heading);
+    margin-bottom: 6px;
+    line-height: 1.1;
 
-    @media (min-width: 768px) { font-size: 2.5rem; }
+    @media (max-width: 768px) { font-size: 36px; }
   }
 
   &__sub {
-    font-size: 1rem;
-    color: var(--fooby-text-muted);
-    margin-bottom: 2rem;
+    font-size: 15px;
+    color: var(--fooby-muted);
+    margin-bottom: 24px;
+    font-family: 'Open Sans', sans-serif;
   }
 
-  &__search {
-    max-width: 600px;
-    margin: 0 auto 1.5rem;
-    position: relative;
+  &__form {
+    max-width: 580px;
+    margin: 0 auto 20px;
+    display: flex;
+    border: 2px solid var(--fooby-border);
+    background: white;
+    transition: border-color 0.15s;
+
+    &:focus-within { border-color: var(--fooby-green); }
 
     input {
-      width: 100%;
-      height: 56px;
-      padding: 0 120px 0 1.5rem;
-      border: 2px solid var(--fooby-border);
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      background: #fff;
+      flex: 1;
+      height: 52px;
+      padding: 0 16px;
+      border: none;
       outline: none;
-
-      &:focus { border-color: var(--fooby-orange); }
-      &::placeholder { color: #aaa; }
+      font-size: 15px;
+      font-family: 'Open Sans', sans-serif;
+      color: var(--fooby-text);
+      background: transparent;
+      &::placeholder { color: #bbb; }
     }
 
-    &-btn {
-      position: absolute;
-      right: 6px;
-      top: 6px;
-      height: 44px;
-      padding: 0 1.25rem;
-      background: var(--fooby-orange);
+    button {
+      height: 52px;
+      padding: 0 24px;
+      background: var(--fooby-green);
       color: white;
       border: none;
-      border-radius: 0.375rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
       font-weight: 700;
-      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       cursor: pointer;
+      transition: background 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
 
-      &:hover { background: var(--fooby-orange-dark); }
+      &:hover { background: var(--fooby-green-dark); }
     }
   }
 
   &__fundkueche-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: transparent;
-    color: var(--fooby-orange);
-    border: 2px solid var(--fooby-orange);
-    border-radius: 0.375rem;
+    gap: 8px;
+    padding: 10px 24px;
+    border: 2px solid var(--fooby-green);
+    color: var(--fooby-green);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
     font-weight: 700;
-    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     text-decoration: none;
     transition: all 0.15s;
 
     &:hover {
-      background: var(--fooby-orange);
+      background: var(--fooby-green);
       color: white;
     }
   }
@@ -400,443 +461,656 @@ body {
 
 // ─── Page wrapper ─────────────────────────────────────────────────────────────
 .fooby-page {
-  max-width: 1200px;
+  max-width: 1260px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 32px 20px 48px;
 }
 
-// ─── Section headings ─────────────────────────────────────────────────────────
-.fooby-section-title {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--fooby-text);
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 3px solid var(--fooby-orange);
-  display: inline-block;
+// ─── Section heading ──────────────────────────────────────────────────────────
+.fooby-section-heading {
+  font-family: 'Amatica SC', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--fooby-heading);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--fooby-border-light);
 }
 
-// ─── Recipe cards ─────────────────────────────────────────────────────────────
-.fooby-recipe-grid {
+// ─── Category filter bar ──────────────────────────────────────────────────────
+.fooby-filter-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 28px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    background: white;
+    border: 1px solid var(--fooby-border);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fooby-text);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s, color 0.1s;
+
+    &:hover, &--active {
+      background: var(--fooby-green);
+      border-color: var(--fooby-green);
+      color: white;
+    }
+  }
+}
+
+// ─── Teaser (Recipe card) – exact Fooby structure ─────────────────────────────
+.fooby-teaser-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  @media (max-width: 1100px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 768px)  { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 480px)  { grid-template-columns: 1fr; }
 }
 
-.fooby-recipe-card {
-  background: #fff;
-  border: 1px solid var(--fooby-border);
-  border-radius: 0.5rem;
-  overflow: hidden;
+.teaser {
+  background: white;
+  border: 1px solid var(--fooby-border-light);
+  display: block;
   text-decoration: none !important;
   color: var(--fooby-text) !important;
-  display: block;
   transition: box-shadow 0.2s, transform 0.15s;
+  position: relative;
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
   }
 
-  &__image {
-    width: 100%;
-    height: 190px;
-    object-fit: cover;
+  &__img-container {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
     background: var(--fooby-bg-light);
-    display: block;
   }
 
-  &__image-placeholder {
+  &__img {
     width: 100%;
-    height: 190px;
-    background: linear-gradient(135deg, #F7F5F2, #EDE9E4);
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+  }
+
+  .teaser:hover &__img { transform: scale(1.04); }
+
+  &__img-placeholder {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ccc;
+    color: var(--fooby-border);
     font-size: 2.5rem;
+    background: linear-gradient(135deg, #f7f7f7, #eeeeee);
   }
 
-  &__body {
-    padding: 1rem;
+  &__inner {
+    padding: 12px 14px 14px;
   }
 
-  &__title {
-    font-size: 0.95rem;
+  &__header {
+    margin-bottom: 4px;
+  }
+
+  &__type {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
     font-weight: 700;
-    margin-bottom: 0.5rem;
-    line-height: 1.35;
-    color: var(--fooby-text);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fooby-gold);
   }
 
-  &__meta {
-    font-size: 0.8rem;
-    color: var(--fooby-text-muted);
+  &__body-title {
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--fooby-heading);
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  &__meta-block {
+    padding: 8px 14px 10px;
+    border-top: 1px solid var(--fooby-border-light);
+  }
+
+  &__meta-inner {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 11px;
+    color: var(--fooby-muted);
+    font-family: 'Open Sans', sans-serif;
   }
 
-  &__time {
+  &__meta-item {
     display: flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: 4px;
+
+    i { font-size: 12px; color: var(--fooby-green); }
   }
 
-  &__diet {
+  &__diet-tag {
     display: inline-block;
-    padding: 0.15rem 0.5rem;
-    background: #F0F7F0;
-    color: #38A169;
-    border-radius: 50rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-  }
-
-  &__match {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    margin-top: 0.5rem;
-
-    &-bar {
-      flex: 1;
-      height: 4px;
-      background: var(--fooby-border);
-      border-radius: 2px;
-      overflow: hidden;
-
-      &-fill {
-        height: 100%;
-        background: var(--fooby-orange);
-        border-radius: 2px;
-      }
-    }
-
-    &-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--fooby-orange);
-      white-space: nowrap;
-    }
+    padding: 2px 7px;
+    background: var(--fooby-green-light);
+    color: var(--fooby-green-dark);
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 }
 
-// ─── Fundküche Landing Page ────────────────────────────────────────────────────
+// ─── Skeleton loader ──────────────────────────────────────────────────────────
+.teaser--skeleton {
+  pointer-events: none;
+  .teaser__img-container { background: #eee; }
+}
+
+.skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 6px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// ─── Fundküche promo strip ────────────────────────────────────────────────────
+.fooby-promo-strip {
+  background: var(--fooby-green);
+  color: white;
+  padding: 28px 24px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+
+  &__icon { font-size: 2.5rem; flex-shrink: 0; }
+
+  &__body { flex: 1; }
+
+  &__title {
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: white;
+  }
+
+  &__sub {
+    font-size: 13px;
+    opacity: 0.9;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 24px;
+    background: white;
+    color: var(--fooby-green-dark) !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none !important;
+    transition: background 0.15s;
+    flex-shrink: 0;
+
+    &:hover { background: var(--fooby-green-light); }
+  }
+}
+
+// ─── Fundküche Landing page ────────────────────────────────────────────────────
 .fk-hero {
-  background: linear-gradient(135deg, #FFF8F5 0%, #FEF0E8 100%);
-  padding: 4rem 1.5rem 3rem;
+  background: var(--fooby-bg-light);
+  border-bottom: 1px solid var(--fooby-border-light);
+  padding: 56px 20px 48px;
   text-align: center;
-  border-bottom: 1px solid var(--fooby-border);
 
   &__badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    background: var(--fooby-orange);
+    gap: 6px;
+    padding: 4px 14px;
+    background: var(--fooby-green);
     color: white;
-    padding: 0.3rem 0.875rem;
-    border-radius: 50rem;
-    font-size: 0.75rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 1.25rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
   }
 
   &__title {
-    font-size: 2.5rem;
-    font-weight: 900;
-    color: var(--fooby-text);
-    margin-bottom: 1rem;
-    line-height: 1.15;
-
-    @media (min-width: 768px) { font-size: 3.25rem; }
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--fooby-heading);
+    margin-bottom: 12px;
+    line-height: 1.1;
+    @media (max-width: 768px) { font-size: 38px; }
   }
 
   &__sub {
-    font-size: 1.1rem;
-    color: var(--fooby-text-muted);
-    max-width: 560px;
-    margin: 0 auto 2rem;
-    line-height: 1.6;
+    font-size: 15px;
+    color: var(--fooby-muted);
+    max-width: 520px;
+    margin: 0 auto 28px;
+    line-height: 1.65;
   }
 
   &__cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    background: var(--fooby-orange);
+    gap: 8px;
+    padding: 14px 32px;
+    background: var(--fooby-green);
     color: white;
-    border-radius: 0.5rem;
-    font-size: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     text-decoration: none;
-    transition: background 0.15s, transform 0.1s;
+    transition: background 0.15s;
 
-    &:hover {
-      background: var(--fooby-orange-dark);
-      color: white;
-      transform: translateY(-2px);
-    }
+    &:hover { background: var(--fooby-green-dark); color: white; }
   }
 }
 
 .fk-steps {
   max-width: 900px;
-  margin: 3rem auto;
-  padding: 0 1.5rem;
+  margin: 0 auto;
+  padding: 40px 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  text-align: center;
 
-  &__item {
-    text-align: center;
-  }
+  &__item {}
 
   &__icon {
     width: 64px;
     height: 64px;
-    background: #FFF0E8;
-    border-radius: 50%;
+    background: var(--fooby-green-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1rem;
+    margin: 0 auto 14px;
     font-size: 1.75rem;
-    color: var(--fooby-orange);
+    color: var(--fooby-green);
+  }
+
+  &__number {
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--fooby-green);
+    margin-bottom: 4px;
   }
 
   &__title {
-    font-size: 1rem;
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 22px;
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    color: var(--fooby-heading);
+    margin-bottom: 8px;
   }
 
   &__desc {
-    font-size: 0.9rem;
-    color: var(--fooby-text-muted);
-    line-height: 1.5;
+    font-size: 13px;
+    color: var(--fooby-muted);
+    line-height: 1.6;
   }
 }
 
 .fk-options {
   background: var(--fooby-bg-light);
-  padding: 3rem 1.5rem;
-  border-top: 1px solid var(--fooby-border);
-  border-bottom: 1px solid var(--fooby-border);
+  border-top: 1px solid var(--fooby-border-light);
+  border-bottom: 1px solid var(--fooby-border-light);
+  padding: 40px 20px;
+
+  &__heading {
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--fooby-heading);
+    margin-bottom: 8px;
+  }
+
+  &__sub {
+    text-align: center;
+    font-size: 14px;
+    color: var(--fooby-muted);
+    margin-bottom: 28px;
+  }
 
   &__inner {
-    max-width: 900px;
+    max-width: 860px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 16px;
   }
 
   &__card {
     background: white;
-    border: 2px solid var(--fooby-border);
-    border-radius: 0.75rem;
-    padding: 1.75rem;
+    border: 1px solid var(--fooby-border);
+    padding: 24px;
 
-    &--highlight {
-      border-color: var(--fooby-orange);
-    }
+    &--highlight { border-top: 4px solid var(--fooby-green); }
   }
 
-  &__badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 50rem;
-    font-size: 0.75rem;
+  &__label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 0.75rem;
-    background: #FFF0E8;
-    color: var(--fooby-orange);
-
-    &--blue {
-      background: #EBF5FB;
-      color: #2874A6;
-    }
+    letter-spacing: 0.08em;
+    color: var(--fooby-green);
+    margin-bottom: 8px;
+    display: block;
   }
 
   &__title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--fooby-heading);
+    margin-bottom: 8px;
   }
 
   &__desc {
-    font-size: 0.9rem;
-    color: var(--fooby-text-muted);
-    line-height: 1.5;
+    font-size: 13px;
+    color: var(--fooby-muted);
+    line-height: 1.6;
   }
 }
 
-// ─── Coop Coupon section ──────────────────────────────────────────────────────
+// ─── Coop Coupons ─────────────────────────────────────────────────────────────
 .fk-coupons {
   max-width: 900px;
-  margin: 3rem auto;
-  padding: 0 1.5rem;
+  margin: 0 auto;
+  padding: 40px 20px;
 
   &__heading {
-    font-size: 1.25rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--fooby-heading);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   &__sub {
-    font-size: 0.95rem;
-    color: var(--fooby-text-muted);
-    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: var(--fooby-muted);
+    margin-bottom: 20px;
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
   }
 
   &__item {
     border: 1px solid var(--fooby-border);
-    border-radius: 0.5rem;
-    overflow: hidden;
     background: white;
+    overflow: hidden;
 
-    img {
+    &-image {
       width: 100%;
       aspect-ratio: 3/2;
-      object-fit: cover;
-      display: block;
-      background: #F0F0F0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #fff5f5, #ffebeb);
     }
 
-    &-body {
-      padding: 0.75rem;
-    }
-
-    &-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
+    &-coop-badge {
+      background: #e2001a;
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 900;
+      padding: 4px 14px;
+      letter-spacing: 0.05em;
     }
 
     &-discount {
-      font-size: 1.1rem;
+      font-family: 'Amatica SC', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #e2001a;
+    }
+
+    &-body { padding: 10px 12px; }
+
+    &-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--fooby-heading);
+      margin-bottom: 2px;
+    }
+
+    &-amount {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px;
       font-weight: 900;
-      color: #E00;
+      color: #e2001a;
     }
   }
 }
 
-// ─── Scan / Fridge form (Fundküche) ───────────────────────────────────────────
-.fk-scan-card {
+// ─── Scan / Fridge form ───────────────────────────────────────────────────────
+.fk-scan-page {
   max-width: 720px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.fk-scan-heading {
+  font-family: 'Amatica SC', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--fooby-heading);
+  margin-bottom: 4px;
+}
+
+.fk-scan-sub {
+  font-size: 14px;
+  color: var(--fooby-muted);
+  margin-bottom: 28px;
+}
+
+.fk-section-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--fooby-muted);
+  margin-top: 24px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--fooby-border-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  i { color: var(--fooby-green); font-size: 14px; }
+}
+
+// ─── Result page ──────────────────────────────────────────────────────────────
+.fk-result-header {
+  background: var(--fooby-bg-light);
+  border-bottom: 1px solid var(--fooby-border-light);
+  padding: 28px 20px;
+  margin-bottom: 0;
+
+  &__inner { max-width: 1260px; margin: 0 auto; }
 
   &__title {
-    font-size: 1.5rem;
-    font-weight: 900;
-    margin-bottom: 0.25rem;
-  }
-
-  &__sub {
-    font-size: 0.9rem;
-    color: var(--fooby-text-muted);
-    margin-bottom: 2rem;
-  }
-
-  &__section {
-    font-size: 0.85rem;
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 36px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--fooby-text-muted);
-    margin-bottom: 0.625rem;
-    margin-top: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    &::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--fooby-border);
-    }
+    color: var(--fooby-heading);
+    margin-bottom: 4px;
   }
+
+  &__sub { font-size: 14px; color: var(--fooby-muted); }
+}
+
+.fk-result-label {
+  display: inline-block;
+  padding: 3px 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--fooby-green-light);
+  color: var(--fooby-green-dark);
+  margin-bottom: 14px;
+}
+
+.fk-missing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 8px;
+  background: #fff3cd;
+  color: #856404;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 2px;
+}
+
+.fk-alt-box {
+  background: #f0f7e6;
+  border-left: 3px solid var(--fooby-green);
+  padding: 10px 14px;
+  font-size: 12px;
+  margin-top: 10px;
+  color: var(--fooby-text);
 }
 
 // ─── Fooby-style buttons ──────────────────────────────────────────────────────
 .btn-fooby {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.25rem;
-  background: var(--fooby-orange);
-  color: white;
-  border: none;
-  border-radius: 0.375rem;
+  gap: 7px;
+  padding: 11px 24px;
+  background: var(--fooby-green);
+  color: white !important;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
   font-weight: 700;
-  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none !important;
+  border: none;
   cursor: pointer;
-  text-decoration: none;
-  transition: background 0.15s, transform 0.1s;
-  min-height: 44px;
+  transition: background 0.15s;
+  min-height: 42px;
+
+  &:hover { background: var(--fooby-green-dark); }
+}
+
+.btn-fooby-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 20px;
+  background: transparent;
+  color: var(--fooby-green) !important;
+  border: 2px solid var(--fooby-green);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-height: 42px;
 
   &:hover {
-    background: var(--fooby-orange-dark);
-    color: white;
-    transform: translateY(-1px);
-  }
-
-  &-outline {
-    background: transparent;
-    border: 2px solid var(--fooby-orange);
-    color: var(--fooby-orange);
-
-    &:hover {
-      background: var(--fooby-orange);
-      color: white;
-    }
+    background: var(--fooby-green);
+    color: white !important;
   }
 }
 
-// ─── Override Bootstrap primary buttons to use Fooby orange ──────────────────
+// ─── Bootstrap primary overrides ─────────────────────────────────────────────
 .btn-primary {
-  background: var(--fooby-orange);
-  border-color: var(--fooby-orange);
+  background: var(--fooby-green);
+  border-color: var(--fooby-green);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 0;
+  min-height: 42px;
 
   &:hover, &:focus, &:active {
-    background: var(--fooby-orange-dark) !important;
-    border-color: var(--fooby-orange-dark) !important;
-  }
-}
-
-.btn-outline-primary {
-  color: var(--fooby-orange);
-  border-color: var(--fooby-orange);
-
-  &:hover {
-    background: var(--fooby-orange);
-    border-color: var(--fooby-orange);
-    color: white;
+    background: var(--fooby-green-dark) !important;
+    border-color: var(--fooby-green-dark) !important;
   }
 }
 
 .btn-outline-secondary {
   border-color: var(--fooby-border);
   color: var(--fooby-text);
-  font-weight: 600;
-  font-size: 0.875rem;
-  min-height: 44px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 0;
+  min-height: 38px;
 
   &:hover {
     background: var(--fooby-bg-light);
@@ -847,147 +1121,108 @@ body {
 
 // ─── Flash messages ───────────────────────────────────────────────────────────
 .fooby-flash {
-  max-width: 1200px;
-  margin: 0.75rem auto;
-  padding: 0 1.5rem;
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 8px 20px 0;
 
   .alert {
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    border: 1px solid transparent;
+    border-radius: 0;
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+    border: none;
+    border-left: 4px solid var(--fooby-green);
   }
+
+  .alert-info, .alert-notice { border-left-color: var(--fooby-green); background: var(--fooby-green-light); color: var(--fooby-green-dark); }
+  .alert-danger { border-left-color: #d80000; background: #fff0f0; color: #d80000; }
+  .alert-success { border-left-color: var(--fooby-green); background: var(--fooby-green-light); color: var(--fooby-green-dark); }
 }
 
-// ─── Devise / Login ───────────────────────────────────────────────────────────
+// ─── Devise login ─────────────────────────────────────────────────────────────
 .fooby-login-wrap {
-  min-height: calc(100vh - var(--fooby-nav-height));
+  min-height: calc(100vh - var(--fooby-nav-height) - var(--fooby-nav-top-height));
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--fooby-bg-light);
-  padding: 2rem 1rem;
+  padding: 40px 20px;
 }
 
 .fooby-login-card {
   background: white;
   border: 1px solid var(--fooby-border);
-  border-radius: 0.75rem;
-  padding: 2.5rem;
+  padding: 40px 36px;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  max-width: 400px;
 
   &__logo {
     text-align: center;
-    margin-bottom: 1.75rem;
+    margin-bottom: 24px;
 
-    span {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--fooby-orange);
-      letter-spacing: -0.02em;
-    }
+    img { height: 36px; width: auto; }
   }
 
   &__title {
-    font-size: 1.25rem;
-    font-weight: 800;
+    font-family: 'Amatica SC', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
     text-align: center;
-    margin-bottom: 0.25rem;
+    color: var(--fooby-heading);
+    margin-bottom: 4px;
   }
 
   &__sub {
-    font-size: 0.875rem;
-    color: var(--fooby-text-muted);
+    font-size: 13px;
+    color: var(--fooby-muted);
     text-align: center;
-    margin-bottom: 1.75rem;
+    margin-bottom: 24px;
   }
 }
 
-// ─── Recipe results page ──────────────────────────────────────────────────────
-.fk-result-header {
-  background: var(--fooby-bg-light);
-  padding: 2rem 1.5rem;
-  border-bottom: 1px solid var(--fooby-border);
-  margin-bottom: 2rem;
+// ─── Breadcrumb ───────────────────────────────────────────────────────────────
+.fooby-breadcrumb {
+  font-size: 12px;
+  color: var(--fooby-muted);
+  margin-bottom: 12px;
+  font-family: 'Open Sans', sans-serif;
 
-  &__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  &__title {
-    font-size: 1.75rem;
-    font-weight: 900;
-    margin-bottom: 0.25rem;
-  }
-
-  &__sub {
-    font-size: 0.95rem;
-    color: var(--fooby-text-muted);
-  }
+  a { color: var(--fooby-green); text-decoration: none; &:hover { text-decoration: underline; } }
+  span { margin: 0 4px; color: var(--fooby-border); }
 }
 
-.fk-missing-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.15rem 0.5rem;
-  background: #FFF0E8;
-  color: var(--fooby-orange);
-  border-radius: 50rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  margin: 0.15rem;
-}
-
-.fk-alt-box {
-  background: #FFFDF0;
-  border: 1px solid #F5E79E;
-  border-radius: 0.375rem;
-  padding: 0.75rem 1rem;
-  font-size: 0.85rem;
-  margin-top: 0.75rem;
-}
-
-// ─── Ingredient form (Fundküche style) ────────────────────────────────────────
-.ingredient-row {
-  .quantity-input { width: 90px; flex-shrink: 0; }
-}
-
-// ─── Old KS styles (kept for compat) ─────────────────────────────────────────
+// ─── Legacy compat ────────────────────────────────────────────────────────────
 .ks-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse;
 
   th {
-    font-size: 0.7rem;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #9CA3AF;
-    font-weight: 600;
-    padding: 0.4rem 0.75rem 0.6rem;
-    border-bottom: 1px solid #F3F4F6;
+    color: var(--fooby-muted);
+    font-weight: 700;
+    padding: 6px 10px 8px;
+    border-bottom: 2px solid var(--fooby-border-light);
+    font-family: 'Montserrat', sans-serif;
   }
 
   td {
-    padding: 0.6rem 0.75rem;
-    font-size: 0.875rem;
-    border-bottom: 1px solid #F9FAFB;
-
-    &:first-child { font-weight: 500; }
-    &:last-child  { color: #6B7280; }
+    padding: 8px 10px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--fooby-border-light);
+    &:first-child { font-weight: 600; color: var(--fooby-heading); }
+    &:last-child  { color: var(--fooby-muted); }
   }
 
   tr:last-child td { border-bottom: none; }
 }
 
 .recipe-text {
-  font-size: 0.9rem;
-  line-height: 1.85;
-  color: #374151;
-  p { margin-bottom: 0.75rem; }
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--fooby-text);
+  p { margin-bottom: 10px; }
 }
 
+.ingredient-row .quantity-input { width: 90px; flex-shrink: 0; }
 .z-999 { z-index: 999; }

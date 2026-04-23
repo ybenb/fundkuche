@@ -1,103 +1,112 @@
-<%# Fooby Homepage replica with real images %>
+<%# Fooby Homepage 1:1 replica %>
 
-<div class="fooby-hero">
-  <div class="fooby-hero__eyebrow">Deine Rezeptwelt</div>
-  <h1 class="fooby-hero__title">Was möchtest du heute kochen?</h1>
-  <p class="fooby-hero__sub">Tausende Rezepte – von einfach bis raffiniert.</p>
+<%# ── Search hero ── %>
+<div class="fooby-search-hero">
+  <div class="fooby-search-hero__title">Was möchtest du kochen?</div>
+  <p class="fooby-search-hero__sub">Über 7000 Rezepte – entdecke dein nächstes Lieblingsgericht.</p>
 
-  <div class="fooby-hero__search">
+  <div class="fooby-search-hero__form">
     <input type="text" placeholder="Rezepte, Zutaten, Kategorien ...">
-    <button class="fooby-hero__search-btn">
-      <i class="bi bi-search me-1"></i>Suchen
+    <button type="button">
+      <i class="bi bi-search"></i>
+      Suchen
     </button>
   </div>
 
-  <%= link_to fundkueche_path, class: 'fooby-hero__fundkueche-cta' do %>
+  <%= link_to fundkueche_path, class: 'fooby-search-hero__fundkueche-cta' do %>
     <i class="bi bi-snow2"></i>
-    Fundküche öffnen – Rezepte aus deinem Kühlschrank
+    Fundküche – Rezepte aus deinem Kühlschrank
   <% end %>
 </div>
 
+<%# ── Main content ── %>
 <div class="fooby-page">
-  <%# Categories row %>
-  <div class="fooby-categories">
+
+  <%# Filter bar %>
+  <div class="fooby-filter-bar">
     <% [
-      { label: 'Frühstück',   icon: 'bi-sun' },
-      { label: 'Mittagessen', icon: 'bi-brightness-high' },
-      { label: 'Abendessen',  icon: 'bi-moon-stars' },
-      { label: 'Desserts',    icon: 'bi-cake2' },
-      { label: 'Vegetarisch', icon: 'bi-leaf' },
-      { label: 'Vegan',       icon: 'bi-flower1' },
-      { label: 'Schnell',     icon: 'bi-lightning' },
-      { label: 'Backen',      icon: 'bi-egg' }
-    ].each do |cat| %>
-      <a href="#" class="fooby-categories__item">
-        <i class="bi <%= cat[:icon] %>"></i>
-        <%= cat[:label] %>
+      'Alle', 'Frühstück', 'Hauptgericht', 'Desserts',
+      'Vegetarisch', 'Vegan', 'Ohne Laktose', 'Schnell', 'Backen', 'Salate', 'Suppen'
+    ].each_with_index do |cat, i| %>
+      <a href="#" class="fooby-filter-bar__item <%= 'fooby-filter-bar__item--active' if i == 0 %>">
+        <%= cat %>
       </a>
     <% end %>
   </div>
 
-  <%# Featured recipes from Fooby API with real images %>
-  <h2 class="fooby-section-title">Aktuelle Rezepte</h2>
+  <%# Recipe grid with real Fooby images %>
+  <h2 class="fooby-section-heading">Aktuelle Rezepte</h2>
 
-  <div class="fooby-recipe-grid">
+  <div class="fooby-teaser-grid">
     <% if @featured_recipes.present? %>
       <% @featured_recipes.each do |recipe| %>
-        <a href="<%= recipe[:url] %>" target="_blank" rel="noopener" class="fooby-recipe-card">
-          <img src="<%= recipe[:image_url] %>"
-               class="fooby-recipe-card__image"
-               alt="<%= recipe[:title] %>"
-               loading="lazy"
-               onerror="this.parentElement.querySelector('.fooby-recipe-card__image-placeholder').style.display='flex';this.style.display='none'">
-          <div class="fooby-recipe-card__image-placeholder" style="display:none">
-            <i class="bi bi-journal-richtext"></i>
+        <a href="<%= recipe[:url] %>" target="_blank" rel="noopener" class="teaser">
+          <div class="teaser__img-container">
+            <img class="teaser__img"
+                 src="<%= recipe[:image_url] %>"
+                 alt="<%= recipe[:title] %>"
+                 loading="lazy"
+                 onerror="this.style.display='none';this.parentElement.querySelector('.teaser__img-placeholder').style.display='flex'">
+            <div class="teaser__img-placeholder" style="display:none">
+              <i class="bi bi-image"></i>
+            </div>
           </div>
-          <div class="fooby-recipe-card__body">
-            <div class="fooby-recipe-card__title"><%= recipe[:title] %></div>
-            <div class="fooby-recipe-card__meta">
+          <div class="teaser__inner">
+            <div class="teaser__header">
+              <span class="teaser__type">Rezept</span>
+            </div>
+            <div class="teaser__body">
+              <div class="teaser__body-title"><%= recipe[:title] %></div>
+            </div>
+          </div>
+          <div class="teaser__meta-block">
+            <div class="teaser__meta-inner">
               <% if recipe[:active_time].present? %>
-                <span class="fooby-recipe-card__time">
-                  <i class="bi bi-clock"></i> <%= recipe[:active_time] %> Min. aktiv
+                <span class="teaser__meta-item">
+                  <i class="bi bi-clock"></i> <%= recipe[:active_time] %> Min.
                 </span>
               <% end %>
               <% if recipe[:diet].present? %>
-                <span class="fooby-recipe-card__diet"><%= recipe[:diet] %></span>
+                <% recipe[:diet].split(',').first(1).each do |d| %>
+                  <span class="teaser__diet-tag"><%= d.strip %></span>
+                <% end %>
               <% end %>
             </div>
           </div>
         </a>
       <% end %>
     <% else %>
-      <%# Skeleton loader while API loads %>
+      <%# Skeleton cards while loading %>
       <% 8.times do %>
-        <div class="fooby-recipe-card fooby-recipe-card--skeleton">
-          <div class="fooby-recipe-card__image-placeholder">
-            <i class="bi bi-image" style="color:#ddd;font-size:2rem"></i>
+        <div class="teaser teaser--skeleton">
+          <div class="teaser__img-container"></div>
+          <div class="teaser__inner">
+            <div class="skeleton-line" style="width:30%;height:10px;margin-bottom:8px"></div>
+            <div class="skeleton-line" style="width:85%;height:18px;margin-bottom:6px"></div>
+            <div class="skeleton-line" style="width:60%;height:14px"></div>
           </div>
-          <div class="fooby-recipe-card__body">
-            <div class="fooby-skeleton-line" style="width:85%"></div>
-            <div class="fooby-skeleton-line" style="width:50%;margin-top:8px;height:10px"></div>
+          <div class="teaser__meta-block">
+            <div class="skeleton-line" style="width:50%;height:10px"></div>
           </div>
         </div>
       <% end %>
     <% end %>
   </div>
 
-  <%# Fundküche promo banner %>
-  <div class="fooby-fundkueche-banner mt-5">
-    <div class="fooby-fundkueche-banner__icon">
+  <%# Fundküche promo strip %>
+  <div class="fooby-promo-strip">
+    <div class="fooby-promo-strip__icon">
       <i class="bi bi-snow2"></i>
     </div>
-    <div class="fooby-fundkueche-banner__body">
-      <div class="fooby-fundkueche-banner__title">Fundküche – Dein KI-Küchenchef</div>
-      <div class="fooby-fundkueche-banner__sub">
-        Mach ein Foto deines Kühlschranks und erhalte sofort passende Fooby-Rezepte –
-        mit dem was du zuhause hast oder mit Coop-Einkaufsliste.
+    <div class="fooby-promo-strip__body">
+      <div class="fooby-promo-strip__title">Fundküche – Dein KI-Küchenchef</div>
+      <div class="fooby-promo-strip__sub">
+        Foto vom Kühlschrank machen → KI erkennt Zutaten → passende Fooby-Rezepte sofort.
       </div>
     </div>
-    <%= link_to fundkueche_path, class: 'btn-fooby flex-shrink-0' do %>
+    <%= link_to fundkueche_path, class: 'fooby-promo-strip__btn' do %>
       <i class="bi bi-arrow-right"></i> Jetzt ausprobieren
     <% end %>
   </div>
+
 </div>
