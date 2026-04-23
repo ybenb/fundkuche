@@ -1,0 +1,29 @@
+<div class="fooby-login-wrap">
+  <div class="fooby-login-card">
+    <div class="fooby-login-card__logo">
+      <span>fooby</span>
+    </div>
+    <h1 class="fooby-login-card__title">Willkommen zurück</h1>
+    <p class="fooby-login-card__sub">Melde dich mit deinem myFOOBY-Konto an.</p>
+
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= f.input :email,
+                  label: 'E-Mail',
+                  required: false,
+                  autofocus: true,
+                  input_html: { autocomplete: 'email', class: 'form-control', placeholder: 'deine@email.ch' } %>
+      <%= f.input :password,
+                  label: 'Passwort',
+                  required: false,
+                  input_html: { autocomplete: 'current-password', class: 'form-control', placeholder: '••••••••' } %>
+
+      <div class="d-grid mt-3">
+        <%= f.button :submit, 'Anmelden', class: 'btn btn-primary w-100 fw-bold' %>
+      </div>
+    <% end %>
+
+    <div class="mt-3 text-center" style="font-size:0.8rem;color:var(--fooby-text-muted)">
+      Demo-Login: <strong>zhaw@fundkueche.ch</strong> / <strong>ZHAW</strong>
+    </div>
+  </div>
+</div>

@@ -1,3 +1,89 @@
-<h1>Welcome to kitchen-sync!</h1>
+<%# Fooby Homepage replica %>
 
-<%= link_to 'Fridges', fridges_path %>
+<div class="fooby-hero">
+  <div class="fooby-hero__eyebrow">Deine Rezeptwelt</div>
+  <h1 class="fooby-hero__title">Was möchtest du heute kochen?</h1>
+  <p class="fooby-hero__sub">Tausende Rezepte – von einfach bis raffiniert.</p>
+
+  <div class="fooby-hero__search">
+    <input type="text" placeholder="Rezepte, Zutaten, Kategorien ...">
+    <button class="fooby-hero__search-btn">Suchen</button>
+  </div>
+
+  <%= link_to fundkueche_path, class: 'fooby-hero__fundkueche-cta' do %>
+    <i class="bi bi-snow2"></i>
+    Fundküche öffnen – Rezepte aus deinem Kühlschrank
+  <% end %>
+</div>
+
+<div class="fooby-page">
+  <%# Categories row %>
+  <div class="d-flex align-items-center gap-2 mb-4 overflow-auto pb-2" style="flex-wrap:nowrap">
+    <% %w[Frühstück Mittagessen Abendessen Desserts Vegetarisch Vegan Schnell Backen].each do |cat| %>
+      <a href="#" class="text-nowrap px-3 py-1 rounded-pill border text-decoration-none"
+         style="font-size:0.85rem;font-weight:600;color:var(--fooby-text);border-color:var(--fooby-border)!important;white-space:nowrap">
+        <%= cat %>
+      </a>
+    <% end %>
+  </div>
+
+  <%# Featured recipes from API %>
+  <h2 class="fooby-section-title">Aktuelle Rezepte</h2>
+
+  <div class="fooby-recipe-grid">
+    <% if @featured_recipes.present? %>
+      <% @featured_recipes.each do |recipe| %>
+        <a href="<%= recipe[:url] %>" target="_blank" class="fooby-recipe-card">
+          <% if recipe[:image_url].present? %>
+            <img src="<%= recipe[:image_url] %>" class="fooby-recipe-card__image"
+                 alt="<%= recipe[:title] %>" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fooby-recipe-card__image-placeholder" style="display:none">
+              <i class="bi bi-journal-richtext"></i>
+            </div>
+          <% else %>
+            <div class="fooby-recipe-card__image-placeholder">
+              <i class="bi bi-journal-richtext"></i>
+            </div>
+          <% end %>
+          <div class="fooby-recipe-card__body">
+            <div class="fooby-recipe-card__title"><%= recipe[:title] %></div>
+            <div class="fooby-recipe-card__meta">
+              <% if recipe[:active_time].present? %>
+                <span class="fooby-recipe-card__time">
+                  <i class="bi bi-clock"></i> <%= recipe[:active_time] %> Min.
+                </span>
+              <% end %>
+              <% if recipe[:diet].present? %>
+                <span class="fooby-recipe-card__diet"><%= recipe[:diet] %></span>
+              <% end %>
+            </div>
+          </div>
+        </a>
+      <% end %>
+    <% else %>
+      <% 8.times do %>
+        <div class="fooby-recipe-card" style="pointer-events:none">
+          <div class="fooby-recipe-card__image-placeholder"><i class="bi bi-journal-richtext"></i></div>
+          <div class="fooby-recipe-card__body">
+            <div style="height:14px;background:#eee;border-radius:4px;margin-bottom:8px"></div>
+            <div style="height:10px;background:#f5f5f5;border-radius:4px;width:60%"></div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# Fundküche promo banner %>
+  <div class="mt-5 p-4 rounded-2 d-flex align-items-center gap-4 justify-content-between flex-wrap"
+       style="background:linear-gradient(135deg,#FFF8F5,#FEF0E8);border:1px solid #F8D5C4">
+    <div>
+      <div class="fw-bold fs-5 mb-1">
+        <i class="bi bi-snow2 me-2" style="color:var(--fooby-orange)"></i>Fundküche – Dein KI-Küchenchef
+      </div>
+      <div style="font-size:0.9rem;color:var(--fooby-text-muted)">
+        Mach ein Foto deines Kühlschranks und erhalte sofort passende Fooby-Rezepte.
+      </div>
+    </div>
+    <%= link_to 'Jetzt ausprobieren', fundkueche_path, class: 'btn-fooby flex-shrink-0' %>
+  </div>
+</div>

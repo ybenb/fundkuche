@@ -1,0 +1,72 @@
+<%# recipe is a Hash (from FoobyApiService, keys may be strings or symbols) %>
+<% title    = recipe[:title]    || recipe['title']    %>
+<% url      = recipe[:url]      || recipe['url']      %>
+<% img_url  = recipe[:image_url] || recipe['image_url'] %>
+<% time     = recipe[:active_time] || recipe['active_time'] %>
+<% missing  = recipe[:missing_ingredients] || recipe['missing_ingredients'] || [] %>
+<% alts     = recipe[:alternatives] || recipe['alternatives'] || {} %>
+<% score    = recipe[:match_score] || recipe['match_score'] || 0 %>
+
+<div class="fooby-recipe-card" style="cursor:default">
+  <% if img_url.present? %>
+    <img src="<%= img_url %>" class="fooby-recipe-card__image"
+         alt="<%= title %>" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="fooby-recipe-card__image-placeholder" style="display:none">
+      <i class="bi bi-journal-richtext"></i>
+    </div>
+  <% else %>
+    <div class="fooby-recipe-card__image-placeholder">
+      <i class="bi bi-journal-richtext"></i>
+    </div>
+  <% end %>
+
+  <div class="fooby-recipe-card__body">
+    <div class="fooby-recipe-card__title"><%= title %></div>
+
+    <div class="fooby-recipe-card__meta mb-2">
+      <% if time.present? %>
+        <span class="fooby-recipe-card__time"><i class="bi bi-clock"></i> <%= time %> Min.</span>
+      <% end %>
+    </div>
+
+    <%# Match score bar %>
+    <% if score > 0 %>
+      <div class="fooby-recipe-card__match mb-2">
+        <div class="fooby-recipe-card__match-bar">
+          <div class="fooby-recipe-card__match-bar-fill" style="width:<%= (score * 100).round %>%"></div>
+        </div>
+        <span class="fooby-recipe-card__match-label"><%= (score * 100).round %>% Zutaten</span>
+      </div>
+    <% end %>
+
+    <%# Missing ingredients %>
+    <% if missing.any? %>
+      <div class="mb-2">
+        <% missing.each do |ing| %>
+          <span class="fk-missing-badge"><i class="bi bi-x-circle"></i> <%= ing %></span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%# GPT alternatives %>
+    <% if alts.any? %>
+      <div class="fk-alt-box">
+        <strong style="font-size:0.8rem"><i class="bi bi-lightbulb me-1"></i>GPT-Alternativen:</strong>
+        <ul class="mb-0 mt-1" style="font-size:0.8rem;padding-left:1.25rem">
+          <% alts.each do |original, alternative| %>
+            <li><strong><%= original %></strong> → <%= alternative %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mt-3">
+      <%= link_to 'Rezept auf fooby.ch ansehen', url, target: '_blank',
+          class: 'btn-fooby-outline btn-fooby d-inline-flex align-items-center gap-1',
+          style: 'background:transparent;border:2px solid var(--fooby-orange);color:var(--fooby-orange);
+                  padding:0.4rem 0.875rem;font-size:0.8rem' do %>
+        <i class="bi bi-box-arrow-up-right"></i> Rezept öffnen
+      <% end %>
+    </div>
+  </div>
+</div>

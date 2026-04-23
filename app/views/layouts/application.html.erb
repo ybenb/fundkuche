@@ -1,23 +1,61 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
+<html lang="de">
   <head>
-    <title>KitchenSync</title>
+    <title>Fundküche – Dein Kühlschrank. Dein Rezept.</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;900&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
     <%= hotwire_livereload_tags if Rails.env.development? %>
   </head>
-  <body class="min-vh-100">
-  <%= render 'layouts/header' %>
+  <body>
+    <nav class="fooby-nav">
+      <div class="fooby-nav__inner">
+        <div class="fooby-nav__logo">
+          <%= link_to root_path, class: 'fooby-logo-text' do %>fooby<% end %>
+        </div>
+
+        <ul class="fooby-nav__menu">
+          <li><a href="#">Rezepte</a></li>
+          <li><a href="#">Kochschule</a></li>
+          <li><a href="#">FOOBYVERSUM</a></li>
+          <li><a href="#">Leseecke</a></li>
+        </ul>
+
+        <div class="fooby-nav__search">
+          <div class="fooby-nav__search-form">
+            <input type="text" placeholder="Was möchtest du kochen?">
+            <i class="bi bi-search search-icon"></i>
+          </div>
+
+          <%= link_to fundkueche_path, class: 'fooby-nav__fundkueche-btn' do %>
+            <i class="bi bi-snow2"></i>
+            Fundküche öffnen
+          <% end %>
+
+          <% if user_signed_in? %>
+            <div class="fooby-nav__user d-none d-md-flex">
+              <i class="bi bi-person-circle" style="font-size:1.25rem;color:#999"></i>
+              <%= link_to 'Abmelden', destroy_user_session_path, data: { turbo_method: :delete } %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+
     <% flash.each do |type, message| %>
-      <div class="<%= flash_class(type) %>">
-        <%= message %>
+      <div class="fooby-flash">
+        <div class="<%= flash_class(type) %> alert-dismissible fade show mb-0" role="alert">
+          <%= message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
       </div>
     <% end %>
-    <main class="container pb-3 pt-2 mt-5 bg-white rounded">
-      <%= yield %>
-    </main>
+
+    <%= yield %>
   </body>
 </html>

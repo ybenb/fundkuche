@@ -1,9 +1,17 @@
-<h1 class="mt-3">New fridge</h1>
+<div class="fk-scan-card">
+  <nav aria-label="breadcrumb" style="font-size:0.8rem;margin-bottom:1.5rem">
+    <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item"><%= link_to 'fooby', root_path, style: 'color:var(--fooby-orange)' %></li>
+      <li class="breadcrumb-item"><%= link_to 'Fundküche', fundkueche_path, style: 'color:var(--fooby-orange)' %></li>
+      <li class="breadcrumb-item active" style="color:var(--fooby-text-muted)">Kühlschrank scannen</li>
+    </ol>
+  </nav>
 
-<%= render 'form', fridge: @fridge %>
+  <h1 class="fk-scan-card__title">Kühlschrank scannen</h1>
+  <p class="fk-scan-card__sub">
+    Mach ein Foto oder lade ein Bild hoch – die KI erkennt deine Zutaten automatisch.
+    Danach findest du passende Fooby-Rezepte.
+  </p>
 
-<br>
-
-<div>
-  <%= link_to 'Back to fridges', fridges_path %>
+  <%= render 'form', fridge: @fridge %>
 </div>

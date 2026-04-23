@@ -1,0 +1,110 @@
+<%# Fundküche Landing Page – Fooby-style %>
+
+<div class="fk-hero">
+  <div class="fk-hero__badge">
+    <i class="bi bi-stars"></i> KI-gestützt
+  </div>
+  <h1 class="fk-hero__title">Die Fundküche</h1>
+  <p class="fk-hero__sub">
+    Fotografiere deinen Kühlschrank – unsere KI erkennt deine Zutaten und schlägt dir
+    passende Fooby-Rezepte vor. Kochen was vorhanden ist, oder fehlende Zutaten günstig
+    bei Coop einkaufen.
+  </p>
+  <%= link_to fundkueche_scan_path, class: 'fk-hero__cta' do %>
+    <i class="bi bi-camera-fill"></i>
+    Jetzt Kühlschrank scannen
+  <% end %>
+</div>
+
+<div class="fk-steps">
+  <div class="fk-steps__item">
+    <div class="fk-steps__icon"><i class="bi bi-camera"></i></div>
+    <div class="fk-steps__title">1. Foto machen</div>
+    <div class="fk-steps__desc">
+      Mach ein Foto deines Kühlschranks oder lade ein Bild hoch – unsere KI erkennt automatisch alle Zutaten.
+    </div>
+  </div>
+  <div class="fk-steps__item">
+    <div class="fk-steps__icon"><i class="bi bi-pencil-square"></i></div>
+    <div class="fk-steps__title">2. Zutaten prüfen</div>
+    <div class="fk-steps__desc">
+      Überprüfe und ergänze die erkannten Zutaten. Du hast die volle Kontrolle über deine Liste.
+    </div>
+  </div>
+  <div class="fk-steps__item">
+    <div class="fk-steps__icon"><i class="bi bi-journal-bookmark-fill"></i></div>
+    <div class="fk-steps__title">3. Rezept wählen</div>
+    <div class="fk-steps__desc">
+      Erhalte passende Fooby-Rezepte – entweder mit deinen vorhandenen Zutaten oder mit Coop-Einkaufsliste.
+    </div>
+  </div>
+</div>
+
+<div class="fk-options">
+  <div class="mb-4 text-center">
+    <h2 style="font-size:1.5rem;font-weight:900">Zwei Wege zu deinem Rezept</h2>
+    <p style="font-size:0.95rem;color:var(--fooby-text-muted)">Du entscheidest, wie du kochen möchtest.</p>
+  </div>
+  <div class="fk-options__inner">
+    <div class="fk-options__card">
+      <div class="fk-options__badge">Option 1</div>
+      <div class="fk-options__title">
+        <i class="bi bi-bag-check me-2" style="color:var(--fooby-orange)"></i>Mit Coop-Einkaufsliste
+      </div>
+      <p class="fk-options__desc">
+        Wir schlagen dir ein beliebiges Fooby-Rezept vor. Fehlende Zutaten kannst du direkt bei Coop kaufen –
+        inklusive exklusiver Coupons für deine nächste Einkaufstour.
+      </p>
+    </div>
+    <div class="fk-options__card fk-options__card--highlight">
+      <div class="fk-options__badge">Option 2</div>
+      <div class="fk-options__title">
+        <i class="bi bi-snow2 me-2" style="color:var(--fooby-orange)"></i>Nur mit vorhandenen Zutaten
+      </div>
+      <p class="fk-options__desc">
+        Wir finden Fooby-Rezepte, für die du mindestens 80&nbsp;% der Zutaten bereits zuhause hast.
+        GPT schlägt dir clevere Alternativen für die fehlenden Zutaten vor.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="fk-coupons">
+  <div class="fk-coupons__heading">
+    <i class="bi bi-ticket-perforated me-2" style="color:#E00"></i>Deine Coop-Coupons
+  </div>
+  <p class="fk-coupons__sub">
+    Diese Coupons stehen dir jetzt zur Verfügung – passend zu den Rezepten, die wir für dich gefunden haben.
+  </p>
+  <div class="fk-coupons__grid">
+    <%# Placeholder coupons – dynamisch nach Rezept %>
+    <% [
+      { title: 'Frische Pasta', discount: '20% Rabatt', img: nil },
+      { title: 'Saisonales Gemüse', discount: 'CHF 1.50 Rabatt', img: nil },
+      { title: 'Bio-Rahm', discount: '10% Rabatt', img: nil },
+      { title: 'Schweizer Käse', discount: 'CHF 2.00 Rabatt', img: nil }
+    ].each do |coupon| %>
+      <div class="fk-coupons__item">
+        <div style="width:100%;aspect-ratio:3/2;background:linear-gradient(135deg,#fff1f1,#ffe0e0);
+                    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem">
+          <div style="width:80px;height:25px;background:#E00;border-radius:3px;display:flex;align-items:center;
+                      justify-content:center;color:white;font-size:0.7rem;font-weight:900;letter-spacing:0.05em">
+            COOP
+          </div>
+          <div style="font-size:1.25rem;font-weight:900;color:#E00"><%= coupon[:discount] %></div>
+        </div>
+        <div class="fk-coupons__item-body">
+          <div class="fk-coupons__item-title"><%= coupon[:title] %></div>
+          <div class="fk-coupons__item-discount"><%= coupon[:discount] %></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="text-center py-4 mb-4">
+  <%= link_to fundkueche_scan_path, class: 'btn-fooby' do %>
+    <i class="bi bi-camera-fill"></i>
+    Jetzt Kühlschrank scannen
+  <% end %>
+</div>

@@ -1,16 +1,23 @@
 # frozen_string_literal: true
 
 class FridgesController < ApplicationController
-  before_action :set_fridge, only: %i[show edit update destroy generate_recipe]
+  before_action :set_fridge, only: %i[show edit update destroy generate_recipe find_fooby_recipes]
 
   def index
     @fridges = Fridge.all
   end
 
-  def show; end
+  def show
+    @fooby_recipes = @fridge.fooby_results if @fridge.fooby_results.present?
+  end
 
   def new
     @fridge = Fridge.new(ingredients: [])
+  end
+
+  def results
+    @fridge = Fridge.last
+    @fooby_recipes = @fridge&.fooby_results || []
   end
 
   def edit; end
@@ -19,7 +26,7 @@ class FridgesController < ApplicationController
     @fridge = Fridge.new(fridge_params)
 
     if @fridge.save
-      redirect_to fridge_url(@fridge), notice: 'Fridge was successfully created.'
+      redirect_to fridge_url(@fridge), notice: 'Zutaten gespeichert.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -28,10 +35,8 @@ class FridgesController < ApplicationController
   def update
     old_ingredients = @fridge.ingredients
     if @fridge.update(fridge_params)
-      if old_ingredients == @fridge.ingredients
-        @fridge.update(recipe: nil)
-      end
-      redirect_to fridge_url(@fridge), notice: 'Fridge was successfully updated.'
+      @fridge.update(recipe: nil) if old_ingredients == @fridge.ingredients
+      redirect_to fridge_url(@fridge), notice: 'Kühlschrank aktualisiert.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -39,13 +44,19 @@ class FridgesController < ApplicationController
 
   def destroy
     @fridge.destroy
-
-    redirect_to fridges_url, notice: 'Fridge was successfully destroyed.'
+    redirect_to fridges_url, notice: 'Kühlschrank gelöscht.'
   end
 
   def generate_recipe
-    RecipeSuggestionService.new(fridge: @fridge).call # would be better to use a background job here :)
+    RecipeSuggestionService.new(fridge: @fridge).call
     head :no_content
+  end
+
+  def find_fooby_recipes
+    service = FoobyRecipeMatchService.new(fridge: @fridge)
+    results = service.call
+    @fridge.update(fooby_results: results)
+    redirect_to fridge_path(@fridge)
   end
 
   private

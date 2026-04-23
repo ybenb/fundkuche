@@ -24,6 +24,7 @@ gem 'simple_form'
 gem 'ruby-openai'
 gem 'store_model'
 gem 'mini_magick'
+gem 'devise'
 
 group :development, :test do
   gem 'better_errors'
