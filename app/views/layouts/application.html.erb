@@ -27,21 +27,35 @@
         </ul>
 
         <div class="fooby-nav__search">
-          <div class="fooby-nav__search-form">
+          <div class="fooby-nav__search-form d-none d-lg-block">
             <input type="text" placeholder="Was möchtest du kochen?">
             <i class="bi bi-search search-icon"></i>
           </div>
 
           <%= link_to fundkueche_path, class: 'fooby-nav__fundkueche-btn' do %>
             <i class="bi bi-snow2"></i>
-            Fundküche öffnen
+            <span class="d-none d-md-inline">Fundküche öffnen</span>
+            <span class="d-md-none">Fundküche</span>
           <% end %>
 
           <% if user_signed_in? %>
-            <div class="fooby-nav__user d-none d-md-flex">
-              <i class="bi bi-person-circle" style="font-size:1.25rem;color:#999"></i>
-              <%= link_to 'Abmelden', destroy_user_session_path, data: { turbo_method: :delete } %>
+            <div class="fooby-nav__user">
+              <div class="fooby-nav__myfooby-btn fooby-nav__myfooby-btn--active">
+                <i class="bi bi-person-fill"></i>
+                <span class="d-none d-md-inline">ZHAW</span>
+              </div>
+              <%= link_to destroy_user_session_path,
+                    data: { turbo_method: :delete },
+                    class: 'fooby-nav__signout',
+                    title: 'Abmelden' do %>
+                <i class="bi bi-box-arrow-right"></i>
+              <% end %>
             </div>
+          <% else %>
+            <%= link_to new_user_session_path, class: 'fooby-nav__myfooby-btn' do %>
+              <i class="bi bi-person"></i>
+              <span class="d-none d-md-inline">Anmelden</span>
+            <% end %>
           <% end %>
         </div>
       </div>

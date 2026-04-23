@@ -6,7 +6,7 @@ require 'json'
 
 class FoobyApiService
   BASE_URL = 'https://fooby.ch/hawaii_search.sri'
-  IMAGE_BASE_URL = 'https://fooby.ch/multimedia/rezept'
+  IMAGE_BASE_URL = 'https://recipecontent.fooby.ch'
 
   def search(query:, num: 6)
     uri = URI(BASE_URL)
@@ -33,8 +33,8 @@ class FoobyApiService
     search(query: 'Sommer', num: 8)
   end
 
-  def image_url(keyvisual, width: 400, height: 300)
-    "#{IMAGE_BASE_URL}/#{keyvisual}/#{width}/#{height}/image.jpg"
+  def image_url(keyvisual, width: 480, height: 320)
+    "#{IMAGE_BASE_URL}/#{keyvisual}_3-2_#{width}-#{height}.jpg"
   end
 
   private

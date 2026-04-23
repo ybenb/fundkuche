@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class FridgesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_fridge, only: %i[show edit update destroy generate_recipe find_fooby_recipes]
 
   def index
