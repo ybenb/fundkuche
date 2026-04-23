@@ -1,9 +1,12 @@
-<h1>Fridges</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="ks-page-title">My Fridges</h1>
+  <%= link_to new_fridge_path, class: 'btn btn-primary' do %>
+    <i class="bi bi-plus-lg me-1"></i>New fridge
+  <% end %>
+</div>
 
 <div id="fridges">
   <% @fridges.each do |fridge| %>
     <%= render 'fridge_overview', fridge: %>
   <% end %>
 </div>
-
-<%= link_to 'New fridge', new_fridge_path, class: 'btn' %>

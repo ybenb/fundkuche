@@ -1,8 +1,10 @@
-<p>
-  <%= fridge.ingredients_text %>
-</p>
-<p>
-  <%= simple_format fridge.recipe %>
-</p>
-<%= link_to 'Show fridge', fridge, class: 'btn btn-secondary' %>
-<hr>
+<div class="fridge-card">
+  <p class="fridge-card__meta"><i class="bi bi-basket2 me-1"></i>Fridge</p>
+  <p class="fridge-card__ingredients"><%= fridge.ingredients_text %></p>
+  <% if fridge.recipe.present? %>
+    <p class="fridge-card__recipe-preview"><%= fridge.recipe %></p>
+  <% end %>
+  <%= link_to fridge, class: 'btn btn-primary btn-sm' do %>
+    <i class="bi bi-arrow-right me-1"></i>View fridge
+  <% end %>
+</div>

@@ -1,12 +1,16 @@
-<tr class="nested-form-wrapper row ingredient">
-  <td class="col-1">
-    <button type="button" class="col btn mb-3" data-action="ingredients#remove">
-      <i class="bi bi-trash-fill fs-5"></i>
-    </button>
-  </td>
-  <td class="col"><%= f.input :name, label: false, placeholder: 'Name',
-                                     input_html: { data: { ingredients_target: 'nameInput' } } %></td>
-  <td class="col-3"><%= f.input :quantity, label: false, placeholder: 'Quantity',
-                                           input_html: { data: { ingredients_target: 'quantityInput' } } %></td>
+<div class="nested-form-wrapper d-flex gap-2 align-items-start mb-2 ingredient-row">
+  <div class="flex-grow-1">
+    <%= f.input :name, label: false, placeholder: 'Name',
+                       wrapper_html: { class: 'mb-0' },
+                       input_html: { data: { ingredients_target: 'nameInput' } } %>
+  </div>
+  <div class="quantity-input">
+    <%= f.input :quantity, label: false, placeholder: 'Qty',
+                           wrapper_html: { class: 'mb-0' },
+                           input_html: { data: { ingredients_target: 'quantityInput' } } %>
+  </div>
+  <button type="button" class="btn btn-outline-danger px-2" data-action="ingredients#remove">
+    <i class="bi bi-trash-fill"></i>
+  </button>
   <%= f.hidden_field :_destroy %>
-</tr>
+</div>

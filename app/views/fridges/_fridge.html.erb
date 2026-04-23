@@ -1,21 +1,31 @@
 <div id="<%= dom_id fridge %>">
-  <hr>
-  <h3>Ingredients 🥦</h3>
-  <table class="table">
-    <tr class="row">
-      <th class="col">Name</th>
-      <th class="col">Quantity</th>
-    </tr>
-    <% fridge.ingredients.each do |ingredient| %>
-      <tr class="row">
-        <td class="col"><%= ingredient.name %></td>
-        <td class="col"><%= ingredient.quantity %></td>
-      </tr>
-    <% end %>
-  </table>
+  <p class="ks-section mt-2">
+    <i class="bi bi-basket2-fill text-success"></i>Ingredients
+  </p>
+  <div class="table-responsive mb-3">
+    <table class="ks-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% fridge.ingredients.each do |ingredient| %>
+          <tr>
+            <td><%= ingredient.name %></td>
+            <td><%= ingredient.quantity %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-  <hr>
-  <h3 class="mb-3 fw-bold">Recipe 👨‍🍳</h3>
+  <hr class="my-3">
+
+  <p class="ks-section">
+    <i class="bi bi-journal-richtext text-success"></i>Recipe
+  </p>
   <div class="recipe-text">
     <%= simple_format(fridge.recipe) %>
   </div>

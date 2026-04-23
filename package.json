@@ -1,6 +1,5 @@
 {
   "name": "kitchen-sync",
-  "private": "true",
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.3.0",

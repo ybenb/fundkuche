@@ -1,8 +1,13 @@
-<%= image_tag 'Logo2.png', class: 'logo' %>
+<nav class="ks-navbar">
+  <%= image_tag 'Logo2.png', class: 'ks-logo' %>
+</nav>
 
-<div class="main-image position-relative">
-  <%= image_tag 'index-background.jpg', class: 'img-fluid main-image__image' %>
-  <h1 class="caption fw-bold text-center text-white fst-italic text-uppercase d-flex w-100 h-100 position-absolute justify-content-center align-items-center top-0 left-0 p-5">discover
-    delicious recipes based on
-    what's in your fridge</h1>
+<div class="ks-hero">
+  <%= image_tag 'index-background.jpg', class: 'ks-hero__image' %>
+  <div class="ks-hero__overlay">
+    <span class="ks-hero__badge">
+      <i class="bi bi-stars"></i> AI-Powered
+    </span>
+    <h1 class="ks-hero__title">Discover delicious recipes<br>based on what's in your fridge</h1>
+  </div>
 </div>

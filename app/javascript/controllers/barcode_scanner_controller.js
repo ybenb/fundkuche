@@ -13,7 +13,10 @@ export default class extends Controller {
     this.html5QrcodeScanner = new Html5QrcodeScanner(
       this.scannerTarget.id,
       {
-        qrbox: { width: 500, height: 500 },
+        qrbox: () => {
+          const width = Math.min(this.scannerTarget.offsetWidth || window.innerWidth - 32, 500);
+          return { width, height: Math.round(width / 2) };
+        },
         fps: 10,
         rememberLastUsedCamera: true,
         aspectRatio:
