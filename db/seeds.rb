@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-User.find_or_create_by(email: 'ybenb@zhaw.ch') do |u|
-  u.password = 'zhaw'
-  u.password_confirmation = 'zhaw'
-end
+user = User.find_or_initialize_by(email: 'ybenb@zhaw.ch')
+user.password = 'zhaw'
+user.password_confirmation = 'zhaw'
+user.save!
+puts "Demo user ready: #{user.email}"
