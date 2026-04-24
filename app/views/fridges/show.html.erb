@@ -1,112 +1,50 @@
 <%= turbo_stream_from(@fridge, :stream) %>
 
-<div class="fk-result-header">
-  <div class="fk-result-header__inner">
-    <nav aria-label="breadcrumb" style="font-size:0.8rem;margin-bottom:0.75rem">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><%= link_to 'fooby', root_path, style: 'color:var(--fooby-orange)' %></li>
-        <li class="breadcrumb-item"><%= link_to 'Fundküche', fundkueche_path, style: 'color:var(--fooby-orange)' %></li>
-        <li class="breadcrumb-item active" style="color:var(--fooby-text-muted)">Mein Kühlschrank</li>
-      </ol>
-    </nav>
-    <h1 class="fk-result-header__title">Dein Kühlschrank</h1>
-    <p class="fk-result-header__sub">
-      <%= @fridge.ingredients.size %> Zutaten erkannt –
-      <% if @fridge.ingredients.any? %>
-        <strong><%= @fridge.ingredients_text %></strong>
-      <% else %>
-        Noch keine Zutaten gespeichert.
+<div class="fk-result-page">
+
+  <%# Breadcrumb %>
+  <div class="fooby-breadcrumb">
+    <%= link_to 'fooby', root_path %><span>/</span>
+    <%= link_to 'Fundküche', fundkueche_path %><span>/</span>
+    Mein Kühlschrank
+  </div>
+
+  <%# Ingredient chips header %>
+  <div class="fk-fridge-summary">
+    <div class="fk-fridge-summary__left">
+      <h1 class="fk-fridge-summary__title">
+        <i class="bi bi-snow2"></i> Mein Kühlschrank
+      </h1>
+      <div class="fk-fridge-summary__chips">
+        <% @fridge.ingredients.each do |ing| %>
+          <span class="fridge-chip">
+            <i class="bi bi-check-circle-fill"></i>
+            <%= ing.name %><% if ing.quantity.present? %> <small>(<%= ing.quantity %>)</small><% end %>
+          </span>
+        <% end %>
+        <% if @fridge.ingredients.empty? %>
+          <span class="fridge-chip fridge-chip--empty">Noch keine Zutaten</span>
+        <% end %>
+      </div>
+    </div>
+    <div class="fk-fridge-summary__actions">
+      <%= link_to edit_fridge_path(@fridge), class: 'btn-fooby-outline btn-sm' do %>
+        <i class="bi bi-pencil"></i> Bearbeiten
       <% end %>
-    </p>
-  </div>
-</div>
-
-<div class="fooby-page pt-0">
-  <div class="d-flex flex-wrap gap-2 mb-4">
-    <%= button_to find_fooby_recipes_fridge_path(@fridge), class: 'btn-fooby' do %>
-      <i class="bi bi-search"></i> Passende Fooby-Rezepte finden
-    <% end %>
-
-    <%= button_to generate_recipe_fridge_path(@fridge), class: 'btn-fooby' do %>
-      <i class="bi bi-stars"></i> Rezept generieren (GPT)
-    <% end %>
-
-    <%= link_to edit_fridge_path(@fridge), class: 'btn btn-outline-secondary' do %>
-      <i class="bi bi-pencil me-1"></i>Zutaten bearbeiten
-    <% end %>
+      <%= button_to @fridge, method: :delete, class: 'btn btn-outline-danger btn-sm',
+          form: { style: 'display:inline' },
+          data: { turbo_confirm: 'Kühlschrank löschen?' } do %>
+        <i class="bi bi-trash"></i>
+      <% end %>
+    </div>
   </div>
 
+  <%# Recipe options — updated live via Turbo Stream when job completes %>
+  <div id="fridge_recipes">
+    <%= render 'recipe_results', fridge: @fridge, fooby_recipes: @fooby_recipes %>
+  </div>
+
+  <%# GPT recipe area %>
   <%= render @fridge %>
 
-  <%# Fooby Recipe Results %>
-  <% if @fooby_recipes.present? %>
-    <hr class="my-4">
-
-    <% option2 = @fooby_recipes.select { |r| r[:option]&.to_sym == :option2 || r['option'] == 'option2' } %>
-    <% option1 = @fooby_recipes.select { |r| r[:option]&.to_sym == :option1 || r['option'] == 'option1' } %>
-
-    <% if option2.any? %>
-      <div class="mb-2">
-        <span class="fk-options__badge mb-3 d-inline-block">Option 2 – Mit deinen Zutaten kochbar (≥80%)</span>
-      </div>
-      <div class="fooby-recipe-grid mb-5">
-        <% option2.each do |recipe| %>
-          <%= render 'recipe_result_card', recipe: recipe %>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% if option1.any? %>
-      <div class="mb-2">
-        <span class="fk-options__badge mb-3 d-inline-block" style="background:#EBF5FB;color:#2874A6">
-          Option 1 – Mit Coop-Einkaufsliste
-        </span>
-      </div>
-      <div class="fooby-recipe-grid mb-4">
-        <% option1.each do |recipe| %>
-          <%= render 'recipe_result_card', recipe: recipe %>
-        <% end %>
-      </div>
-
-      <%# Coop Coupon section for Option 1 %>
-      <div class="fk-coupons mt-4">
-        <div class="fk-coupons__heading">
-          <i class="bi bi-ticket-perforated me-2" style="color:#E00"></i>Deine Coop-Coupons
-        </div>
-        <p class="fk-coupons__sub">
-          Diese Coupons stehen dir jetzt zur Verfügung – passend zu den fehlenden Zutaten.
-        </p>
-        <div class="fk-coupons__grid">
-          <% option1.first(4).each do |recipe| %>
-            <% missing = recipe[:missing_ingredients] || recipe['missing_ingredients'] || [] %>
-            <% missing.first(1).each do |ingredient| %>
-              <div class="fk-coupons__item">
-                <div style="width:100%;aspect-ratio:3/2;background:linear-gradient(135deg,#fff1f1,#ffe0e0);
-                            display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem">
-                  <div style="width:80px;height:25px;background:#E00;border-radius:3px;display:flex;
-                              align-items:center;justify-content:center;color:white;font-size:0.7rem;
-                              font-weight:900;letter-spacing:0.05em">COOP</div>
-                  <div style="font-size:1.1rem;font-weight:900;color:#E00">10% Rabatt</div>
-                </div>
-                <div class="fk-coupons__item-body">
-                  <div class="fk-coupons__item-title"><%= ingredient %></div>
-                  <div class="fk-coupons__item-discount">10% Rabatt</div>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
-
-  <div class="d-flex gap-2 mt-4">
-    <%= link_to fundkueche_path, class: 'btn btn-outline-secondary btn-sm' do %>
-      <i class="bi bi-arrow-left me-1"></i>Zur Fundküche
-    <% end %>
-    <%= button_to @fridge, method: :delete, class: 'btn btn-outline-danger btn-sm',
-        data: { confirm: 'Kühlschrank löschen?' } do %>
-      <i class="bi bi-trash me-1"></i>Löschen
-    <% end %>
-  </div>
 </div>

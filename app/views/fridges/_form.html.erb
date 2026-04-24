@@ -6,23 +6,48 @@
 
 <div class="mb-4" data-controller="image-detection"
      data-image-detection-ingredients-outlet="[data-controller=ingredients]">
+
+  <%# Hidden inputs — programmatically triggered so display:none is fine %>
+  <input type="file" accept="image/*" capture="environment"
+         style="display:none"
+         data-image-detection-target="cameraInput"
+         data-action="change->image-detection#uploadFromCamera">
+  <input type="file" accept="image/*"
+         style="display:none"
+         data-image-detection-target="galleryInput"
+         data-action="change->image-detection#uploadFromGallery">
+
   <div class="d-flex gap-2 mb-2">
-    <label class="btn-fooby flex-fill justify-content-center" style="cursor:pointer">
+    <button type="button" class="btn-fooby flex-fill justify-content-center"
+            data-action="image-detection#openCamera">
       <i class="bi bi-camera me-1"></i> Kamera
-      <input type="file" accept="image/*" capture="environment" class="d-none"
-             data-image-detection-target="input"
-             data-action="change->image-detection#upload">
-    </label>
-    <label class="btn-fooby-outline flex-fill justify-content-center" style="cursor:pointer">
+    </button>
+    <button type="button" class="btn-fooby-outline flex-fill justify-content-center"
+            data-action="image-detection#openGallery">
       <i class="bi bi-upload me-1"></i> Galerie
-      <input type="file" accept="image/*" class="d-none"
-             data-image-detection-target="input"
-             data-action="change->image-detection#upload">
-    </label>
+    </button>
   </div>
   <p style="font-size:12px;color:var(--fooby-muted)">
     <i class="bi bi-stars me-1"></i>KI erkennt Zutaten automatisch aus dem Foto.
   </p>
+
+  <%# Camera modal %>
+  <div data-image-detection-target="modal"
+       style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;flex-direction:column;align-items:center;justify-content:center;">
+    <video data-image-detection-target="video" autoplay playsinline
+           style="max-width:100%;max-height:70vh;border-radius:8px;"></video>
+    <canvas data-image-detection-target="canvas" style="display:none;"></canvas>
+    <div class="d-flex gap-3 mt-3">
+      <button type="button" class="btn-fooby px-4 py-2" style="font-size:16px;"
+              data-action="image-detection#capture">
+        <i class="bi bi-camera-fill me-1"></i> Foto aufnehmen
+      </button>
+      <button type="button" class="btn-fooby-outline px-4 py-2" style="font-size:16px;color:#fff;border-color:#fff;"
+              data-action="image-detection#closeCamera">
+        <i class="bi bi-x-lg me-1"></i> Abbrechen
+      </button>
+    </div>
+  </div>
 </div>
 
 <%= simple_form_for(@fridge,
@@ -38,7 +63,9 @@
        data-barcode-scanner-ingredients-outlet="[data-controller=ingredients]" class="mb-4">
     <div id="barcode-scanner" class="w-100 mb-2" data-barcode-scanner-target="scanner"></div>
     <audio src="<%= asset_path('beep.wav') %>" preload data-barcode-scanner-target="audio"></audio>
-    <button type="button" class="btn-fooby-outline w-100" data-action="barcode-scanner#startScanner">
+    <button type="button" class="btn-fooby-outline w-100"
+            data-barcode-scanner-target="startBtn"
+            data-action="barcode-scanner#startScanner">
       <i class="bi bi-upc-scan me-1"></i> Barcode-Scanner starten
     </button>
   </div>

@@ -7,6 +7,8 @@
     <%= csp_meta_tag %>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://recipecontent.fooby.ch" crossorigin>
+    <link rel="dns-prefetch" href="https://recipecontent.fooby.ch">
     <link href="https://fonts.googleapis.com/css2?family=Amatica+SC:wght@400;700&family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload', defer: true %>
@@ -36,9 +38,6 @@
         <div class="fooby-topbar__lang">
           <span>DE</span> · FR · IT · EN
         </div>
-        <%= link_to fundkueche_path, class: 'fooby-topbar__fundkueche' do %>
-          <i class="bi bi-snow2"></i> Fundküche öffnen
-        <% end %>
       </div>
     </div>
 
@@ -139,6 +138,10 @@
     <% end %>
 
     <%= yield %>
+
+    <div style="position: fixed; bottom: 16px; right: 16px; background-color: #1a56a0; color: #fff; font-size: 12px; font-family: sans-serif; padding: 8px 14px; border-radius: 6px; z-index: 9999; line-height: 1.4; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.25); pointer-events: none;">
+      DEMO Version für Versuchszwecke<br><strong>ZHAW</strong>
+    </div>
 
   </body>
 </html>

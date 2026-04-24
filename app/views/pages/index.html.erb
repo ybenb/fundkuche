@@ -1,97 +1,69 @@
-<%# Fooby Homepage 1:1 replica %>
+<%# Fooby Homepage %>
 
 <%# ── Search hero ── %>
-<div class="fooby-search-hero">
-  <div class="fooby-search-hero__title">Was möchtest du kochen?</div>
-  <p class="fooby-search-hero__sub">Über 7000 Rezepte – entdecke dein nächstes Lieblingsgericht.</p>
+<div class="fooby-search-hero" data-controller="recipe-search">
 
-  <div class="fooby-search-hero__form">
-    <input type="text" placeholder="Rezepte, Zutaten, Kategorien ...">
-    <button type="button">
-      <i class="bi bi-search"></i>
-      Suchen
-    </button>
+  <div class="fooby-search-hero__card">
+    <div class="fooby-search-hero__badge">Suchen &amp; Finden</div>
+    <div class="fooby-search-hero__title">Was möchtest du kochen?</div>
+
+    <%= form_with url: root_path, method: :get,
+          data: {
+            recipe_search_target: 'form',
+            turbo_frame: 'recipes',
+            turbo_action: 'advance'
+          } do |f| %>
+      <%= hidden_field_tag :category, @category %>
+      <div class="fooby-search-hero__form-wrap">
+        <div class="fooby-search-hero__form">
+          <i class="bi bi-search fooby-search-hero__form-icon"></i>
+          <%= f.text_field :q, value: @query,
+                placeholder: 'Rezepte, Zutaten, Trends ...',
+                autocomplete: 'off',
+                data: {
+                  recipe_search_target: 'input',
+                  action: 'input->recipe-search#search'
+                } %>
+        </div>
+      </div>
+    <% end %>
+
+    <%= link_to fundkueche_path, class: 'fooby-search-hero__fundkueche-cta' do %>
+      <i class="bi bi-snow2"></i>
+      Fundküche – Rezepte aus deinem Kühlschrank
+    <% end %>
   </div>
-
-  <%= link_to fundkueche_path, class: 'fooby-search-hero__fundkueche-cta' do %>
-    <i class="bi bi-snow2"></i>
-    Fundküche – Rezepte aus deinem Kühlschrank
-  <% end %>
 </div>
 
 <%# ── Main content ── %>
 <div class="fooby-page">
 
-  <%# Filter bar %>
+  <%# Filter bar: plain links targeting the recipes turbo frame %>
   <div class="fooby-filter-bar">
-    <% [
-      'Alle', 'Frühstück', 'Hauptgericht', 'Desserts',
-      'Vegetarisch', 'Vegan', 'Ohne Laktose', 'Schnell', 'Backen', 'Salate', 'Suppen'
-    ].each_with_index do |cat, i| %>
-      <a href="#" class="fooby-filter-bar__item <%= 'fooby-filter-bar__item--active' if i == 0 %>">
-        <%= cat %>
-      </a>
+    <% [['Alle', ''], ['Frühstück', 'Frühstück'], ['Hauptgericht', 'Hauptgericht'],
+        ['Desserts', 'Desserts'], ['Vegetarisch', 'Vegetarisch'], ['Vegan', 'Vegan'],
+        ['Ohne Laktose', 'Ohne Laktose'], ['Schnell', 'Schnell'],
+        ['Backen', 'Backen'], ['Salate', 'Salate'], ['Suppen', 'Suppen']].each do |label, cat| %>
+      <%= link_to label, root_path(category: cat, q: ''),
+            class: "fooby-filter-bar__item #{@category == cat ? 'fooby-filter-bar__item--active' : ''}",
+            data: { turbo_frame: 'recipes', turbo_action: 'advance' } %>
     <% end %>
   </div>
 
-  <%# Recipe grid with real Fooby images %>
-  <h2 class="fooby-section-heading">Aktuelle Rezepte</h2>
-
-  <div class="fooby-teaser-grid">
-    <% if @featured_recipes.present? %>
-      <% @featured_recipes.each do |recipe| %>
-        <a href="<%= recipe[:url] %>" target="_blank" rel="noopener" class="teaser">
-          <div class="teaser__img-container">
-            <img class="teaser__img"
-                 src="<%= recipe[:image_url] %>"
-                 alt="<%= recipe[:title] %>"
-                 loading="lazy"
-                 onerror="this.style.display='none';this.parentElement.querySelector('.teaser__img-placeholder').style.display='flex'">
-            <div class="teaser__img-placeholder" style="display:none">
-              <i class="bi bi-image"></i>
-            </div>
-          </div>
-          <div class="teaser__inner">
-            <div class="teaser__header">
-              <span class="teaser__type">Rezept</span>
-            </div>
-            <div class="teaser__body">
-              <div class="teaser__body-title"><%= recipe[:title] %></div>
-            </div>
-          </div>
-          <div class="teaser__meta-block">
-            <div class="teaser__meta-inner">
-              <% if recipe[:active_time].present? %>
-                <span class="teaser__meta-item">
-                  <i class="bi bi-clock"></i> <%= recipe[:active_time] %> Min.
-                </span>
-              <% end %>
-              <% if recipe[:diet].present? %>
-                <% recipe[:diet].split(',').first(1).each do |d| %>
-                  <span class="teaser__diet-tag"><%= d.strip %></span>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </a>
-      <% end %>
+  <%# Section heading %>
+  <h2 class="fooby-section-heading">
+    <% if @category.present? %>
+      <%= @category %>
+    <% elsif @query.present? %>
+      Ergebnisse für „<%= @query %>"
     <% else %>
-      <%# Skeleton cards while loading %>
-      <% 8.times do %>
-        <div class="teaser teaser--skeleton">
-          <div class="teaser__img-container"></div>
-          <div class="teaser__inner">
-            <div class="skeleton-line" style="width:30%;height:10px;margin-bottom:8px"></div>
-            <div class="skeleton-line" style="width:85%;height:18px;margin-bottom:6px"></div>
-            <div class="skeleton-line" style="width:60%;height:14px"></div>
-          </div>
-          <div class="teaser__meta-block">
-            <div class="skeleton-line" style="width:50%;height:10px"></div>
-          </div>
-        </div>
-      <% end %>
+      Aktuelle Rezepte
     <% end %>
-  </div>
+  </h2>
+
+  <%= turbo_frame_tag :recipes do %>
+    <%= render 'pages/recipes_frame' %>
+  <% end %>
 
   <%# Fundküche promo strip %>
   <div class="fooby-promo-strip">

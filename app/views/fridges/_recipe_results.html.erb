@@ -1,0 +1,155 @@
+<%# locals: (fridge:, fooby_recipes:) %>
+<% option2 = (fooby_recipes || []).select { |r| (r[:option] || r['option']).to_s == 'option2' } %>
+<% option1 = (fooby_recipes || []).select { |r| (r[:option] || r['option']).to_s == 'option1' } %>
+
+<% if option2.any? || option1.any? %>
+  <div class="fk-options-grid" data-controller="recipe-options">
+
+    <%# Option 2 — cook now %>
+    <% if option2.any? %>
+      <div class="fk-opt-panel fk-opt-panel--green">
+        <div class="fk-opt-panel__header">
+          <div class="fk-opt-panel__badge">Option 2</div>
+          <div class="fk-opt-panel__title"><i class="bi bi-snow2"></i> Jetzt kochen</div>
+          <p class="fk-opt-panel__desc">Du hast bereits ≥80 % der Zutaten – leg los!</p>
+        </div>
+
+        <div class="fk-opt-panel__recipes">
+          <% option2.each do |recipe| %>
+            <% missing = (recipe[:missing_ingredients] || recipe['missing_ingredients'] || []).compact %>
+            <% score   = ((recipe[:match_score] || recipe['match_score']).to_f * 100).round %>
+            <% url     = recipe[:url] || recipe['url'] %>
+            <% img     = recipe[:image_url] || recipe['image_url'] %>
+            <% title   = recipe[:title] || recipe['title'] %>
+
+            <div class="fk-recipe-item"
+                 data-recipe-options-target="row"
+                 data-option="option2"
+                 data-missing="<%= missing.to_json.gsub('"', '&quot;') %>">
+
+              <div class="fk-recipe-item__main" data-action="click->recipe-options#toggle">
+                <img src="<%= img %>" alt="" loading="lazy" decoding="async"
+                     onerror="this.style.display='none'">
+                <div class="fk-recipe-item__body">
+                  <div class="fk-recipe-item__name"><%= title %></div>
+                  <% if missing.any? %>
+                    <div class="fk-recipe-item__missing">
+                      <i class="bi bi-cart3"></i> Noch: <%= missing.join(', ') %>
+                    </div>
+                  <% else %>
+                    <div class="fk-recipe-item__match"><i class="bi bi-check-all"></i> Alle Zutaten vorhanden</div>
+                  <% end %>
+                </div>
+                <div class="fk-recipe-item__right">
+                  <div class="fk-recipe-item__score"><%= score %>%</div>
+                  <a href="<%= url %>" target="_blank" rel="noopener"
+                     class="fk-recipe-item__link" data-turbo="false"
+                     onclick="event.stopPropagation()">
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </a>
+                  <i class="bi bi-chevron-down fk-recipe-item__chevron"></i>
+                </div>
+              </div>
+
+              <div class="recipe-detail">
+                <% if missing.any? %>
+                  <div class="recipe-detail__label">Fehlende Zutaten für dieses Rezept:</div>
+                  <div class="recipe-detail__missing-chips">
+                    <% missing.each do |m| %>
+                      <span class="recipe-missing-chip"><i class="bi bi-bag-plus"></i> <%= m %></span>
+                    <% end %>
+                  </div>
+                <% else %>
+                  <div class="recipe-detail__label"><i class="bi bi-stars"></i> Perfekte Übereinstimmung!</div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Option 1 — with shopping list %>
+    <% if option1.any? %>
+      <div class="fk-opt-panel fk-opt-panel--orange">
+        <div class="fk-opt-panel__header">
+          <div class="fk-opt-panel__badge fk-opt-panel__badge--orange">Option 1</div>
+          <div class="fk-opt-panel__title"><i class="bi bi-bag-check"></i> Mit Einkaufsliste</div>
+          <p class="fk-opt-panel__desc">Tolles Rezept – fehlende Zutaten bei Coop kaufen.</p>
+        </div>
+
+        <div class="fk-opt-panel__recipes">
+          <% option1.each do |recipe| %>
+            <% missing = (recipe[:missing_ingredients] || recipe['missing_ingredients'] || []).compact %>
+            <% url     = recipe[:url] || recipe['url'] %>
+            <% img     = recipe[:image_url] || recipe['image_url'] %>
+            <% title   = recipe[:title] || recipe['title'] %>
+
+            <div class="fk-recipe-item"
+                 data-recipe-options-target="row"
+                 data-option="option1"
+                 data-missing="<%= missing.to_json.gsub('"', '&quot;') %>">
+
+              <div class="fk-recipe-item__main" data-action="click->recipe-options#toggle">
+                <img src="<%= img %>" alt="" loading="lazy" decoding="async"
+                     onerror="this.style.display='none'">
+                <div class="fk-recipe-item__body">
+                  <div class="fk-recipe-item__name"><%= title %></div>
+                  <% if missing.any? %>
+                    <div class="fk-recipe-item__missing">
+                      <i class="bi bi-cart-plus"></i> Einkaufen: <%= missing.join(', ') %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="fk-recipe-item__right">
+                  <a href="<%= url %>" target="_blank" rel="noopener"
+                     class="fk-recipe-item__link" data-turbo="false"
+                     onclick="event.stopPropagation()">
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </a>
+                  <i class="bi bi-chevron-down fk-recipe-item__chevron"></i>
+                </div>
+              </div>
+
+              <div class="recipe-detail">
+                <% if missing.any? %>
+                  <div class="recipe-detail__label">Das musst du noch kaufen:</div>
+                  <div class="recipe-detail__missing-chips">
+                    <% missing.each do |m| %>
+                      <span class="recipe-missing-chip recipe-missing-chip--orange">
+                        <i class="bi bi-bag-plus"></i> <%= m %>
+                      </span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <%# Coupon zone — fills full width below both panels %>
+    <div class="fk-coupon-zone" data-recipe-options-target="couponZone">
+      <p class="fk-coupon-zone__hint">
+        <i class="bi bi-hand-index-thumb"></i> Klicke auf ein Rezept, um Coop-Coupons zu sehen.
+      </p>
+    </div>
+
+  </div>
+
+<% elsif fridge.ingredients.any? %>
+  <div class="fk-options-empty" id="fk-loading-state">
+    <div class="spinner-border text-success mb-3" role="status" style="width:2.5rem;height:2.5rem;">
+      <span class="visually-hidden">Laden…</span>
+    </div>
+    <p>Passende Rezepte werden gesucht…</p>
+    <p class="text-muted small">Das dauert nur wenige Sekunden.</p>
+  </div>
+
+<% else %>
+  <div class="fk-options-empty">
+    <i class="bi bi-basket2"></i>
+    <p>Noch keine Zutaten – <%= link_to 'Kühlschrank füllen', fundkueche_scan_path %>.</p>
+  </div>
+<% end %>

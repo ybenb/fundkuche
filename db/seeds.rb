@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-User.find_or_create_by(email: 'zhaw@fundkueche.ch') do |u|
-  u.password = 'ZHAW'
-  u.password_confirmation = 'ZHAW'
+User.find_or_create_by(email: 'ybenb@zhaw.ch') do |u|
+  u.password = 'zhaw'
+  u.password_confirmation = 'zhaw'
 end

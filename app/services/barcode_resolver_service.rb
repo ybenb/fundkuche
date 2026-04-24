@@ -2,43 +2,61 @@
 
 require 'net/http'
 require 'uri'
+require 'json'
 
 class BarcodeResolverService
-  attr_reader :uri
-
   def initialize(barcode_number:)
-    @uri = URI.parse("https://go-upc.com/api/v1/code/#{barcode_number}")
+    @barcode = barcode_number.to_s.strip
   end
 
   def call
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request['Content-Type'] = 'application/json'
-    request['Accept'] = 'application/json'
-    request['Authorization'] = "Bearer #{ENV['GOUPC_API_KEY'] || Rails.application.credentials.goupc&.api_key}"
-
-    response = perform_request(http_request: request)
-    handle_response(response:)
+    try_open_food_facts || try_goupc || raise("Produkt nicht gefunden für Barcode #{@barcode}")
   end
 
   private
 
-  def perform_request(http_request:)
-    request_options = { read_timeout: 5, open_timeout: 3, use_ssl: uri.scheme == 'https' }
-    response = Net::HTTP.start(uri.host, uri.port, **request_options) do |http|
-      http.request(http_request)
-    end
+  # Free, no API key required — covers most European EAN-13 barcodes
+  def try_open_food_facts
+    uri = URI("https://world.openfoodfacts.org/api/v0/product/#{@barcode}.json")
+    response = get(uri)
+    return nil unless response.is_a?(Net::HTTPSuccess)
 
-    response.tap do |res|
-      res.body = JSON.parse(res.body)
-    end
+    body = JSON.parse(response.body)
+    return nil unless body['status'] == 1
+
+    product = body['product']
+    # Prefer German name, fall back to generic name, then product_name
+    name = product['product_name_de'].presence ||
+           product['generic_name_de'].presence ||
+           product['product_name'].presence ||
+           product['generic_name'].presence
+    name&.strip.presence
+  rescue StandardError
+    nil
   end
 
-  def handle_response(response:)
-    case response
-    when Net::HTTPSuccess
-      response.body['product']['name']
-    else
-      raise "Request failed with status #{response.code}"
+  # GoUPC fallback (requires API key in credentials.goupc.api_key or ENV GOUPC_API_KEY)
+  def try_goupc
+    api_key = ENV['GOUPC_API_KEY'] || Rails.application.credentials.goupc&.api_key
+    return nil if api_key.blank?
+
+    uri = URI("https://go-upc.com/api/v1/code/#{@barcode}")
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = "Bearer #{api_key}"
+    req['Accept']        = 'application/json'
+
+    response = get(uri, request: req)
+    return nil unless response.is_a?(Net::HTTPSuccess)
+
+    JSON.parse(response.body).dig('product', 'name')&.strip.presence
+  rescue StandardError
+    nil
+  end
+
+  def get(uri, request: Net::HTTP::Get.new(uri))
+    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https',
+                                        open_timeout: 4, read_timeout: 6) do |http|
+      http.request(request)
     end
   end
 end

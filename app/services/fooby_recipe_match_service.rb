@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FoobyRecipeMatchService
-  MATCH_THRESHOLD = 0.8
+  MATCH_THRESHOLD = 0.5
 
   def initialize(fridge:)
     @fridge = fridge
@@ -15,10 +15,7 @@ class FoobyRecipeMatchService
     candidates = @api.search(query: ingredient_names.first(4).join(' '), num: 12)
     return [] if candidates.empty?
 
-    candidates.map { |recipe| enrich_with_match(recipe) }
-              .select { |r| r[:match_score] >= MATCH_THRESHOLD }
-              .sort_by { |r| -r[:match_score] }
-              .first(6)
+    batch_analyze(candidates)
   end
 
   private
@@ -27,43 +24,50 @@ class FoobyRecipeMatchService
     @ingredient_names ||= @fridge.ingredients.map(&:name).reject(&:blank?)
   end
 
-  def enrich_with_match(recipe)
-    analysis = gpt_match_analysis(recipe[:title])
-    recipe.merge(
-      match_score: analysis[:score],
-      missing_ingredients: analysis[:missing],
-      alternatives: analysis[:alternatives],
-      option: analysis[:score] >= MATCH_THRESHOLD ? :option2 : :option1
-    )
-  end
+  def batch_analyze(candidates)
+    titles = candidates.map.with_index(1) { |r, i| "#{i}. #{r[:title]}" }.join("\n")
 
-  def gpt_match_analysis(recipe_title)
     prompt = <<~PROMPT
       Kühlschrank-Zutaten: #{ingredient_names.join(', ')}
 
-      Rezept: "#{recipe_title}"
+      Analysiere diese #{candidates.size} Rezepte und wie gut sie zu den Zutaten passen.
+      #{titles}
 
-      Analysiere kurz:
-      1. Welche Zutaten fehlen typischerweise für dieses Rezept?
-      2. Welcher Prozentsatz (0.0 bis 1.0) der Zutaten ist vorhanden?
-      3. Schlage kurze Alternativen für fehlende Zutaten vor.
+      Antworte NUR als JSON-Array (kein Markdown, keine Erklärung):
+      [{"index":1,"score":0.85,"missing":["Sahne","Knoblauch"]},...]
 
-      Antworte NUR als JSON: {"score": 0.85, "missing": ["Sahne", "Knoblauch"], "alternatives": {"Sahne": "Joghurt", "Knoblauch": "Knoblauchpulver"}}
+      score: 0.0-1.0 (Anteil der vorhandenen Zutaten)
+      missing: Liste der fehlenden Hauptzutaten (max. 4)
     PROMPT
 
     response = @openai.chat(
       parameters: {
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: prompt }],
-        temperature: 0.3,
-        max_tokens: 200
+        temperature: 0.2,
+        max_tokens: 800
       }
     )
 
-    content = response.dig('choices', 0, 'message', 'content').to_s
-    json = JSON.parse(content)
-    { score: json['score'].to_f, missing: json['missing'] || [], alternatives: json['alternatives'] || {} }
-  rescue StandardError
-    { score: 0.5, missing: [], alternatives: {} }
+    raw = response.dig('choices', 0, 'message', 'content').to_s.strip
+    raw = raw.gsub(/\A```(?:json)?\s*/i, '').gsub(/\s*```\z/, '').strip
+    analyses = JSON.parse(raw)
+
+    results = candidates.map.with_index(1) do |recipe, i|
+      a = analyses.find { |x| x['index'] == i } || { 'score' => 0.5, 'missing' => [] }
+      score = a['score'].to_f
+      recipe.merge(
+        match_score: score,
+        missing_ingredients: (a['missing'] || []).compact,
+        option: score >= 0.8 ? 'option2' : 'option1'
+      )
+    end
+
+    results.select { |r| r[:match_score] >= MATCH_THRESHOLD }
+           .sort_by { |r| -r[:match_score] }
+           .first(6)
+  rescue StandardError => e
+    Rails.logger.error("FoobyRecipeMatchService error: #{e.message}")
+    []
   end
 end

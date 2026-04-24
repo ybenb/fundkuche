@@ -1,105 +1,96 @@
 import { Controller } from '@hotwired/stimulus';
 import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from 'html5-qrcode';
-/* eslint-disable no-console */
 
 export default class extends Controller {
-  static targets = ['scanner', 'audio'];
-
+  static targets = ['scanner', 'audio', 'startBtn'];
   static outlets = ['ingredients'];
 
-  html5QrcodeScanner = null;
-
-  connect() {
-    this.html5QrcodeScanner = new Html5QrcodeScanner(
-      this.scannerTarget.id,
-      {
-        qrbox: () => {
-          const width = Math.min(this.scannerTarget.offsetWidth || window.innerWidth - 32, 500);
-          return { width, height: Math.round(width / 2) };
-        },
-        fps: 10,
-        rememberLastUsedCamera: true,
-        aspectRatio:
-                    1.7777778,
-        showTorchButtonIfSupported:
-                    true,
-        formatsToSupport:
-                    [Html5QrcodeSupportedFormats.EAN_13],
-      },
-      /* verbose= */
-      false,
-    );
-  }
+  #scanner = null;
+  #lastCode = null;
 
   startScanner(event) {
     event.preventDefault();
-    const { target } = event;
-    target.parentNode.removeChild(target);
-    this.html5QrcodeScanner.render(
-      (decodedText, decodedResult) => {
-        this.onScanSuccess(decodedText, decodedResult);
+    if (this.hasStartBtnTarget) this.startBtnTarget.remove();
+
+    this.#scanner = new Html5QrcodeScanner(
+      this.scannerTarget.id,
+      {
+        fps: 10,
+        qrbox: () => {
+          const w = Math.min(this.scannerTarget.offsetWidth || 400, 500);
+          return { width: w, height: Math.round(w / 2) };
+        },
+        rememberLastUsedCamera: true,
+        aspectRatio: 1.7777778,
+        showTorchButtonIfSupported: true,
+        formatsToSupport: [
+          Html5QrcodeSupportedFormats.EAN_13,
+          Html5QrcodeSupportedFormats.EAN_8,
+          Html5QrcodeSupportedFormats.UPC_A,
+          Html5QrcodeSupportedFormats.UPC_E,
+        ],
       },
-      (error) => {
-        this.onScanFailure(error);
-      },
+      false,
+    );
+
+    this.#scanner.render(
+      (code) => this.#onSuccess(code),
+      () => { /* ignore per-frame failures */ },
     );
   }
 
-  onScanSuccess(decodedText, decodedResult) {
-    console.log(`Code matched = ${decodedText}`, decodedResult);
-    if (this.lastScannedCode !== decodedText) {
-      this.lastScannedCode = decodedText;
-      this.audioTarget.play();
+  #onSuccess(code) {
+    if (code === this.#lastCode) return;
+    this.#lastCode = code;
 
-      this.addAlert(decodedText);
-      this.resolveBarcode(decodedText);
-      this.html5QrcodeScanner.stop();
-      setTimeout(() => {
-        this.html5QrcodeScanner.start();
-        console.log('scanner re-enabled');
-      }, 3000);
-    }
+    if (this.hasAudioTarget) this.audioTarget.play().catch(() => {});
+
+    // Pause scanner while resolving
+    this.#scanner.pause(true);
+    this.#showBanner('info', `Barcode erkannt: ${code} – Produkt wird gesucht…`);
+
+    fetch(`/barcodes/resolve?barcode_number=${encodeURIComponent(code)}`, {
+      headers: { 'X-CSRF-Token': this.#csrfToken, Accept: 'application/json' },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.error) throw new Error(data.error);
+
+        this.ingredientsOutlet.add(new Event(''));
+        const names = this.ingredientsOutlet.nameInputTargets;
+        names[names.length - 1].value = data.product_name;
+
+        this.#showBanner('success', `✓ „${data.product_name}" hinzugefügt`);
+      })
+      .catch(() => {
+        this.#showBanner('danger', `Produkt für Barcode ${code} nicht gefunden.`);
+      })
+      .finally(() => {
+        // Resume scanning after 2.5 s and allow the same code again
+        setTimeout(() => {
+          this.#lastCode = null;
+          try { this.#scanner.resume(); } catch { /* already stopped */ }
+        }, 2500);
+      });
   }
 
-  addAlert(decodedText) {
-    const alert = document.createElement('div');
-    alert.classList.add('alert', 'alert-success', 'alert-dismissible', 'fade', 'show');
-    alert.setAttribute('role', 'alert');
-    alert.innerHTML = `<strong>Success!</strong> Scanned code: ${decodedText}. Scan the next product...`;
-    const closeButton = document.createElement('button');
-    closeButton.classList.add('btn-close');
-    closeButton.setAttribute('type', 'button');
-    closeButton.setAttribute('data-bs-dismiss', 'alert');
-    closeButton.setAttribute('aria-label', 'Close');
-    alert.appendChild(closeButton);
-    document.querySelector('main').prepend(alert);
+  disconnect() {
+    try { this.#scanner?.clear(); } catch { /* ignore */ }
   }
 
-  onScanFailure(error) {
-    // handle scan failure, usually better to ignore and keep scanning.
-    // for example:
-    console.warn(`Code scan error = ${error}`);
+  #showBanner(type, message) {
+    // Remove previous banner
+    this.element.querySelector('.barcode-banner')?.remove();
+
+    const banner = document.createElement('div');
+    banner.className = `barcode-banner alert alert-${type} alert-dismissible fade show mt-2 mb-0`;
+    banner.style.fontSize = '13px';
+    banner.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+    this.scannerTarget.insertAdjacentElement('afterend', banner);
+    setTimeout(() => banner.remove(), 5000);
   }
 
-  resolveBarcode(decodedText) {
-    const params = new URLSearchParams({
-      barcode_number: decodedText,
-    });
-
-    fetch(`/barcodes/resolve?${params}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': this.csrfToken,
-      },
-    }).then((res) => res.json()).then((data) => {
-      this.ingredientsOutlet.add(new Event(''));
-      this.ingredientsOutlet.nameInputTargets[this.ingredientsOutlet.nameInputTargets.length - 1].value = data.product_name;
-    });
-  }
-
-  get csrfToken() {
+  get #csrfToken() {
     return document.querySelector('meta[name="csrf-token"]').content;
   }
 }

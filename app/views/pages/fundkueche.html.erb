@@ -1,19 +1,21 @@
 <%# Fundküche Landing Page – Fooby-style %>
 
 <div class="fk-hero">
-  <div class="fk-hero__badge">
-    <i class="bi bi-stars"></i> KI-gestützt
+  <div class="fk-hero__card">
+    <div class="fk-hero__badge">
+      <i class="bi bi-stars"></i> KI-gestützt
+    </div>
+    <h1 class="fk-hero__title">Die Fundküche</h1>
+    <p class="fk-hero__sub">
+      Fotografiere deinen Kühlschrank – unsere KI erkennt deine Zutaten und schlägt dir
+      passende Fooby-Rezepte vor. Kochen was vorhanden ist, oder fehlende Zutaten günstig
+      bei Coop einkaufen.
+    </p>
+    <%= link_to fundkueche_scan_path, class: 'fk-hero__cta' do %>
+      <i class="bi bi-camera-fill"></i>
+      Jetzt Kühlschrank scannen
+    <% end %>
   </div>
-  <h1 class="fk-hero__title">Die Fundküche</h1>
-  <p class="fk-hero__sub">
-    Fotografiere deinen Kühlschrank – unsere KI erkennt deine Zutaten und schlägt dir
-    passende Fooby-Rezepte vor. Kochen was vorhanden ist, oder fehlende Zutaten günstig
-    bei Coop einkaufen.
-  </p>
-  <%= link_to fundkueche_scan_path, class: 'fk-hero__cta' do %>
-    <i class="bi bi-camera-fill"></i>
-    Jetzt Kühlschrank scannen
-  <% end %>
 </div>
 
 <div class="fk-steps">
@@ -77,25 +79,28 @@
     Diese Coupons stehen dir jetzt zur Verfügung – passend zu den Rezepten, die wir für dich gefunden haben.
   </p>
   <div class="fk-coupons__grid">
-    <%# Placeholder coupons – dynamisch nach Rezept %>
     <% [
-      { title: 'Frische Pasta', discount: '20% Rabatt', img: nil },
-      { title: 'Saisonales Gemüse', discount: 'CHF 1.50 Rabatt', img: nil },
-      { title: 'Bio-Rahm', discount: '10% Rabatt', img: nil },
-      { title: 'Schweizer Käse', discount: 'CHF 2.00 Rabatt', img: nil }
-    ].each do |coupon| %>
-      <div class="fk-coupons__item">
-        <div style="width:100%;aspect-ratio:3/2;background:linear-gradient(135deg,#fff1f1,#ffe0e0);
-                    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem">
-          <div style="width:80px;height:25px;background:#E00;border-radius:3px;display:flex;align-items:center;
-                      justify-content:center;color:white;font-size:0.7rem;font-weight:900;letter-spacing:0.05em">
-            COOP
-          </div>
-          <div style="font-size:1.25rem;font-weight:900;color:#E00"><%= coupon[:discount] %></div>
+      { title: 'Frische Pasta',     sub: 'Alle Sorten, 500 g',       discount: '20%',      emoji: '🍝', code: '4 104823 112093' },
+      { title: 'Saisonales Gemüse', sub: 'Schweizer Anbau, pro kg',   discount: 'CHF 1.50', emoji: '🥦', code: '4 006381 333931' },
+      { title: 'Bio-Rahm',          sub: 'Coop Naturaplan, 200 ml',   discount: '10%',      emoji: '🥛', code: '4 260012 524031' },
+      { title: 'Schweizer Käse',    sub: 'Halbhart am Stück, 100 g',  discount: 'CHF 2.00', emoji: '🧀', code: '4 710126 035121' }
+    ].each do |c| %>
+      <div class="coupon">
+        <%# Left red panel %>
+        <div class="coupon__left">
+          <div class="coupon__brand">COOP</div>
+          <div class="coupon__amount"><%= c[:discount] %></div>
+          <div class="coupon__amount-label">Rabatt</div>
+          <div class="coupon__product"><%= c[:title] %><br><span class="coupon__product-sub"><%= c[:sub] %></span></div>
+          <div class="coupon__redeem">Einlösbar bei Coop</div>
         </div>
-        <div class="fk-coupons__item-body">
-          <div class="fk-coupons__item-title"><%= coupon[:title] %></div>
-          <div class="fk-coupons__item-discount"><%= coupon[:discount] %></div>
+
+        <%# Right white panel %>
+        <div class="coupon__right">
+          <div class="coupon__emoji"><%= c[:emoji] %></div>
+          <div class="coupon__barcode"></div>
+          <div class="coupon__barcode-num"><%= c[:code] %></div>
+          <div class="coupon__validity">Gültig bis 31.05.2026 · Nur einmal einlösbar.<br>Kein Barumtausch. Nicht kumulierbar.</div>
         </div>
       </div>
     <% end %>

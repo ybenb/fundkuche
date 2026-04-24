@@ -12,3 +12,12 @@ application.register("image-detection", ImageDetectionController)
 
 import IngredientsController from "./ingredients_controller"
 application.register("ingredients", IngredientsController)
+
+import RecipeSearchController from "./recipe_search_controller"
+application.register("recipe-search", RecipeSearchController)
+
+import FridgeDisplayController from "./fridge_display_controller"
+application.register("fridge-display", FridgeDisplayController)
+
+import RecipeOptionsController from "./recipe_options_controller"
+application.register("recipe-options", RecipeOptionsController)

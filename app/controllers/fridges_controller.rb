@@ -27,6 +27,7 @@ class FridgesController < ApplicationController
     @fridge = Fridge.new(fridge_params)
 
     if @fridge.save
+      FoobyRecipeMatchJob.perform_later(@fridge.id)
       redirect_to fridge_url(@fridge), notice: 'Zutaten gespeichert.'
     else
       render :new, status: :unprocessable_entity
@@ -54,10 +55,9 @@ class FridgesController < ApplicationController
   end
 
   def find_fooby_recipes
-    service = FoobyRecipeMatchService.new(fridge: @fridge)
-    results = service.call
-    @fridge.update(fooby_results: results)
-    redirect_to fridge_path(@fridge)
+    @fridge.update(fooby_results: nil)
+    FoobyRecipeMatchJob.perform_later(@fridge.id)
+    redirect_to fridge_path(@fridge), notice: 'Suche läuft…'
   end
 
   private

@@ -8,13 +8,13 @@ class FoobyApiService
   BASE_URL = 'https://fooby.ch/hawaii_search.sri'
   IMAGE_BASE_URL = 'https://recipecontent.fooby.ch'
 
-  def search(query:, num: 6)
+  def search(query:, num: 24, start: 0)
     uri = URI(BASE_URL)
     uri.query = URI.encode_www_form(
       query: query,
       lang: 'de',
       treffertyp: 'rezepte',
-      start: 0,
+      start: start,
       num: num,
       interface: 'hawaii',
       userquery: true

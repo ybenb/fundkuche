@@ -13,5 +13,52 @@
     Danach findest du passende Fooby-Rezepte.
   </p>
 
-  <%= render 'form', fridge: @fridge %>
+  <div class="fk-scan-layout">
+    <%# Left: input form %>
+    <div class="fk-scan-layout__form">
+      <%= render 'form', fridge: @fridge %>
+    </div>
+
+    <%# Right: visual fridge %>
+    <div class="fk-scan-layout__fridge" data-controller="fridge-display">
+      <div class="fridge-visual">
+        <%# Handle %>
+        <div class="fridge-visual__handle"></div>
+
+        <%# Header %>
+        <div class="fridge-visual__header">
+          <i class="bi bi-snow2"></i>
+          <span>Mein Kühlschrank</span>
+          <span class="fridge-visual__count">
+            <span data-fridge-display-target="count">0</span> Zutaten
+          </span>
+        </div>
+
+        <%# Interior %>
+        <div class="fridge-visual__interior">
+          <%# Shelf 1 %>
+          <div class="fridge-shelf">
+            <div class="fridge-shelf__bar"></div>
+          </div>
+
+          <%# Ingredient list %>
+          <div class="fridge-items" data-fridge-display-target="list"></div>
+
+          <%# Empty state %>
+          <div class="fridge-empty" data-fridge-display-target="empty">
+            <i class="bi bi-box-seam"></i>
+            <p>Noch keine Zutaten –<br>scan dein Foto oder<br>scanne einen Barcode</p>
+          </div>
+
+          <%# Shelf 2 %>
+          <div class="fridge-shelf fridge-shelf--bottom">
+            <div class="fridge-shelf__bar"></div>
+          </div>
+        </div>
+
+        <%# Door seal %>
+        <div class="fridge-visual__seal"></div>
+      </div>
+    </div>
+  </div>
 </div>

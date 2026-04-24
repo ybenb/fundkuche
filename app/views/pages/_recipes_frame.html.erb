@@ -1,0 +1,58 @@
+<%# Rendered inside the turbo-frame#recipes — also used by turbo_stream response %>
+
+<% if @recipes.present? %>
+  <div class="fooby-teaser-grid">
+    <% @recipes.each_with_index do |recipe, i| %>
+      <a href="<%= recipe[:url] %>" target="_blank" rel="noopener" class="teaser">
+        <div class="teaser__img-container">
+          <img class="teaser__img"
+               src="<%= recipe[:image_url] %>"
+               alt="<%= recipe[:title] %>"
+               loading="<%= i < 8 ? 'eager' : 'lazy' %>"
+               decoding="async"
+               onerror="this.style.display='none';this.parentElement.querySelector('.teaser__img-placeholder').style.display='flex'">
+          <div class="teaser__img-placeholder" style="display:none">
+            <i class="bi bi-image"></i>
+          </div>
+        </div>
+        <div class="teaser__inner">
+          <div class="teaser__header">
+            <span class="teaser__type">Rezept</span>
+          </div>
+          <div class="teaser__body">
+            <div class="teaser__body-title"><%= recipe[:title] %></div>
+          </div>
+        </div>
+        <div class="teaser__meta-block">
+          <div class="teaser__meta-inner">
+            <% if recipe[:active_time].present? %>
+              <span class="teaser__meta-item">
+                <i class="bi bi-clock"></i> <%= recipe[:active_time] %> Min.
+              </span>
+            <% end %>
+            <% if recipe[:diet].present? %>
+              <% recipe[:diet].split(',').first(1).each do |d| %>
+                <span class="teaser__diet-tag"><%= d.strip %></span>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </a>
+    <% end %>
+  </div>
+
+  <% if @has_more %>
+    <div class="fooby-load-more">
+      <%= link_to root_path(q: @query, category: @category, start: @start + @num),
+            class: 'fooby-load-more__btn',
+            data: { turbo_frame: 'recipes', turbo_action: 'advance' } do %>
+        <i class="bi bi-arrow-down-circle"></i> Mehr Rezepte laden
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <div class="fooby-no-results">
+    <i class="bi bi-search"></i>
+    <p>Keine Rezepte gefunden. Versuche einen anderen Suchbegriff.</p>
+  </div>
+<% end %>
