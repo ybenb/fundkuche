@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 error_occurred=false
 fail_fast=false
 
@@ -30,16 +32,16 @@ exit_due_to_error() {
 if [[ $* == *--fix* ]]; then
   run_command "Autocorrecting Rubocop" "bundle exec rubocop -A -c .rubocop.yml"
   run_command "Autocorrecting erb-lint" "bundle exec erblint --config .erb-lint.yml --lint-all --autocorrect"
-  run_command "Autocorrecting ESlint" "yarn run eslint --fix app/javascript"
-  run_command "Autocorrecting Stylelint" "yarn run stylelint --fix app/assets/**/*.scss"
+  run_command "Autocorrecting ESlint" "node_modules/.bin/eslint --fix app/javascript"
+  run_command "Autocorrecting Stylelint" "node_modules/.bin/stylelint --fix app/assets/**/*.scss"
 else
   if [[ $* == *--fail-fast* ]]; then
     fail_fast=true
   fi
   run_command "Running Rubocop" "bundle exec rubocop -D -c .rubocop.yml"
   run_command "Running erb-lint" "bundle exec erblint --config .erb-lint.yml --lint-all"
-  run_command "Running ESlint" "yarn run eslint app/javascript"
-  run_command "Running Stylelint" "yarn run stylelint app/assets/**/*.scss"
+  run_command "Running ESlint" "node_modules/.bin/eslint app/javascript"
+  run_command "Running Stylelint" "node_modules/.bin/stylelint app/assets/**/*.scss"
   run_command "Running Brakeman (security checks)" "bundle exec brakeman -q -z --no-summary --no-pager"
 fi
 

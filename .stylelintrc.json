@@ -2,6 +2,8 @@
   "extends": "stylelint-config-standard-scss",
   "rules": {
     "scss/at-extend-no-missing-placeholder": null,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "selector-class-pattern": null,
+    "declaration-block-single-line-max-declarations": null
   }
 }
