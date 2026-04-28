@@ -53,5 +53,8 @@ class ImageService
        .reject { |i| i[:name].blank? }
   rescue JSON::ParserError
     []
+  rescue StandardError => e
+    Rails.logger.error "[ImageService] #{e.class}: #{e.message}"
+    raise
   end
 end
