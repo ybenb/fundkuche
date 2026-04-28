@@ -17,10 +17,10 @@
         <div class="fk-opt-panel__recipes">
           <% option2.each do |recipe| %>
             <% missing = (recipe[:missing_ingredients] || recipe['missing_ingredients'] || []).compact %>
-            <% score   = ((recipe[:match_score] || recipe['match_score']).to_f * 100).round %>
-            <% url     = recipe[:url] || recipe['url'] %>
-            <% img     = recipe[:image_url] || recipe['image_url'] %>
-            <% title   = recipe[:title] || recipe['title'] %>
+            <% score = ((recipe[:match_score] || recipe['match_score']).to_f * 100).round %>
+            <% url = recipe[:url] || recipe['url'] %>
+            <% img = recipe[:image_url] || recipe['image_url'] %>
+            <% title = recipe[:title] || recipe['title'] %>
 
             <div class="fk-recipe-item"
                  data-recipe-options-target="row"
@@ -81,9 +81,9 @@
         <div class="fk-opt-panel__recipes">
           <% option1.each do |recipe| %>
             <% missing = (recipe[:missing_ingredients] || recipe['missing_ingredients'] || []).compact %>
-            <% url     = recipe[:url] || recipe['url'] %>
-            <% img     = recipe[:image_url] || recipe['image_url'] %>
-            <% title   = recipe[:title] || recipe['title'] %>
+            <% url = recipe[:url] || recipe['url'] %>
+            <% img = recipe[:image_url] || recipe['image_url'] %>
+            <% title = recipe[:title] || recipe['title'] %>
 
             <div class="fk-recipe-item"
                  data-recipe-options-target="row"
@@ -110,6 +110,34 @@
                   <i class="bi bi-chevron-down fk-recipe-item__chevron"></i>
                 </div>
               </div>
+
+              <% if missing.any? %>
+                <div class="fk-opt1-coupons">
+                  <div class="fk-opt1-coupons__label">
+                    <i class="bi bi-ticket-perforated"></i> Coop-Coupons für fehlende Zutaten
+                  </div>
+                  <div class="fk-opt1-coupons__grid">
+                    <% barcodes = ['7 610812 11293', '4 006381 33393', '4 260012 52403'] %>
+                    <% missing.each_with_index do |ing, i| %>
+                      <div class="coupon coupon--sm">
+                        <div class="coupon__left" style="background:#d4892a">
+                          <div class="coupon__brand">COOP</div>
+                          <div class="coupon__amount">10%</div>
+                          <div class="coupon__amount-label">Rabatt</div>
+                          <div class="coupon__product"><%= ing %></div>
+                          <div class="coupon__redeem">Einlösbar bei Coop</div>
+                        </div>
+                        <div class="coupon__right">
+                          <div class="coupon__emoji"><%= %w[🛒 🧀 🥚 🧈 🥛 🌾][i] || '🛒' %></div>
+                          <div class="coupon__barcode"></div>
+                          <div class="coupon__barcode-num"><%= barcodes[i % barcodes.size] %></div>
+                          <div class="coupon__validity">Gültig bis 31.05.2026</div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
 
               <div class="recipe-detail">
                 <% if missing.any? %>

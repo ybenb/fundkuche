@@ -1620,6 +1620,30 @@ a:hover { color: var(--fooby-green-dark); }
   }
 }
 
+.fk-opt1-coupons {
+  padding: 12px 16px 16px;
+  border-top: 1px solid #f0e0c8;
+  background: #fffcf7;
+
+  &__label {
+    font-size: 11px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #d4892a;
+    margin-bottom: 10px;
+
+    i { margin-right: 5px; }
+  }
+
+  &__grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}
+
 // Compact coupon variant inside the coupon zone
 .coupon--sm {
   min-height: 110px;

@@ -2,6 +2,7 @@
 
 class FoobyRecipeMatchService
   RESULTS_LIMIT = 6
+  STOP_WORDS = %w[mit und für auf aus dem der die das einen eine ein nach vom von zum zur].freeze
 
   def initialize(fridge:)
     @fridge = fridge
@@ -31,8 +32,22 @@ class FoobyRecipeMatchService
     match_score = [matches.to_f / ingredient_names.size, 0.55].max.round(2)
     recipe.merge(
       match_score: match_score,
-      missing_ingredients: [],
+      missing_ingredients: match_score < 0.8 ? extract_missing(recipe) : [],
       option: match_score >= 0.8 ? 'option2' : 'option1'
     )
+  end
+
+  def extract_missing(recipe)
+    recipe[:title].to_s
+                  .split(/[-\s]+/)
+                  .select { |w| w.length > 3 && w.match?(/\A[A-ZÄÖÜ]/) }
+                  .reject { |w| STOP_WORDS.include?(w.downcase) }
+                  .reject do |w|
+                    ingredient_names.any? do |ing|
+                      w.downcase.include?(ing.downcase) || ing.downcase.include?(w.downcase)
+                    end
+                  end
+                  .uniq
+                  .first(3)
   end
 end
