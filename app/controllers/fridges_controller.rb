@@ -9,7 +9,13 @@ class FridgesController < ApplicationController
   end
 
   def show
-    @fooby_recipes = @fridge.fooby_results if @fridge.fooby_results.present?
+    @fooby_recipes = if @fridge.fooby_results.present?
+                       @fridge.fooby_results
+                     elsif @fridge.ingredients.any?
+                       results = FoobyRecipeMatchService.new(fridge: @fridge).call
+                       @fridge.update_column(:fooby_results, results)
+                       results
+                     end
   end
 
   def new
@@ -35,9 +41,11 @@ class FridgesController < ApplicationController
   end
 
   def update
-    old_ingredients = @fridge.ingredients
+    old_ingredients = @fridge.ingredients.map(&:attributes)
     if @fridge.update(fridge_params)
-      @fridge.update(recipe: nil) if old_ingredients == @fridge.ingredients
+      if old_ingredients != @fridge.reload.ingredients.map(&:attributes)
+        @fridge.update_column(:fooby_results, nil)
+      end
       redirect_to fridge_url(@fridge), notice: 'Kühlschrank aktualisiert.'
     else
       render :edit, status: :unprocessable_entity
