@@ -23,9 +23,9 @@ class ImageService
     @client = OpenAI::Client.new
   end
 
-  def call(image_path:)
-    base64 = Base64.strict_encode64(File.binread(image_path))
-    mime   = Marcel::MimeType.for(Pathname.new(image_path))
+  def call(image_data:, content_type:)
+    base64 = Base64.strict_encode64(image_data)
+    mime   = content_type.presence || 'image/jpeg'
 
     response = @client.chat(
       parameters: {

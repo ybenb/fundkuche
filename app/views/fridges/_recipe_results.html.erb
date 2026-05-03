@@ -5,6 +5,77 @@
 <% if option2.any? || option1.any? %>
   <div class="fk-options-grid" data-controller="recipe-options">
 
+    <%# Option 1 — with shopping list %>
+    <% if option1.any? %>
+      <div class="fk-opt-panel fk-opt-panel--orange">
+        <div class="fk-opt-panel__header">
+          <div class="fk-opt-panel__badge fk-opt-panel__badge--orange">Option 1</div>
+          <div class="fk-opt-panel__title"><i class="bi bi-bag-check"></i> Mit Einkaufsliste</div>
+          <p class="fk-opt-panel__desc">Tolles Rezept – fehlende Zutaten bei Coop kaufen.</p>
+        </div>
+
+        <div class="fk-opt-panel__recipes">
+          <% option1.each do |recipe| %>
+            <% missing = (recipe[:missing_ingredients] || recipe['missing_ingredients'] || []).compact %>
+            <% url     = recipe[:url] || recipe['url'] %>
+            <% img     = recipe[:image_url] || recipe['image_url'] %>
+            <% title   = recipe[:title] || recipe['title'] %>
+
+            <div class="fk-recipe-item"
+                 data-recipe-options-target="row"
+                 data-option="option1"
+                 data-missing="<%= missing.to_json.gsub('"', '&quot;') %>">
+
+              <div class="fk-recipe-item__main" data-action="click->recipe-options#toggle">
+                <img src="<%= img %>" alt="" loading="lazy" decoding="async"
+                     onerror="this.style.display='none'">
+                <div class="fk-recipe-item__body">
+                  <div class="fk-recipe-item__name"><%= title %></div>
+                  <% if missing.any? %>
+                    <div class="fk-recipe-item__missing">
+                      <i class="bi bi-cart-plus"></i> Einkaufen: <%= missing.join(', ') %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="fk-recipe-item__right">
+                  <% if missing.any? %>
+                    <div class="fk-shopping-tip" onclick="event.stopPropagation()">
+                      <i class="bi bi-bag-check fk-shopping-tip__icon"></i>
+                      <div class="fk-shopping-tip__popup">
+                        <div class="fk-shopping-tip__title"><i class="bi bi-bag-check"></i> Einkaufsliste</div>
+                        <ul>
+                          <% missing.each do |m| %><li><%= m %></li><% end %>
+                        </ul>
+                      </div>
+                    </div>
+                  <% end %>
+                  <a href="<%= url %>" target="_blank" rel="noopener"
+                     class="fk-recipe-item__link" data-turbo="false"
+                     onclick="event.stopPropagation()">
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </a>
+                  <i class="bi bi-chevron-down fk-recipe-item__chevron"></i>
+                </div>
+              </div>
+
+              <div class="recipe-detail">
+                <% if missing.any? %>
+                  <div class="recipe-detail__label">Das musst du noch kaufen:</div>
+                  <div class="recipe-detail__missing-chips">
+                    <% missing.each do |m| %>
+                      <span class="recipe-missing-chip recipe-missing-chip--orange">
+                        <i class="bi bi-bag-plus"></i> <%= m %>
+                      </span>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <%# Option 2 — cook now %>
     <% if option2.any? %>
       <div class="fk-opt-panel fk-opt-panel--green">
@@ -61,66 +132,6 @@
                   </div>
                 <% else %>
                   <div class="recipe-detail__label"><i class="bi bi-stars"></i> Perfekte Übereinstimmung!</div>
-                <% end %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-
-    <%# Option 1 — with shopping list %>
-    <% if option1.any? %>
-      <div class="fk-opt-panel fk-opt-panel--orange">
-        <div class="fk-opt-panel__header">
-          <div class="fk-opt-panel__badge fk-opt-panel__badge--orange">Option 1</div>
-          <div class="fk-opt-panel__title"><i class="bi bi-bag-check"></i> Mit Einkaufsliste</div>
-          <p class="fk-opt-panel__desc">Tolles Rezept – fehlende Zutaten bei Coop kaufen.</p>
-        </div>
-
-        <div class="fk-opt-panel__recipes">
-          <% option1.each do |recipe| %>
-            <% missing = (recipe[:missing_ingredients] || recipe['missing_ingredients'] || []).compact %>
-            <% url     = recipe[:url] || recipe['url'] %>
-            <% img     = recipe[:image_url] || recipe['image_url'] %>
-            <% title   = recipe[:title] || recipe['title'] %>
-
-            <div class="fk-recipe-item"
-                 data-recipe-options-target="row"
-                 data-option="option1"
-                 data-missing="<%= missing.to_json.gsub('"', '&quot;') %>">
-
-              <div class="fk-recipe-item__main" data-action="click->recipe-options#toggle">
-                <img src="<%= img %>" alt="" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'">
-                <div class="fk-recipe-item__body">
-                  <div class="fk-recipe-item__name"><%= title %></div>
-                  <% if missing.any? %>
-                    <div class="fk-recipe-item__missing">
-                      <i class="bi bi-cart-plus"></i> Einkaufen: <%= missing.join(', ') %>
-                    </div>
-                  <% end %>
-                </div>
-                <div class="fk-recipe-item__right">
-                  <a href="<%= url %>" target="_blank" rel="noopener"
-                     class="fk-recipe-item__link" data-turbo="false"
-                     onclick="event.stopPropagation()">
-                    <i class="bi bi-box-arrow-up-right"></i>
-                  </a>
-                  <i class="bi bi-chevron-down fk-recipe-item__chevron"></i>
-                </div>
-              </div>
-
-              <div class="recipe-detail">
-                <% if missing.any? %>
-                  <div class="recipe-detail__label">Das musst du noch kaufen:</div>
-                  <div class="recipe-detail__missing-chips">
-                    <% missing.each do |m| %>
-                      <span class="recipe-missing-chip recipe-missing-chip--orange">
-                        <i class="bi bi-bag-plus"></i> <%= m %>
-                      </span>
-                    <% end %>
-                  </div>
                 <% end %>
               </div>
             </div>

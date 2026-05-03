@@ -7,7 +7,7 @@ class ScannerController < ApplicationController
       return
     end
 
-    uploaded_file_path = params[:file].tempfile.path
-    render json: { ingredients: ImageService.new.call(image_path: uploaded_file_path) }
+    file = params[:file]
+    render json: { ingredients: ImageService.new.call(image_data: file.read, content_type: file.content_type) }
   end
 end

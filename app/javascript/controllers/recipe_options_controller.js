@@ -45,9 +45,42 @@ export default class extends Controller {
     const zone = this.couponZoneTarget
 
     if (missing.length === 0) {
-      zone.innerHTML = `<p class="fk-coupon-zone__empty">
-        <i class="bi bi-check-circle-fill text-success"></i> Alle Zutaten vorhanden – los geht's!
-      </p>`
+      zone.innerHTML = `
+        <div class="fk-coupon-zone__header">
+          <i class="bi bi-ticket-perforated"></i> Deine Coop-Coupons
+        </div>
+        <div class="fk-coupon-zone__grid">
+          <div class="coupon coupon--sm">
+            <div class="coupon__left">
+              <div class="coupon__brand">COOP</div>
+              <div class="coupon__amount">2:1</div>
+              <div class="coupon__amount-label">Aktion</div>
+              <div class="coupon__product">Jeder 2. Artikel gratis<br><span class="coupon__product-sub">Auswahl Frische-Sortiment</span></div>
+              <div class="coupon__redeem">Einlösbar bei Coop</div>
+            </div>
+            <div class="coupon__right">
+              <div class="coupon__emoji">🛒</div>
+              <div class="coupon__barcode"></div>
+              <div class="coupon__barcode-num">7 610812 11293</div>
+              <div class="coupon__validity">Gültig bis 31.05.2026 · Nur einmal einlösbar.</div>
+            </div>
+          </div>
+          <div class="coupon coupon--sm">
+            <div class="coupon__left">
+              <div class="coupon__brand">COOP</div>
+              <div class="coupon__amount">10×</div>
+              <div class="coupon__amount-label">Superpunkte</div>
+              <div class="coupon__product">Nächster Einkauf<br><span class="coupon__product-sub">Ab CHF 20.– · Nur einmal</span></div>
+              <div class="coupon__redeem">Einlösbar bei Coop</div>
+            </div>
+            <div class="coupon__right">
+              <div class="coupon__emoji">⭐</div>
+              <div class="coupon__barcode"></div>
+              <div class="coupon__barcode-num">4 006381 33393</div>
+              <div class="coupon__validity">Gültig bis 31.05.2026 · Nur einmal einlösbar.</div>
+            </div>
+          </div>
+        </div>`
       return
     }
 

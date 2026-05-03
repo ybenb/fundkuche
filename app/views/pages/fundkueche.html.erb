@@ -76,14 +76,12 @@
     <i class="bi bi-ticket-perforated me-2" style="color:#E00"></i>Deine Coop-Coupons
   </div>
   <p class="fk-coupons__sub">
-    Diese Coupons stehen dir jetzt zur Verfügung – passend zu den Rezepten, die wir für dich gefunden haben.
+    Nach der KI-Analyse deines Kühlschranks erhältst du automatisch Coupons, die auf dein gewähltes Rezept zugeschnitten sind – direkt einlösbar beim nächsten Einkauf bei Coop.
   </p>
   <div class="fk-coupons__grid">
     <% [
       { title: 'Frische Pasta',     sub: 'Alle Sorten, 500 g',       discount: '20%',      emoji: '🍝', code: '4 104823 112093' },
-      { title: 'Saisonales Gemüse', sub: 'Schweizer Anbau, pro kg',   discount: 'CHF 1.50', emoji: '🥦', code: '4 006381 333931' },
-      { title: 'Bio-Rahm',          sub: 'Coop Naturaplan, 200 ml',   discount: '10%',      emoji: '🥛', code: '4 260012 524031' },
-      { title: 'Schweizer Käse',    sub: 'Halbhart am Stück, 100 g',  discount: 'CHF 2.00', emoji: '🧀', code: '4 710126 035121' }
+      { title: 'Saisonales Gemüse', sub: 'Schweizer Anbau, pro kg',   discount: 'CHF 1.50', emoji: '🥦', code: '4 006381 333931' }
     ].each do |c| %>
       <div class="coupon">
         <%# Left red panel %>
