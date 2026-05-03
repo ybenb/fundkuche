@@ -29,14 +29,14 @@ class ImageService
 
     response = @client.chat(
       parameters: {
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini',
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           {
             role: 'user',
             content: [
               { type: 'text', text: 'Identify all food ingredients visible in this photo, including any single items held in hand.' },
-              { type: 'image_url', image_url: { url: "data:#{mime};base64,#{base64}", detail: 'high' } }
+              { type: 'image_url', image_url: { url: "data:#{mime};base64,#{base64}", detail: 'low' } }
             ]
           }
         ],

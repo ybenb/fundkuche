@@ -9,13 +9,7 @@ class FridgesController < ApplicationController
   end
 
   def show
-    @fooby_recipes = if @fridge.fooby_results.present?
-                       @fridge.fooby_results
-                     elsif @fridge.ingredients.any?
-                       results = FoobyRecipeMatchService.new(fridge: @fridge).call
-                       @fridge.update_column(:fooby_results, results)
-                       results
-                     end
+    @fooby_recipes = @fridge.fooby_results
   end
 
   def new
@@ -33,7 +27,7 @@ class FridgesController < ApplicationController
     @fridge = Fridge.new(fridge_params)
 
     if @fridge.save
-      FoobyRecipeMatchJob.perform_later(@fridge.id)
+      fetch_and_cache_recipes(@fridge)
       redirect_to fridge_url(@fridge), notice: 'Zutaten gespeichert.'
     else
       render :new, status: :unprocessable_entity
@@ -44,7 +38,7 @@ class FridgesController < ApplicationController
     old_ingredients = @fridge.ingredients.map(&:attributes)
     if @fridge.update(fridge_params)
       if old_ingredients != @fridge.reload.ingredients.map(&:attributes)
-        @fridge.update_column(:fooby_results, nil)
+        fetch_and_cache_recipes(@fridge)
       end
       redirect_to fridge_url(@fridge), notice: 'Kühlschrank aktualisiert.'
     else
@@ -63,15 +57,21 @@ class FridgesController < ApplicationController
   end
 
   def find_fooby_recipes
-    @fridge.update(fooby_results: nil)
-    FoobyRecipeMatchJob.perform_later(@fridge.id)
-    redirect_to fridge_path(@fridge), notice: 'Suche läuft…'
+    fetch_and_cache_recipes(@fridge)
+    redirect_to fridge_path(@fridge), notice: 'Rezepte aktualisiert.'
   end
 
   private
 
   def set_fridge
     @fridge = Fridge.find(params[:id])
+  end
+
+  def fetch_and_cache_recipes(fridge)
+    return if fridge.ingredients.empty?
+
+    results = FoobyRecipeMatchService.new(fridge: fridge).call
+    fridge.update_column(:fooby_results, results)
   end
 
   def fridge_params
