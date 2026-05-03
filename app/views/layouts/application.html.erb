@@ -25,9 +25,9 @@
             <i class="bi bi-person-fill"></i> myFOOBY
           </a>
           <%= link_to destroy_user_session_path,
-                data: { turbo_method: :delete },
-                class: 'fooby-topbar__link',
-                title: 'Abmelden' do %>
+                      data: { turbo_method: :delete },
+                      class: 'fooby-topbar__link',
+                      title: 'Abmelden' do %>
             <i class="bi bi-box-arrow-right"></i> Abmelden
           <% end %>
         <% else %>
@@ -56,7 +56,7 @@
               <a href="#" class="navigation-desktop__l1-link">
                 <span class="navigation-desktop__link-inner">Rezepte</span>
                 <span class="navigation-desktop__dropdown-icon-wrapper">
-                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" /></svg>
                 </span>
               </a>
               <ul class="navigation-desktop__l2-list">
@@ -69,7 +69,7 @@
               <a href="#" class="navigation-desktop__l1-link">
                 <span class="navigation-desktop__link-inner">Kochschule</span>
                 <span class="navigation-desktop__dropdown-icon-wrapper">
-                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" /></svg>
                 </span>
               </a>
               <ul class="navigation-desktop__l2-list">
@@ -83,7 +83,7 @@
               <a href="#" class="navigation-desktop__l1-link">
                 <span class="navigation-desktop__link-inner">FOOBYVERSUM</span>
                 <span class="navigation-desktop__dropdown-icon-wrapper">
-                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+                  <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z" /></svg>
                 </span>
               </a>
               <ul class="navigation-desktop__l2-list">
@@ -103,7 +103,7 @@
 
         <div class="navigation-search">
           <div class="navigation-search__input-wrap">
-            <input type="text" placeholder="Was möchtest du kochen?">
+            <input type="text" placeholder="Was möchtest du kochen?" autocomplete="off">
             <i class="bi bi-search"></i>
           </div>
 

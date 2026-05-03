@@ -88,10 +88,10 @@
         <div class="fk-opt-panel__recipes">
           <% option2.each do |recipe| %>
             <% missing = (recipe[:missing_ingredients] || recipe['missing_ingredients'] || []).compact %>
-            <% score   = ((recipe[:match_score] || recipe['match_score']).to_f * 100).round %>
-            <% url     = recipe[:url] || recipe['url'] %>
-            <% img     = recipe[:image_url] || recipe['image_url'] %>
-            <% title   = recipe[:title] || recipe['title'] %>
+            <% score = ((recipe[:match_score] || recipe['match_score']).to_f * 100).round %>
+            <% url = recipe[:url] || recipe['url'] %>
+            <% img = recipe[:image_url] || recipe['image_url'] %>
+            <% title = recipe[:title] || recipe['title'] %>
 
             <div class="fk-recipe-item"
                  data-recipe-options-target="row"

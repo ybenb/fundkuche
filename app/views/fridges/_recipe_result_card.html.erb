@@ -1,11 +1,11 @@
 <%# recipe is a Hash (from FoobyApiService, keys may be strings or symbols) %>
-<% title    = recipe[:title]    || recipe['title']    %>
-<% url      = recipe[:url]      || recipe['url']      %>
-<% img_url  = recipe[:image_url] || recipe['image_url'] %>
-<% time     = recipe[:active_time] || recipe['active_time'] %>
-<% missing  = recipe[:missing_ingredients] || recipe['missing_ingredients'] || [] %>
-<% alts     = recipe[:alternatives] || recipe['alternatives'] || {} %>
-<% score    = recipe[:match_score] || recipe['match_score'] || 0 %>
+<% title = recipe[:title] || recipe['title'] %>
+<% url = recipe[:url] || recipe['url'] %>
+<% img_url = recipe[:image_url] || recipe['image_url'] %>
+<% time = recipe[:active_time] || recipe['active_time'] %>
+<% missing = recipe[:missing_ingredients] || recipe['missing_ingredients'] || [] %>
+<% alts = recipe[:alternatives] || recipe['alternatives'] || {} %>
+<% score = recipe[:match_score] || recipe['match_score'] || 0 %>
 
 <div class="fooby-recipe-card" style="cursor:default">
   <% if img_url.present? %>
@@ -61,10 +61,12 @@
     <% end %>
 
     <div class="mt-3">
-      <%= link_to 'Rezept auf fooby.ch ansehen', url, target: '_blank',
-          class: 'btn-fooby-outline btn-fooby d-inline-flex align-items-center gap-1',
-          style: 'background:transparent;border:2px solid var(--fooby-orange);color:var(--fooby-orange);
-                  padding:0.4rem 0.875rem;font-size:0.8rem' do %>
+      <% btn_style = 'background:transparent;border:2px solid var(--fooby-orange);' \
+                     'color:var(--fooby-orange);padding:0.4rem 0.875rem;font-size:0.8rem' %>
+      <%= link_to 'Rezept auf fooby.ch ansehen', url,
+                  target: '_blank', rel: 'noopener',
+                  class: 'btn-fooby-outline btn-fooby d-inline-flex align-items-center gap-1',
+                  style: btn_style do %>
         <i class="bi bi-box-arrow-up-right"></i> Rezept öffnen
       <% end %>
     </div>
