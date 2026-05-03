@@ -100,8 +100,8 @@ export default class extends Controller {
         });
         this.showBanner('success', `✓ ${data.ingredients.length} Zutaten erkannt`);
       })
-      .catch(() => {
-        this.showBanner('danger', 'KI-Erkennung fehlgeschlagen. Bitte versuche es erneut.');
+      .catch((err) => {
+        this.showBanner('danger', err.message || 'KI-Erkennung fehlgeschlagen. Bitte versuche es erneut.');
       })
       .finally(() => this.setLoading(false));
   }

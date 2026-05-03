@@ -54,7 +54,7 @@ class ImageService
   rescue JSON::ParserError
     []
   rescue StandardError => e
-    Rails.logger.error "[ImageService] #{e.class}: #{e.message}"
+    Rails.logger.error "[ImageService] #{e.class}: #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}"
     raise
   end
 end
