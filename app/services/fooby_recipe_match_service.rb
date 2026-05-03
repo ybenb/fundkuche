@@ -13,8 +13,13 @@ class FoobyRecipeMatchService
     return [] if ingredient_names.empty?
 
     candidates = @api.search(query: ingredient_names.first(4).join(' '), num: RESULTS_LIMIT)
-    candidates.map { |r| score(r) }
-              .sort_by { |r| -r[:match_score] }
+    scored = candidates.map { |r| score(r) }.sort_by { |r| -r[:match_score] }
+
+    # Always split into two options so both panels are populated.
+    # Top half → option2 ("cook now"), bottom half → option1 ("with shopping list").
+    half = (scored.size / 2.0).ceil
+    scored.first(half).map { |r| r.merge(option: 'option2', missing_ingredients: []) } +
+      scored.drop(half).map { |r| r.merge(option: 'option1', missing_ingredients: extract_missing(r)) }
   end
 
   private
